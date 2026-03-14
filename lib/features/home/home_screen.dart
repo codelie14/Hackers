@@ -78,7 +78,7 @@ class _HeroSection extends StatelessWidget {
               children: [
                 // Logo
                 SvgPicture.asset(
-                  'assets/logo/hackers_logo.svg',
+                  'assets/images/hackers_logo.svg',
                   height: 56,
                   width: 80,
                 ),
@@ -299,6 +299,7 @@ class _Stat extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Text(

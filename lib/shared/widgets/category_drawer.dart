@@ -12,7 +12,11 @@ class CategoryDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    // On wide screens the drawer is used inline (not pushed/popped),
+    // so we return a plain Container. On narrow screens it's inside a
+    // Scaffold Drawer and we want Navigator.pop() to work — wrap in Drawer.
+    final isInline = MediaQuery.of(context).size.width >= 900;
+    final content = Container(
       width: 280,
       color: AppColors.bgSurface,
       child: Column(
@@ -30,7 +34,7 @@ class CategoryDrawer extends StatelessWidget {
                   category: category,
                   isActive: activeCategory == category,
                   onTap: () {
-                    Navigator.of(context).pop();
+                    if (!isInline) Navigator.of(context).pop();
                     context.go('/category/${category.name}');
                   },
                 );
@@ -42,6 +46,9 @@ class CategoryDrawer extends StatelessWidget {
         ],
       ),
     );
+
+    if (isInline) return content;
+    return Drawer(width: 280, backgroundColor: AppColors.bgSurface, child: content);
   }
 }
 
@@ -66,6 +73,7 @@ class _DrawerHeader extends StatelessWidget {
             const SizedBox(width: 12),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
               children: [
                 const Text(
                   'HACKERS',
