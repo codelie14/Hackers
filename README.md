@@ -13,7 +13,7 @@
 [![Dart](https://img.shields.io/badge/Dart-3.2+-0175C2?style=flat-square&logo=dart&logoColor=white)](https://dart.dev)
 [![License](https://img.shields.io/badge/License-MIT-00FF88?style=flat-square)](LICENSE)
 [![Platform](https://img.shields.io/badge/Platform-Android%20%7C%20iOS%20%7C%20macOS%20%7C%20Windows%20%7C%20Linux-00CC66?style=flat-square)](https://flutter.dev/multi-platform)
-[![Version](https://img.shields.io/badge/Version-2.0.0-00FF88?style=flat-square)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/Version-1.1.0-00FF88?style=flat-square)](CHANGELOG.md)
 
 ---
 
@@ -293,40 +293,117 @@ test:     ajout ou modification de tests
 
 ## 🗺️ Roadmap
 
-### v2.0 — MVP *(en cours)*
+> 📊 **Current Progress:** 32/50 MVP tools implemented (64%)
+
+### ✅ v1.1.0 — MVP Release (March 2026)
+
+**Status:** 🟢 Beta Ready
+
+#### Completed Features
 - [x] Architecture Flutter + Riverpod
 - [x] Design system dark terminal
 - [x] Navigation multi-plateforme
-- [ ] Outils Cryptographie (MVP)
-- [ ] Outils Password Toolkit (MVP)
-- [ ] Outils Encode/Decode (MVP)
-- [ ] Outils Developer Tools (MVP)
-- [ ] QR Code Generator
+- [x] 32 outils implémentés et fonctionnels
 
-### v2.1 — Core Tools
-- [ ] Network Tools (CIDR, DNS, Port Scanner)
-- [ ] File Security (hash, magic bytes)
-- [ ] Forensics (EXIF, Hex Dump, Entropie)
-- [ ] System Tools (infos, monitoring)
+#### Cryptographie (9/15 outils)
+- [x] Hash Generator (MD5, SHA1, SHA256, SHA512)
+- [x] HMAC Generator (SHA256, SHA512)
+- [x] AES Encrypt/Decrypt (CBC, GCM)
+- [x] RSA Key Generator (2048/4096 bits)
+- [x] PBKDF2 Key Derivation
+- [x] Bcrypt Hash
+- [x] ChaCha20-Poly1305
+- [x] Salt Generator
+- [x] Hash Comparator
+- [ ] Argon2 Hash *(v1.1.1)*
+- [ ] BLAKE2b/s Hash *(v1.1.1)*
+- [ ] CRC Checksum *(v1.1.1)*
+- [ ] Random Key Generator *(v1.1.1)*
 
-### v2.2 — Advanced
-- [ ] WiFi Tools
-- [ ] OSINT Tools
-- [ ] Steganography Studio
-- [ ] Code Analysis
+#### Password Toolkit (6/8 outils)
+- [x] Password Generator
+- [x] Entropy Analyzer
+- [x] Passphrase Diceware
+- [x] PIN Generator
+- [x] Pronounceable Password
+- [x] Batch Password Generator
+- [ ] Mnemonic Generator *(v1.1.1)*
+- [ ] Password History *(v1.1.2)*
 
-### v2.3 — Pro
-- [ ] Privacy & Anti-Tracking
-- [ ] Export / Import chiffré
-- [ ] Thèmes personnalisables
-- [ ] Raccourcis clavier desktop
-- [ ] Plugin system
+#### Encode / Decode (7/12 outils)
+- [x] Base64 Encode/Decode
+- [x] Base32 Encode/Decode
+- [x] Hex Encode/Decode
+- [x] URL Encode/Decode
+- [x] ROT13 / ROT47
+- [x] Morse Code
+- [x] Binary / Octal / ASCII
+- [ ] HTML Entities *(v1.1.1)*
+- [ ] Unicode Escape *(v1.1.1)*
+- [ ] Base58 (Bitcoin) *(v1.1.1)*
+- [ ] XOR Cipher *(v1.1.1)*
 
-### v3.0 — Future
-- [ ] Sync chiffrée entre appareils (E2E)
-- [ ] Scripts automatisés (pipeline d'outils)
-- [ ] Mode CLI (desktop)
-- [ ] Marketplace de plugins communautaires
+#### Developer Tools (9/12 outils)
+- [x] JSON Formatter / Validator
+- [x] JSON ↔ YAML Converter
+- [x] JWT Decoder
+- [x] Regex Tester
+- [x] Diff Tool
+- [x] CRON Explainer
+- [x] Timestamp Converter
+- [x] UUID Generator (v1, v4, v7)
+- [x] Color Converter (HEX/RGB/HSL/HSV/CMYK)
+- [ ] Markdown Previewer *(v1.1.2)*
+- [ ] SQL Formatter *(v1.1.2)*
+- [ ] HTTP Status Reference *(v1.1.2)*
+
+#### QR Code & Barcode (1/3 outils)
+- [x] QR Code Generator
+- [ ] QR Content Analyzer *(v1.1.2)*
+- [ ] Custom QR Designer *(v1.1.2)*
+
+---
+
+### 🔜 v1.2.0 — Extended Toolkit (Q2 2026)
+
+**Focus:** File Security, Network, and System Tools
+
+- [ ] File Security (File Hash Calculator, Magic Bytes Analyzer)
+- [ ] Network Tools (CIDR Calculator, DNS Lookup, Port Scanner)
+- [ ] System Information (CPU/RAM Monitor, Network Info)
+- [ ] Forensics (EXIF Extractor, Hex Dump Viewer)
+- [ ] Encoding Utils (TOTP Generator, SSH Key Generator)
+- [ ] Privacy Tools (PII Masker, URL Tracker Stripper)
+
+---
+
+### 🚀 v1.3.0 — Power Features (Q3 2026)
+
+**Focus:** Advanced analysis and automation
+
+- [ ] Steganography Studio (LSB Encode/Decode, Bit Plane Visualizer)
+- [ ] Code Analysis (Secret Detector, Dependency Analyzer)
+- [ ] WiFi Tools (WiFi Scanner, Channel Optimizer)
+- [ ] OSINT Tools (Google Dorks, Data Extractors)
+- [ ] Encrypted Backup/Restore
+- [ ] Keyboard Shortcuts (Desktop)
+
+---
+
+### 🌟 v2.0.0 — Ecosystem (Q4 2026)
+
+**Focus:** Cloud sync and extensibility
+
+- [ ] End-to-End Encrypted Cloud Sync
+- [ ] Automation Pipelines (Tool Chaining)
+- [ ] Plugin Marketplace
+- [ ] CLI Version (Desktop)
+- [ ] Custom Themes
+- [ ] Scripting API
+
+---
+
+📝 **See detailed roadmap:** [ROADMAP.md](ROADMAP.md)
 
 ---
 
@@ -336,7 +413,7 @@ test:     ajout ou modification de tests
 
 <div align="center">
 
-**Hackers v2.0** — construit avec ❤️ par [Archange Elie Yatte](https://archangeyatte.vercel.app) — [GitHub](https://github.com/codelie14/Hackers)
+**Hackers v1.0** — construit avec ❤️ par [Archange Elie Yatte](https://archangeyatte.vercel.app) — [GitHub](https://github.com/codelie14/Hackers)
 
 `[ offline. secure. open. ]`
 
