@@ -30,6 +30,8 @@ import '../../features/encode_decode/widgets/encode_decode_widgets.dart';
 
 // ── Developer tools
 import '../../features/developer/widgets/developer_widgets.dart';
+import '../../features/developer/widgets/yaml_json_converter_widget.dart';
+import '../../features/developer/widgets/jwt_decoder_widget.dart';
 
 // ── QR tools
 import '../../features/qr_barcode/widgets/qr_generator_widget.dart';
@@ -84,6 +86,8 @@ final GoRouter appRouter = GoRouter(
     // ── Developer routes
     GoRoute(path: '/developer/json-formatter', builder: (_, __) => const JsonFormatterWidget()),
     GoRoute(path: '/developer/uuid', builder: (_, __) => const UuidGeneratorWidget()),
+    GoRoute(path: '/developer/json-yaml', builder: (_, __) => const YamlJsonConverterWidget()),
+    GoRoute(path: '/developer/jwt', builder: (_, __) => const JwtDecoderWidget()),
 
     // ── QR routes
     GoRoute(path: '/qr/generator', builder: (_, __) => const QrGeneratorWidget()),
