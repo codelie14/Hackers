@@ -45,6 +45,7 @@ import '../../features/developer/widgets/jwt_decoder_widget.dart';
 import '../../features/developer/widgets/sql_formatter_widget.dart';
 import '../../features/developer/widgets/http_status_widget.dart';
 import '../../features/developer/widgets/markdown_preview_widget.dart';
+import '../../features/developer/widgets/regex_tester_widget.dart';
 
 // ── QR tools
 import '../../features/qr_barcode/widgets/qr_generator_widget.dart';
@@ -184,6 +185,9 @@ final GoRouter appRouter = GoRouter(
     GoRoute(
         path: '/developer/markdown',
         builder: (_, __) => const MarkdownPreviewWidget()),
+    GoRoute(
+        path: '/developer/regex-tester',
+        builder: (_, __) => const RegexTesterWidget()),
 
     // ── WiFi routes
     GoRoute(

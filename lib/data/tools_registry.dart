@@ -23,7 +23,7 @@ class ToolsRegistry {
         icon: Icons.fingerprint,
         tags: ['hash', 'md5', 'sha', 'sha256', 'digest'],
         isAvailable: true,
-        routePath: '/crypto/hash_generator'),
+        routePath: '/crypto/hash-generator'),
     ToolModel(
         id: 'hmac_generator',
         name: 'HMAC Generator',
@@ -33,7 +33,7 @@ class ToolsRegistry {
         icon: Icons.verified_outlined,
         tags: ['hmac', 'sha256', 'sha512', 'mac'],
         isAvailable: true,
-        routePath: '/crypto/hmac_generator'),
+        routePath: '/crypto/hmac'),
     ToolModel(
         id: 'hash_comparator',
         name: 'Hash Comparator',
@@ -43,7 +43,7 @@ class ToolsRegistry {
         icon: Icons.compare_arrows,
         tags: ['compare', 'hash', 'verify'],
         isAvailable: true,
-        routePath: '/crypto/hash_comparator'),
+        routePath: '/crypto/hash-comparator'),
     ToolModel(
         id: 'bcrypt_hash',
         name: 'Bcrypt Hash',
@@ -53,7 +53,7 @@ class ToolsRegistry {
         icon: Icons.enhanced_encryption,
         tags: ['bcrypt', 'password', 'hash'],
         isAvailable: true,
-        routePath: '/crypto/bcrypt_hash'),
+        routePath: '/crypto/bcrypt'),
     ToolModel(
         id: 'argon2_hash',
         name: 'Argon2 Hash',
@@ -72,7 +72,7 @@ class ToolsRegistry {
         icon: Icons.grain,
         tags: ['salt', 'random', 'crypto'],
         isAvailable: true,
-        routePath: '/crypto/salt_generator'),
+        routePath: '/crypto/salt'),
     ToolModel(
         id: 'blake2b_hash',
         name: 'BLAKE2b Hash',
@@ -136,7 +136,7 @@ class ToolsRegistry {
         icon: Icons.lock,
         tags: ['aes', 'encrypt', 'decrypt', 'cbc', 'gcm'],
         isAvailable: true,
-        routePath: '/crypto/aes_tool'),
+        routePath: '/crypto/aes'),
     ToolModel(
         id: 'rsa_tool',
         name: 'RSA Key Generator',
@@ -146,7 +146,7 @@ class ToolsRegistry {
         icon: Icons.vpn_key,
         tags: ['rsa', 'keys', 'asymmetric', 'pem'],
         isAvailable: true,
-        routePath: '/crypto/rsa_tool'),
+        routePath: '/crypto/rsa-keygen'),
     ToolModel(
         id: 'pbkdf2_tool',
         name: 'PBKDF2 Key Derivation',
@@ -156,7 +156,7 @@ class ToolsRegistry {
         icon: Icons.key,
         tags: ['pbkdf2', 'kdf', 'key', 'derivation'],
         isAvailable: true,
-        routePath: '/crypto/pbkdf2_tool'),
+        routePath: '/crypto/pbkdf2'),
     ToolModel(
         id: 'chacha20_tool',
         name: 'ChaCha20-Poly1305',
@@ -165,7 +165,7 @@ class ToolsRegistry {
         icon: Icons.lock_outline,
         tags: ['chacha20', 'poly1305', 'encrypt'],
         isAvailable: true,
-        routePath: '/crypto/chacha20_tool'),
+        routePath: '/crypto/chacha20'),
     ToolModel(
         id: 'rsa_encrypt',
         name: 'RSA Encrypt / Decrypt',
@@ -295,7 +295,7 @@ class ToolsRegistry {
         icon: Icons.password,
         tags: ['password', 'generate', 'secure'],
         isAvailable: true,
-        routePath: '/password/password_generator'),
+        routePath: '/password/generator'),
     ToolModel(
         id: 'entropy_analyzer',
         name: 'Entropy Analyzer',
@@ -305,7 +305,7 @@ class ToolsRegistry {
         icon: Icons.analytics,
         tags: ['entropy', 'strength', 'password', 'security'],
         isAvailable: true,
-        routePath: '/password/entropy_analyzer'),
+        routePath: '/password/entropy'),
     ToolModel(
         id: 'passphrase_diceware',
         name: 'Passphrase Diceware',
@@ -315,7 +315,7 @@ class ToolsRegistry {
         icon: Icons.casino_outlined,
         tags: ['passphrase', 'diceware', 'eff', 'wordlist'],
         isAvailable: true,
-        routePath: '/password/passphrase_diceware'),
+        routePath: '/password/diceware'),
     ToolModel(
         id: 'pin_generator',
         name: 'PIN Generator',
@@ -325,7 +325,7 @@ class ToolsRegistry {
         icon: Icons.pin,
         tags: ['pin', 'numeric', 'secure'],
         isAvailable: true,
-        routePath: '/password/pin_generator'),
+        routePath: '/password/pin'),
     ToolModel(
         id: 'pronounceable_pwd',
         name: 'Pronounceable Password',
@@ -379,7 +379,7 @@ class ToolsRegistry {
         icon: Icons.swap_horiz,
         tags: ['base64', 'encode', 'decode'],
         isAvailable: true,
-        routePath: '/encodeDecode/base64_tool'),
+        routePath: '/encode/base64'),
     ToolModel(
         id: 'base32_tool',
         name: 'Base32 Encode / Decode',
@@ -388,7 +388,7 @@ class ToolsRegistry {
         icon: Icons.swap_horiz,
         tags: ['base32', 'encode', 'decode'],
         isAvailable: true,
-        routePath: '/encodeDecode/base32_tool'),
+        routePath: '/encode/base32'),
     ToolModel(
         id: 'hex_tool',
         name: 'Hex Encode / Decode',
@@ -397,7 +397,7 @@ class ToolsRegistry {
         icon: Icons.swap_horiz,
         tags: ['hex', 'hexadecimal', 'encode'],
         isAvailable: true,
-        routePath: '/encodeDecode/hex_tool'),
+        routePath: '/encode/hex'),
     ToolModel(
         id: 'url_encode_tool',
         name: 'URL Encode / Decode',
@@ -406,7 +406,7 @@ class ToolsRegistry {
         icon: Icons.link,
         tags: ['url', 'percent', 'encode'],
         isAvailable: true,
-        routePath: '/encodeDecode/url_encode_tool'),
+        routePath: '/encode/url'),
     ToolModel(
         id: 'rot_tool',
         name: 'ROT13 / ROT47',
@@ -415,7 +415,7 @@ class ToolsRegistry {
         icon: Icons.rotate_right,
         tags: ['rot13', 'rot47', 'cipher'],
         isAvailable: true,
-        routePath: '/encodeDecode/rot_tool'),
+        routePath: '/encode/rot'),
     ToolModel(
         id: 'morse_tool',
         name: 'Morse Code',
@@ -424,7 +424,7 @@ class ToolsRegistry {
         icon: Icons.graphic_eq,
         tags: ['morse', 'code', 'telegraph'],
         isAvailable: true,
-        routePath: '/encodeDecode/morse_tool'),
+        routePath: '/encode/morse'),
     ToolModel(
         id: 'binary_octal_tool',
         name: 'Binary / Octal / ASCII',
@@ -434,7 +434,7 @@ class ToolsRegistry {
         icon: Icons.computer,
         tags: ['binary', 'octal', 'ascii', 'decimal'],
         isAvailable: true,
-        routePath: '/encodeDecode/binary_octal_tool'),
+        routePath: '/encode/binary-octal-ascii'),
     ToolModel(
         id: 'html_entities',
         name: 'HTML Entities',
@@ -761,7 +761,7 @@ class ToolsRegistry {
         icon: Icons.data_object,
         tags: ['json', 'format', 'validate', 'beautify', 'minify'],
         isAvailable: true,
-        routePath: '/developer/json_tool'),
+        routePath: '/developer/json-formatter'),
     ToolModel(
         id: 'json_yaml_tool',
         name: 'JSON ↔ YAML Converter',
@@ -770,7 +770,7 @@ class ToolsRegistry {
         icon: Icons.compare_arrows,
         tags: ['json', 'yaml', 'convert'],
         isAvailable: true,
-        routePath: '/developer/json_yaml_tool'),
+        routePath: '/developer/json-yaml'),
     ToolModel(
         id: 'jwt_decoder',
         name: 'JWT Decoder',
@@ -780,7 +780,7 @@ class ToolsRegistry {
         icon: Icons.verified_user_outlined,
         tags: ['jwt', 'token', 'decode', 'auth'],
         isAvailable: true,
-        routePath: '/developer/jwt_decoder'),
+        routePath: '/developer/jwt'),
     ToolModel(
         id: 'regex_tester',
         name: 'Regex Tester',
@@ -790,7 +790,7 @@ class ToolsRegistry {
         icon: Icons.search,
         tags: ['regex', 'regexp', 'test', 'match'],
         isAvailable: true,
-        routePath: '/developer/regex_tester'),
+        routePath: '/developer/regex-tester'),
     ToolModel(
         id: 'diff_tool',
         name: 'Diff Tool',
@@ -799,8 +799,7 @@ class ToolsRegistry {
         category: ToolCategory.developer,
         icon: Icons.difference,
         tags: ['diff', 'compare', 'text', 'patch'],
-        isAvailable: true,
-        routePath: '/developer/diff_tool'),
+        isAvailable: false),
     ToolModel(
         id: 'cron_tool',
         name: 'CRON Explainer',
@@ -809,8 +808,7 @@ class ToolsRegistry {
         category: ToolCategory.developer,
         icon: Icons.schedule,
         tags: ['cron', 'schedule', 'task', 'explain'],
-        isAvailable: true,
-        routePath: '/developer/cron_tool'),
+        isAvailable: false),
     ToolModel(
         id: 'timestamp_tool',
         name: 'Timestamp Converter',
@@ -819,8 +817,7 @@ class ToolsRegistry {
         category: ToolCategory.developer,
         icon: Icons.access_time,
         tags: ['timestamp', 'unix', 'date', 'time', 'epoch'],
-        isAvailable: true,
-        routePath: '/developer/timestamp_tool'),
+        isAvailable: false),
     ToolModel(
         id: 'uuid_generator',
         name: 'UUID Generator',
@@ -830,7 +827,7 @@ class ToolsRegistry {
         icon: Icons.tag,
         tags: ['uuid', 'guid', 'v4', 'unique', 'id'],
         isAvailable: true,
-        routePath: '/developer/uuid_generator'),
+        routePath: '/developer/uuid'),
     ToolModel(
         id: 'color_converter',
         name: 'Color Converter',
@@ -839,8 +836,7 @@ class ToolsRegistry {
         category: ToolCategory.developer,
         icon: Icons.color_lens_outlined,
         tags: ['color', 'hex', 'rgb', 'hsl', 'palette'],
-        isAvailable: true,
-        routePath: '/developer/color_converter'),
+        isAvailable: false),
     ToolModel(
         id: 'markdown_preview',
         name: 'Markdown Previewer',
@@ -1302,7 +1298,7 @@ class ToolsRegistry {
         icon: Icons.qr_code_2,
         tags: ['qr', 'code', 'generate', 'url', 'wifi', 'vcard'],
         isAvailable: true,
-        routePath: '/qrBarcode/qr_generator'),
+        routePath: '/qr/generator'),
     ToolModel(
         id: 'barcode_gen',
         name: 'Barcode Generator',
