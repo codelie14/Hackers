@@ -1,0 +1,101 @@
+﻿Analyzing Hackers...                                            
+
+  error - Target of URI doesn't exist: '../models/history_entry.dart' - lib\core\storage\local_db.dart:3:8 - uri_does_not_exist
+  error - Undefined class 'HistoryEntry' - lib\core\storage\local_db.dart:45:29 - undefined_class
+  error - The name 'HistoryEntry' isn't a type, so it can't be used as a type argument - lib\core\storage\local_db.dart:65:15 - non_type_as_type_argument
+  error - Undefined name 'HistoryEntry' - lib\core\storage\local_db.dart:74:21 - undefined_identifier
+  error - The name 'HistoryEntry' isn't a type, so it can't be used as a type argument - lib\core\storage\local_db.dart:77:15 - non_type_as_type_argument
+  error - Undefined name 'HistoryEntry' - lib\core\storage\local_db.dart:84:21 - undefined_identifier
+warning - Unused import: 'package:flutter/material.dart' - lib\core\storage\secure_storage.dart:1:8 - unused_import
+  error - The argument type 'CardTheme' can't be assigned to the parameter type 'CardThemeData?'.  - lib\core\theme\app_theme.dart:86:18 - argument_type_not_assignable
+warning - The left operand can't be null, so the right operand is never executed - lib\core\utils\clipboard_utils.dart:12:60 - dead_null_aware_expression
+   info - Use 'const' with the constructor to improve performance - lib\core\utils\clipboard_utils.dart:21:9 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\core\utils\clipboard_utils.dart:22:20 - prefer_const_constructors
+   info - Use 'const' literals as arguments to constructors of '@immutable' classes - lib\core\utils\clipboard_utils.dart:23:23 - prefer_const_literals_to_create_immutables
+  error - Target of URI doesn't exist: '../core/theme/app_colors.dart' - lib\data\models\tool_model.dart:2:8 - uri_does_not_exist
+  error - Undefined name 'AppColors' - lib\data\models\tool_model.dart:65:40 - undefined_identifier
+  error - Undefined name 'AppColors' - lib\data\models\tool_model.dart:66:42 - undefined_identifier
+  error - Undefined name 'AppColors' - lib\data\models\tool_model.dart:67:46 - undefined_identifier
+  error - Undefined name 'AppColors' - lib\data\models\tool_model.dart:68:46 - undefined_identifier
+  error - Undefined name 'AppColors' - lib\data\models\tool_model.dart:69:41 - undefined_identifier
+  error - Undefined name 'AppColors' - lib\data\models\tool_model.dart:70:38 - undefined_identifier
+  error - Undefined name 'AppColors' - lib\data\models\tool_model.dart:71:43 - undefined_identifier
+  error - Undefined name 'AppColors' - lib\data\models\tool_model.dart:72:47 - undefined_identifier
+  error - Undefined name 'AppColors' - lib\data\models\tool_model.dart:73:43 - undefined_identifier
+  error - Undefined name 'AppColors' - lib\data\models\tool_model.dart:74:45 - undefined_identifier
+  error - Undefined name 'AppColors' - lib\data\models\tool_model.dart:75:39 - undefined_identifier
+  error - Undefined name 'AppColors' - lib\data\models\tool_model.dart:76:47 - undefined_identifier
+  error - Undefined name 'AppColors' - lib\data\models\tool_model.dart:77:46 - undefined_identifier
+  error - Undefined name 'AppColors' - lib\data\models\tool_model.dart:78:43 - undefined_identifier
+  error - Undefined name 'AppColors' - lib\data\models\tool_model.dart:79:41 - undefined_identifier
+   info - Use 'const' with the constructor to improve performance - lib\features\category\category_screen.dart:124:19 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\features\category\category_screen.dart:126:17 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\features\category\category_screen.dart:126:32 - prefer_const_constructors
+warning - Unused import: 'package:crypto/crypto.dart' - lib\features\crypto\services\aes_service.dart:5:8 - unused_import
+  error - The method 'ASN1Sequence' isn't defined for the type 'RsaService' - lib\features\crypto\services\rsa_service.dart:29:26 - undefined_method
+  error - The method 'ASN1ObjectIdentifier' isn't defined for the type 'RsaService' - lib\features\crypto\services\rsa_service.dart:30:22 - undefined_method
+  error - The method 'ASN1Null' isn't defined for the type 'RsaService' - lib\features\crypto\services\rsa_service.dart:31:22 - undefined_method
+  error - The method 'ASN1Sequence' isn't defined for the type 'RsaService' - lib\features\crypto\services\rsa_service.dart:33:26 - undefined_method
+  error - The method 'ASN1Integer' isn't defined for the type 'RsaService' - lib\features\crypto\services\rsa_service.dart:34:22 - undefined_method
+  error - The method 'ASN1Integer' isn't defined for the type 'RsaService' - lib\features\crypto\services\rsa_service.dart:35:22 - undefined_method
+  error - The method 'ASN1BitString' isn't defined for the type 'RsaService' - lib\features\crypto\services\rsa_service.dart:37:32 - undefined_method
+  error - The method 'ASN1Sequence' isn't defined for the type 'RsaService' - lib\features\crypto\services\rsa_service.dart:41:25 - undefined_method
+  error - The method 'ASN1Integer' isn't defined for the type 'RsaService' - lib\features\crypto\services\rsa_service.dart:50:21 - undefined_method
+  error - The method 'ASN1Sequence' isn't defined for the type 'RsaService' - lib\features\crypto\services\rsa_service.dart:51:26 - undefined_method
+  error - The method 'ASN1ObjectIdentifier' isn't defined for the type 'RsaService' - lib\features\crypto\services\rsa_service.dart:52:22 - undefined_method
+  error - The method 'ASN1Null' isn't defined for the type 'RsaService' - lib\features\crypto\services\rsa_service.dart:53:22 - undefined_method
+  error - The method 'ASN1Sequence' isn't defined for the type 'RsaService' - lib\features\crypto\services\rsa_service.dart:55:27 - undefined_method
+  error - The method 'ASN1Integer' isn't defined for the type 'RsaService' - lib\features\crypto\services\rsa_service.dart:56:23 - undefined_method
+  error - The method 'ASN1Integer' isn't defined for the type 'RsaService' - lib\features\crypto\services\rsa_service.dart:57:23 - undefined_method
+  error - The method 'ASN1Integer' isn't defined for the type 'RsaService' - lib\features\crypto\services\rsa_service.dart:58:23 - undefined_method
+  error - The method 'ASN1Integer' isn't defined for the type 'RsaService' - lib\features\crypto\services\rsa_service.dart:59:23 - undefined_method
+  error - The method 'ASN1Integer' isn't defined for the type 'RsaService' - lib\features\crypto\services\rsa_service.dart:60:23 - undefined_method
+  error - The method 'ASN1Integer' isn't defined for the type 'RsaService' - lib\features\crypto\services\rsa_service.dart:61:23 - undefined_method
+  error - The method 'ASN1Integer' isn't defined for the type 'RsaService' - lib\features\crypto\services\rsa_service.dart:62:23 - undefined_method
+  error - The method 'ASN1Integer' isn't defined for the type 'RsaService' - lib\features\crypto\services\rsa_service.dart:63:23 - undefined_method
+  error - The method 'ASN1Integer' isn't defined for the type 'RsaService' - lib\features\crypto\services\rsa_service.dart:64:23 - undefined_method
+  error - The method 'ASN1OctetString' isn't defined for the type 'RsaService' - lib\features\crypto\services\rsa_service.dart:66:35 - undefined_method
+  error - The method 'ASN1Sequence' isn't defined for the type 'RsaService' - lib\features\crypto\services\rsa_service.dart:70:25 - undefined_method
+   info - Unnecessary braces in a string interpolation - lib\features\crypto\widgets\aes_tool_widget.dart:143:32 - unnecessary_brace_in_string_interps
+warning - The declaration '_computeAndCompare' isn't referenced - lib\features\crypto\widgets\hash_comparator_widget.dart:39:8 - unused_element
+   info - Use 'const' with the constructor to improve performance - lib\features\crypto\widgets\hash_comparator_widget.dart:149:21 - prefer_const_constructors
+   info - The private field _inputAsHex could be 'final' - lib\features\crypto\widgets\hash_generator_widget.dart:23:8 - prefer_final_fields
+warning - The value of the field '_inputAsHex' isn't used - lib\features\crypto\widgets\hash_generator_widget.dart:23:8 - unused_field
+warning - Unused import: '../../../shared/widgets/copy_button.dart' - lib\features\crypto\widgets\pbkdf2_widget.dart:12:8 - unused_import
+   info - 'value' is deprecated and shouldn't be used. Use initialValue instead. This will set the initial value for the form field. This feature was deprecated after v3.33.0-1.0.pre - lib\features\crypto\widgets\pbkdf2_widget.dart:132:7 - deprecated_member_use
+warning - The value of the local variable 'parts' isn't used - lib\features\encode_decode\services\encode_decode_service.dart:92:11 - unused_local_variable
+warning - Unused import: '../../../core/theme/app_colors.dart' - lib\features\encode_decode\widgets\base64_widget.dart:3:8 - unused_import
+   info - Use 'const' with the constructor to improve performance - lib\features\home\home_screen.dart:86:17 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\features\home\home_screen.dart:87:26 - prefer_const_constructors
+   info - Use 'const' literals as arguments to constructors of '@immutable' classes - lib\features\home\home_screen.dart:89:31 - prefer_const_literals_to_create_immutables
+warning - Unused import: 'dart:convert' - lib\features\password\services\password_service.dart:2:8 - unused_import
+warning - Unused import: '../../../shared/widgets/app_button.dart' - lib\features\password\widgets\entropy_analyzer_widget.dart:7:8 - unused_import
+warning - The value of the field '_charsetSize' isn't used - lib\features\password\widgets\entropy_analyzer_widget.dart:21:7 - unused_field
+   info - Use 'const' with the constructor to improve performance - lib\features\password\widgets\entropy_analyzer_widget.dart:143:19 - prefer_const_constructors
+   info - Unnecessary braces in a string interpolation - lib\features\password\widgets\passphrase_diceware_widget.dart:138:28 - unnecessary_brace_in_string_interps
+warning - Unused import: '../../../shared/widgets/result_box.dart' - lib\features\password\widgets\password_generator_widget.dart:7:8 - unused_import
+warning - Unused import: '../../core/theme/app_colors.dart' - lib\shared\widgets\app_scaffold.dart:3:8 - unused_import
+warning - Unused import: '../../data/tools_registry.dart' - lib\shared\widgets\app_scaffold.dart:5:8 - unused_import
+warning - Unused import: 'app_badge.dart' - lib\shared\widgets\category_drawer.dart:6:8 - unused_import
+   info - Use 'const' with the constructor to improve performance - lib\shared\widgets\category_drawer.dart:67:13 - prefer_const_constructors
+   info - Use 'const' literals as arguments to constructors of '@immutable' classes - lib\shared\widgets\category_drawer.dart:69:25 - prefer_const_literals_to_create_immutables
+   info - Use 'const' with the constructor to improve performance - lib\shared\widgets\search_overlay.dart:118:19 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\shared\widgets\search_overlay.dart:120:19 - prefer_const_constructors
+   info - Use 'const' with the constructor to improve performance - lib\shared\widgets\search_overlay.dart:122:19 - prefer_const_constructors
+
+flutter : 82 issues found. 
+(ran in 60.3s)
+Au caractère Ligne:1 : 1
++ flutter analyze --no-pub 
+2>&1 | Out-File -FilePath 
+"C:\Hackers\analyz ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~
+    + CategoryInfo          
+    : NotSpecified: (82 is  
+  sues found. (ran in 60.   
+ 3s):String) [], RemoteE    
+xception
+    + FullyQualifiedErrorId 
+    : NativeCommandError
+ 

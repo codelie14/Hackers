@@ -1,19 +1,88 @@
 name: hackers
-description: "A new Flutter project."
-publish_to: 'none'
-version: 0.1.0
+description: "Hackers — Offline Security Toolkit for cybersecurity professionals"
+publish_to: "none"
+version: 1.0.0+1
 
 environment:
-  sdk: ^3.10.8
+  sdk: ">=3.2.0 <4.0.0"
+  flutter: ">=3.16.0"
 
 dependencies:
   flutter:
     sdk: flutter
 
+  # Navigation
+  go_router: ^13.2.0
+
+  # State Management
+  flutter_riverpod: ^2.5.1
+  riverpod_annotation: ^2.3.5
+
+  # Crypto & Hashing
+  crypto: ^3.0.3
+  pointycastle: ^3.7.4
+
+  # Encoding
+  base32: ^2.1.3
+  convert: ^3.1.1
+
+  # Storage
+  shared_preferences: ^2.2.3
+  flutter_secure_storage: ^9.2.2
+  sqflite: ^2.3.3+1
+  path: ^1.9.0
+
+  # File Handling
+  file_picker: ^8.0.7
+  path_provider: ^2.1.4
+  share_plus: ^9.0.0
+
+  # QR Code
+  qr_flutter: ^4.1.0
+
+  # UUID
+  uuid: ^4.3.3
+
+  # UI
+  flutter_svg: ^2.0.10+1
+  google_fonts: ^6.2.1
+  flutter_highlight: ^0.7.0
+  diff_match_patch: ^0.4.1
+
+  # Markdown
+  flutter_markdown: ^0.7.4
+
+  # YAML / JSON
+  yaml: ^3.1.2
+
+  # Misc
+  intl: ^0.19.0
+  vibration: ^2.0.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^6.0.0
+  riverpod_generator: ^2.4.3
+  build_runner: ^2.4.9
+  flutter_lints: ^3.0.2
 
 flutter:
   uses-material-design: true
+
+  fonts:
+    - family: JetBrainsMono
+      fonts:
+        - asset: assets/fonts/JetBrainsMono-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/JetBrainsMono-Bold.ttf
+          weight: 700
+    - family: Syne
+      fonts:
+        - asset: assets/fonts/Syne-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/Syne-Bold.ttf
+          weight: 700
+
+  assets:
+    - assets/images/
+    - assets/data/
