@@ -81,7 +81,13 @@ class _MobileLayout extends StatelessWidget {
         leading: showBackButton
             ? IconButton(
                 icon: const Icon(Icons.arrow_back_ios_new, size: 18),
-                onPressed: () => context.pop(),
+                onPressed: () {
+                  if (Navigator.of(context).canPop()) {
+                    context.pop();
+                  } else {
+                    context.go('/');
+                  }
+                },
               )
             : Builder(builder: (ctx) {
                 return IconButton(
@@ -140,7 +146,13 @@ class _DesktopLayout extends StatelessWidget {
                 leading: showBackButton
                     ? IconButton(
                         icon: const Icon(Icons.arrow_back_ios_new, size: 18),
-                        onPressed: () => context.pop(),
+                        onPressed: () {
+                          if (Navigator.of(context).canPop()) {
+                            context.pop();
+                          } else {
+                            context.go('/');
+                          }
+                        },
                       )
                     : null,
                 automaticallyImplyLeading: false,

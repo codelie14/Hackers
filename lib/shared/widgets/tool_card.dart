@@ -58,6 +58,7 @@ class _AvailableCardState extends State<_AvailableCard> {
             child: Padding(
               padding: const EdgeInsets.all(16),
               child: Column(
+                mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
@@ -73,7 +74,8 @@ class _AvailableCardState extends State<_AvailableCard> {
                       const Spacer(),
                       if (widget.tool.requiresNetwork)
                         Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 4, vertical: 2),
                           decoration: BoxDecoration(
                             color: AppColors.infoDim,
                             borderRadius: BorderRadius.circular(3),
@@ -122,7 +124,8 @@ class _AvailableCardState extends State<_AvailableCard> {
                     runSpacing: 4,
                     children: widget.tool.tags.take(3).map((tag) {
                       return Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 5, vertical: 2),
                         decoration: BoxDecoration(
                           color: AppColors.bgElevated,
                           borderRadius: BorderRadius.circular(3),
@@ -164,6 +167,7 @@ class _ComingSoonCard extends StatelessWidget {
         padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
           children: [
             Row(
               children: [
@@ -177,7 +181,8 @@ class _ComingSoonCard extends StatelessWidget {
                 ),
                 const Spacer(),
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
                   decoration: BoxDecoration(
                     color: AppColors.bgElevated,
                     borderRadius: BorderRadius.circular(3),

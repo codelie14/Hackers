@@ -36,7 +36,10 @@ class CategoryScreen extends ConsumerWidget {
         slivers: [
           // Category hero
           SliverToBoxAdapter(
-            child: _CategoryHero(category: category, toolCount: allTools.length, availableCount: available.length),
+            child: _CategoryHero(
+                category: category,
+                toolCount: allTools.length,
+                availableCount: available.length),
           ),
 
           // Available tools
@@ -58,7 +61,7 @@ class CategoryScreen extends ConsumerWidget {
                   crossAxisCount: crossAxisCount,
                   crossAxisSpacing: 12,
                   mainAxisSpacing: 12,
-                  childAspectRatio: crossAxisCount == 1 ? 2.8 : 1.5,
+                  mainAxisExtent: 180, // Fixed height to prevent overflow
                 ),
                 delegate: SliverChildBuilderDelegate(
                   (ctx, i) => ToolCard(tool: available[i]),
@@ -87,7 +90,7 @@ class CategoryScreen extends ConsumerWidget {
                   crossAxisCount: crossAxisCount,
                   crossAxisSpacing: 12,
                   mainAxisSpacing: 12,
-                  childAspectRatio: crossAxisCount == 1 ? 2.8 : 1.5,
+                  mainAxisExtent: 180, // Fixed height to prevent overflow
                 ),
                 delegate: SliverChildBuilderDelegate(
                   (ctx, i) => ToolCard(tool: comingSoon[i]),
@@ -154,7 +157,8 @@ class _CategoryHero extends StatelessWidget {
                 Row(
                   children: [
                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 6, vertical: 2),
                       decoration: BoxDecoration(
                         color: color.withValues(alpha: 0.1),
                         borderRadius: BorderRadius.circular(4),

@@ -28,8 +28,8 @@ class HomeScreen extends ConsumerWidget {
               vertical: 24,
             ),
             sliver: SliverGrid(
-              gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                maxCrossAxisExtent: isWide ? 280 : 200,
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: isWide ? 4 : 2,
                 mainAxisExtent: 160,
                 crossAxisSpacing: 12,
                 mainAxisSpacing: 12,
@@ -116,7 +116,8 @@ class _HeroSection extends StatelessWidget {
                     barrierColor: Colors.black.withValues(alpha: 0.7),
                     builder: (_) => const SearchOverlay(),
                   ),
-                  icon: const Icon(Icons.search, color: AppColors.textSecondary),
+                  icon:
+                      const Icon(Icons.search, color: AppColors.textSecondary),
                   tooltip: 'Search tools',
                 ),
               ],
@@ -233,7 +234,9 @@ class _CategoryCardState extends State<_CategoryCard> {
                       fontFamily: 'JetBrainsMono',
                       fontSize: 12,
                       fontWeight: FontWeight.w700,
-                      color: _hovered ? AppColors.textPrimary : AppColors.textSecondary,
+                      color: _hovered
+                          ? AppColors.textPrimary
+                          : AppColors.textSecondary,
                     ),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
@@ -278,11 +281,15 @@ class _StatsBar extends StatelessWidget {
         children: [
           _Stat(value: '$totalTools', label: 'TOTAL TOOLS'),
           const _Divider(),
-          _Stat(value: '$availableTools', label: 'AVAILABLE', color: AppColors.accent),
+          _Stat(
+              value: '$availableTools',
+              label: 'AVAILABLE',
+              color: AppColors.accent),
           const _Divider(),
           _Stat(value: '${ToolCategory.values.length}', label: 'CATEGORIES'),
           const _Divider(),
-          const _Stat(value: 'OFFLINE', label: 'MODE', color: AppColors.success),
+          const _Stat(
+              value: 'OFFLINE', label: 'MODE', color: AppColors.success),
         ],
       ),
     );
