@@ -1,0 +1,182 @@
+import 'package:flutter/material.dart';
+import '../models/tool_model.dart';
+
+/// ────────────────────────────────────────────────────────────
+/// ENCODE / DECODE TOOLS
+/// Encoding and Decoding Utilities
+/// ────────────────────────────────────────────────────────────
+
+class EncodeDecodeTools {
+  EncodeDecodeTools._();
+
+  static const List<ToolModel> all = [
+    ToolModel(
+      id: 'base64_tool',
+      name: 'Base64 Encode / Decode',
+      description: 'Encode and decode Base64 (standard and URL-safe variants).',
+      category: ToolCategory.encodeDecode,
+      icon: Icons.swap_horiz,
+      tags: ['base64', 'encode', 'decode'],
+      isAvailable: true,
+      routePath: '/encode/base64',
+    ),
+    ToolModel(
+      id: 'base32_tool',
+      name: 'Base32 Encode / Decode',
+      description: 'Encode and decode data using the Base32 encoding scheme.',
+      category: ToolCategory.encodeDecode,
+      icon: Icons.swap_horiz,
+      tags: ['base32', 'encode', 'decode'],
+      isAvailable: true,
+      routePath: '/encode/base32',
+    ),
+    ToolModel(
+      id: 'hex_tool',
+      name: 'Hex Encode / Decode',
+      description: 'Convert text to hexadecimal representation and back.',
+      category: ToolCategory.encodeDecode,
+      icon: Icons.swap_horiz,
+      tags: ['hex', 'hexadecimal', 'encode'],
+      isAvailable: true,
+      routePath: '/encode/hex',
+    ),
+    ToolModel(
+      id: 'url_encode_tool',
+      name: 'URL Encode / Decode',
+      description: 'Percent-encode and decode URLs for safe transmission.',
+      category: ToolCategory.encodeDecode,
+      icon: Icons.link,
+      tags: ['url', 'percent', 'encode'],
+      isAvailable: true,
+      routePath: '/encode/url',
+    ),
+    ToolModel(
+      id: 'rot_tool',
+      name: 'ROT13 / ROT47',
+      description: 'Apply ROT13 and ROT47 Caesar substitution ciphers.',
+      category: ToolCategory.encodeDecode,
+      icon: Icons.rotate_right,
+      tags: ['rot13', 'rot47', 'cipher'],
+      isAvailable: true,
+      routePath: '/encode/rot',
+    ),
+    ToolModel(
+      id: 'morse_tool',
+      name: 'Morse Code',
+      description: 'Encode texts to Morse code and decode Morse code to text.',
+      category: ToolCategory.encodeDecode,
+      icon: Icons.graphic_eq,
+      tags: ['morse', 'code', 'telegraph'],
+      isAvailable: true,
+      routePath: '/encode/morse',
+    ),
+    ToolModel(
+      id: 'binary_octal_tool',
+      name: 'Binary / Octal / ASCII',
+      description:
+          'Convert between binary, octal, decimal, and ASCII representations.',
+      category: ToolCategory.encodeDecode,
+      icon: Icons.computer,
+      tags: ['binary', 'octal', 'ascii', 'decimal'],
+      isAvailable: true,
+      routePath: '/encode/binary-octal-ascii',
+    ),
+    ToolModel(
+      id: 'html_entities',
+      name: 'HTML Entities',
+      description: 'Encode and decode HTML special characters and entities.',
+      category: ToolCategory.encodeDecode,
+      icon: Icons.html,
+      tags: ['html', 'entities', 'encode'],
+      isAvailable: true,
+      routePath: '/encode/html-entities',
+    ),
+    ToolModel(
+      id: 'unicode_escape',
+      name: 'Unicode Escape',
+      description:
+          'Encode and decode Unicode escape sequences (\\uXXXX format).',
+      category: ToolCategory.encodeDecode,
+      icon: Icons.abc,
+      tags: ['unicode', 'escape', 'encode'],
+      isAvailable: true,
+      routePath: '/encode/unicode',
+    ),
+    ToolModel(
+      id: 'punycode_tool',
+      name: 'Punycode (IDN)',
+      description: 'Encode international domain names using Punycode.',
+      category: ToolCategory.encodeDecode,
+      icon: Icons.language,
+      tags: ['punycode', 'idn', 'domain'],
+      isAvailable: false,
+    ),
+    ToolModel(
+      id: 'base58_tool',
+      name: 'Base58 Encode / Decode',
+      description: 'Base58 encoding used in Bitcoin addresses and IPFS.',
+      category: ToolCategory.encodeDecode,
+      icon: Icons.swap_horiz,
+      tags: ['base58', 'bitcoin', 'encode'],
+      isAvailable: true,
+      routePath: '/encode/base58',
+    ),
+    ToolModel(
+      id: 'base85_tool',
+      name: 'Base85 (Ascii85)',
+      description:
+          'Base85 / Ascii85 encoding for compact binary-to-text conversion.',
+      category: ToolCategory.encodeDecode,
+      icon: Icons.swap_horiz,
+      tags: ['base85', 'ascii85', 'encode'],
+      isAvailable: false,
+    ),
+    ToolModel(
+      id: 'xor_tool',
+      name: 'XOR Encode / Decode',
+      description: 'XOR encode/decode strings with a custom key.',
+      category: ToolCategory.encodeDecode,
+      icon: Icons.code,
+      tags: ['xor', 'encode', 'bitwise'],
+      isAvailable: true,
+      routePath: '/encode/xor',
+    ),
+    ToolModel(
+      id: 'nato_alphabet',
+      name: 'NATO Phonetic Alphabet',
+      description: 'Convert text to NATO phonetic alphabet representation.',
+      category: ToolCategory.encodeDecode,
+      icon: Icons.military_tech_outlined,
+      tags: ['nato', 'phonetic', 'alphabet'],
+      isAvailable: false,
+    ),
+    ToolModel(
+      id: 'atbash_cipher',
+      name: 'Atbash Cipher',
+      description: 'Apply the Atbash mirror substitution cipher to text.',
+      category: ToolCategory.encodeDecode,
+      icon: Icons.abc,
+      tags: ['atbash', 'cipher', 'substitution'],
+      isAvailable: false,
+    ),
+    ToolModel(
+      id: 'bacon_cipher',
+      name: 'Bacon Cipher',
+      description:
+          "Encode messages using Francis Bacon's steganographic cipher.",
+      category: ToolCategory.encodeDecode,
+      icon: Icons.format_bold,
+      tags: ['bacon', 'cipher', 'steganography'],
+      isAvailable: false,
+    ),
+    ToolModel(
+      id: 'braille_tool',
+      name: 'Braille Encoding',
+      description: 'Convert text to Unicode Braille representation.',
+      category: ToolCategory.encodeDecode,
+      icon: Icons.accessibility_outlined,
+      tags: ['braille', 'unicode', 'accessibility'],
+      isAvailable: false,
+    ),
+  ];
+}

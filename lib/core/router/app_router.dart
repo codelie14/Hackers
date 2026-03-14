@@ -20,6 +20,11 @@ import '../../features/crypto/widgets/random_key_generator_widget.dart';
 import '../../features/crypto/widgets/crc_checksum_widget.dart';
 import '../../features/crypto/widgets/blake2_widget.dart';
 import '../../features/crypto/widgets/argon2_widget.dart';
+import '../../features/crypto/widgets/blake2s_widget.dart';
+import '../../features/crypto/widgets/ripemd160_widget.dart';
+import '../../features/crypto/widgets/keccak256_widget.dart';
+import '../../features/crypto/widgets/caesar_cipher_widget.dart';
+import '../../features/crypto/widgets/vigenere_cipher_widget.dart';
 
 // ── Password tools
 import '../../features/password/widgets/password_generator_widget.dart';
@@ -156,6 +161,19 @@ final GoRouter appRouter = GoRouter(
     GoRoute(
         path: '/crypto/blake2', builder: (_, __) => const Blake2HashWidget()),
     GoRoute(path: '/crypto/argon2', builder: (_, __) => const Argon2Widget()),
+    GoRoute(
+        path: '/crypto/blake2s', builder: (_, __) => const Blake2sHashWidget()),
+    GoRoute(
+        path: '/crypto/ripemd160',
+        builder: (_, __) => const Ripemd160HashWidget()),
+    GoRoute(
+        path: '/crypto/keccak256',
+        builder: (_, __) => const Keccak256HashWidget()),
+    GoRoute(
+        path: '/crypto/caesar', builder: (_, __) => const CaesarCipherWidget()),
+    GoRoute(
+        path: '/crypto/vigenere',
+        builder: (_, __) => const VigenereCipherWidget()),
 
     // ── Password routes (new tools)
     GoRoute(
