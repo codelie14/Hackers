@@ -1,7 +1,7 @@
 <div align="center">
 
 <!-- Logo -->
-<img src="assets/images/hackers_logo.svg" alt="Hackers Logo" width="220" height="220"/>
+<img src="assets/images/hackers_logo.svg" alt="Hackers Logo" width="240" height="240"/>
 
 # HACKERS
 
@@ -17,7 +17,7 @@
 
 ---
 
-*Développé par **Archange Elie Yatte** — [IndraLabs](https://indralabs.dev)*
+*Développé par **Archange Elie Yatte** — [IndraLabs](https://archangeyatte.vercel.app)*
 
 </div>
 
@@ -336,7 +336,7 @@ test:     ajout ou modification de tests
 
 <div align="center">
 
-**Hackers v1.0** — construit avec ❤️ par [Archange Elie Yatte](https://github.com/codelie14) @ [IndraLabs](https://indralabs.dev)
+**Hackers v2.0** — construit avec ❤️ par [Archange Elie Yatte](https://archangeyatte.vercel.app) — [GitHub](https://github.com/codelie14/Hackers)
 
 `[ offline. secure. open. ]`
 
