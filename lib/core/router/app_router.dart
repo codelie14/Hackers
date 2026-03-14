@@ -22,6 +22,7 @@ import '../../features/password/widgets/password_generator_widget.dart';
 import '../../features/password/widgets/entropy_analyzer_widget.dart';
 import '../../features/password/widgets/passphrase_diceware_widget.dart';
 import '../../features/password/widgets/pin_generator_widget.dart';
+import '../../features/password/widgets/pronounceable_password_widget.dart';
 
 // ── Encode/Decode tools
 import '../../features/encode_decode/widgets/base64_widget.dart';
@@ -69,6 +70,7 @@ final GoRouter appRouter = GoRouter(
     GoRoute(path: '/password/entropy', builder: (_, __) => const EntropyAnalyzerWidget()),
     GoRoute(path: '/password/diceware', builder: (_, __) => const PassphraseDicewareWidget()),
     GoRoute(path: '/password/pin', builder: (_, __) => const PinGeneratorWidget()),
+    GoRoute(path: '/password/pronounceable', builder: (_, __) => const PronounceablePasswordWidget()),
 
     // ── Encode/Decode routes
     GoRoute(path: '/encode/base64', builder: (_, __) => const Base64Widget()),
