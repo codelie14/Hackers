@@ -20,7 +20,7 @@ class ToolsRegistry {
         description:
             'Generate MD5, SHA1, SHA224, SHA256, SHA384, SHA512 hashes from any text input.',
         category: ToolCategory.crypto,
-        icon: Icons.fingerprint,
+        icon: Icons.security,
         tags: ['hash', 'md5', 'sha', 'sha256', 'digest'],
         isAvailable: true,
         routePath: '/crypto/hash-generator'),
@@ -30,7 +30,7 @@ class ToolsRegistry {
         description:
             'Generate HMAC-SHA256 and HMAC-SHA512 message authentication codes.',
         category: ToolCategory.crypto,
-        icon: Icons.verified_outlined,
+        icon: Icons.verified,
         tags: ['hmac', 'sha256', 'sha512', 'mac'],
         isAvailable: true,
         routePath: '/crypto/hmac'),
@@ -50,7 +50,7 @@ class ToolsRegistry {
         description:
             'Generate and verify Bcrypt password hashes with configurable cost factor.',
         category: ToolCategory.crypto,
-        icon: Icons.enhanced_encryption,
+        icon: Icons.lock_reset,
         tags: ['bcrypt', 'password', 'hash'],
         isAvailable: true,
         routePath: '/crypto/bcrypt'),
@@ -59,7 +59,7 @@ class ToolsRegistry {
         name: 'Argon2 Hash',
         description: 'Argon2id memory-hard password hashing function.',
         category: ToolCategory.crypto,
-        icon: Icons.enhanced_encryption,
+        icon: Icons.shield_outlined,
         tags: ['argon2', 'password', 'hash'],
         isAvailable: true,
         routePath: '/crypto/argon2'),
@@ -69,7 +69,7 @@ class ToolsRegistry {
         description:
             'Generate cryptographically secure random salts of configurable length.',
         category: ToolCategory.crypto,
-        icon: Icons.grain,
+        icon: Icons.auto_fix_normal,
         tags: ['salt', 'random', 'crypto'],
         isAvailable: true,
         routePath: '/crypto/salt'),
@@ -78,7 +78,7 @@ class ToolsRegistry {
         name: 'BLAKE2b Hash',
         description: 'High-speed cryptographic hash using BLAKE2b algorithm.',
         category: ToolCategory.crypto,
-        icon: Icons.fingerprint,
+        icon: Icons.biotech,
         tags: ['blake2', 'hash'],
         isAvailable: true,
         routePath: '/crypto/blake2'),

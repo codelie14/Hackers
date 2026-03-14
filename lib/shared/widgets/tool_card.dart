@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../../core/theme/app_colors.dart';
 import '../../data/models/tool_model.dart';
+import '../../core/services/history_service.dart';
 
 class ToolCard extends StatelessWidget {
   final ToolModel tool;
@@ -52,6 +53,8 @@ class _AvailableCardState extends State<_AvailableCard> {
             borderRadius: BorderRadius.circular(12),
             onTap: () {
               if (widget.tool.routePath != null) {
+                // Track in history
+                HistoryService.addToHistory(widget.tool.id, widget.tool.name);
                 context.go(widget.tool.routePath!);
               }
             },
