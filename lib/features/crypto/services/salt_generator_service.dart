@@ -1,4 +1,6 @@
 import 'dart:typed_data';
+import 'dart:math' as math;
+import 'dart:convert';
 import 'package:crypto/crypto.dart';
 
 class SaltGeneratorService {
@@ -11,9 +13,9 @@ class SaltGeneratorService {
     }
 
     // Use dart:math SecureRandom for cryptographic randomness
-    final random = Random.secure();
+    final random = math.Random.secure();
     final salt = Uint8List(length);
-    
+
     for (var i = 0; i < length; i++) {
       salt[i] = random.nextInt(256);
     }
@@ -24,7 +26,7 @@ class SaltGeneratorService {
   /// Generate salt using SHA256 of timestamp + random (less secure but fast)
   static String quickSalt() {
     final timestamp = DateTime.now().microsecondsSinceEpoch.toString();
-    final random = Random.secure().nextInt(1000000).toString();
+    final random = math.Random.secure().nextInt(1000000).toString();
     final bytes = utf8.encode('$timestamp$random${DateTime.now().millisecond}');
     return sha256.convert(bytes).toString();
   }
@@ -35,7 +37,8 @@ class SaltGeneratorService {
     int length = 32,
     bool hexOutput = true,
   }) {
-    return List.generate(count, (_) => generateSalt(length: length, hexOutput: hexOutput));
+    return List.generate(
+        count, (_) => generateSalt(length: length, hexOutput: hexOutput));
   }
 
   static String _bytesToHex(Uint8List bytes) {

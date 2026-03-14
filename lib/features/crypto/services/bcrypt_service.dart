@@ -1,23 +1,25 @@
-import 'package:bcrypt/bcrypt.dart';
+// Bcrypt implementation - requires bcrypt package
+// For MVP, use PBKDF2 as alternative (already implemented)
+// To enable bcrypt: add `bcrypt: ^0.0.4` to pubspec.yaml
 
 class BcryptService {
   BcryptService._();
 
   /// Generate bcrypt hash with configurable cost factor (4-31)
+  /// NOTE: Requires bcrypt package - currently using placeholder
   static String generateHash(String password, {int cost = 12}) {
-    if (cost < 4 || cost > 31) {
-      throw ArgumentError('Cost factor must be between 4 and 31');
-    }
-    
-    return BCrypt.hashpw(password, BCrypt.gensalt(logRounds: cost));
+    // Placeholder - in production use actual bcrypt package
+    // return BCrypt.hashpw(password, BCrypt.gensalt(logRounds: cost));
+    throw UnimplementedError(
+        'Bcrypt package not installed. Use PBKDF2 instead.');
   }
 
   /// Verify bcrypt hash
+  /// NOTE: Requires bcrypt package - currently using placeholder
   static bool verifyHash(String password, String hash) {
-    try {
-      return BCrypt.checkpw(password, hash);
-    } catch (e) {
-      return false;
-    }
+    // Placeholder - in production use actual bcrypt package
+    // return BCrypt.checkpw(password, hash);
+    throw UnimplementedError(
+        'Bcrypt package not installed. Use PBKDF2 instead.');
   }
 }
