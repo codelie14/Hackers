@@ -1,7 +1,7 @@
 <div align="center">
 
 <!-- Logo -->
-<img src="assets/images/hackers_logo.svg" alt="Hackers Logo" width="120" height="120"/>
+<img src="assets/images/hackers_logo.svg" alt="Hackers Logo" width="220" height="220"/>
 
 # HACKERS
 
