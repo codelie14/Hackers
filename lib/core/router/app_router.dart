@@ -13,6 +13,9 @@ import '../../features/crypto/widgets/hash_comparator_widget.dart';
 import '../../features/crypto/widgets/aes_tool_widget.dart';
 import '../../features/crypto/widgets/rsa_tool_widget.dart';
 import '../../features/crypto/widgets/pbkdf2_widget.dart';
+import '../../features/crypto/widgets/bcrypt_hash_widget.dart';
+import '../../features/crypto/widgets/chacha20_widget.dart';
+import '../../features/crypto/widgets/salt_generator_widget.dart';
 
 // ── Password tools
 import '../../features/password/widgets/password_generator_widget.dart';
@@ -57,6 +60,9 @@ final GoRouter appRouter = GoRouter(
     GoRoute(path: '/crypto/aes', builder: (_, __) => const AesToolWidget()),
     GoRoute(path: '/crypto/rsa-keygen', builder: (_, __) => const RsaToolWidget()),
     GoRoute(path: '/crypto/pbkdf2', builder: (_, __) => const Pbkdf2Widget()),
+    GoRoute(path: '/crypto/bcrypt', builder: (_, __) => const BcryptHashWidget()),
+    GoRoute(path: '/crypto/chacha20', builder: (_, __) => const ChaCha20Widget()),
+    GoRoute(path: '/crypto/salt', builder: (_, __) => const SaltGeneratorWidget()),
 
     // ── Password routes
     GoRoute(path: '/password/generator', builder: (_, __) => const PasswordGeneratorWidget()),
