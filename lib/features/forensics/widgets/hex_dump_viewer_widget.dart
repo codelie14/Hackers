@@ -1,7 +1,10 @@
 import 'dart:convert';
+import 'dart:io';
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:file_picker/file_picker.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../shared/widgets/app_scaffold.dart';
 import '../../../shared/widgets/section_header.dart';
@@ -18,75 +21,58 @@ class HexDumpViewerWidget extends ConsumerStatefulWidget {
 
 class _HexDumpViewerWidgetState extends ConsumerState<HexDumpViewerWidget> {
   String? _fileName;
+  String? _filePath;
+  int? _fileSize;
   List<int>? _fileBytes;
   bool _isLoading = false;
   int _bytesPerRow = 16;
 
-  Future<void> _loadFile() async {
+  Future<void> _loadRealFile() async {
     setState(() {
       _isLoading = true;
       _fileName = null;
       _fileBytes = null;
     });
 
-    // Simulate file loading (in production, use file_picker)
-    await Future.delayed(const Duration(seconds: 1));
+    try {
+      // Pick a file using file_picker
+      final result = await FilePicker.platform.pickFiles(
+        allowMultiple: false,
+        type: FileType.any,
+      );
 
-    // Simulated binary data (PNG header + some data)
-    setState(() {
-      _fileName = 'example_file.bin';
-      _fileBytes = [
-        0x89,
-        0x50,
-        0x4E,
-        0x47,
-        0x0D,
-        0x0A,
-        0x1A,
-        0x0A,
-        0x00,
-        0x00,
-        0x00,
-        0x0D,
-        0x49,
-        0x48,
-        0x44,
-        0x52,
-        0x00,
-        0x00,
-        0x00,
-        0x10,
-        0x00,
-        0x00,
-        0x00,
-        0x10,
-        0x08,
-        0x06,
-        0x00,
-        0x00,
-        0x00,
-        0x1F,
-        0xF3,
-        0xFF,
-        0x61,
-        0x00,
-        0x00,
-        0x00,
-        0x01,
-        0x73,
-        0x52,
-        0x47,
-        0x42,
-        0x00,
-        0xAE,
-        0xCE,
-        0x1C,
-        0xE9,
-        0x00,
-        0x00,
-      ];
-      _isLoading = false;
-    });
+      if (result == null || result.files.isEmpty) {
+        setState(() => _isLoading = false);
+        return; // User cancelled
+      }
+
+      final file = File(result.files.single.path!);
+      final fileSize = await file.length();
+      final fileName = result.files.single.name;
+
+      // Read file bytes (limit to first 10KB for performance)
+      final bytes = await file.readAsBytes();
+      final limitedBytes =
+          bytes.length > 10240 ? bytes.take(10240).toList() : bytes.toList();
+
+      setState(() {
+        _fileName = fileName;
+        _filePath = result.files.single.path;
+        _fileSize = fileSize;
+        _fileBytes = limitedBytes;
+        _isLoading = false;
+      });
+    } catch (e) {
+      setState(() => _isLoading = false);
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Error loading file: ${e.toString()}'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    }
   }
 
   String _byteToHex(int byte) {
@@ -130,7 +116,7 @@ class _HexDumpViewerWidgetState extends ConsumerState<HexDumpViewerWidget> {
                     Expanded(
                       child: AppButton(
                         label: _isLoading ? 'Loading...' : 'Load File',
-                        onPressed: _isLoading ? null : _loadFile,
+                        onPressed: _isLoading ? null : _loadRealFile,
                         isLoading: _isLoading,
                         icon: Icons.folder_open,
                       ),

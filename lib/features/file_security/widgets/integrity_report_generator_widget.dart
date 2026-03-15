@@ -1,8 +1,11 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:crypto/crypto.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:path/path.dart' as path;
 import '../../../core/theme/app_colors.dart';
 import '../../../shared/widgets/app_scaffold.dart';
 import '../../../shared/widgets/section_header.dart';
@@ -20,58 +23,109 @@ class IntegrityReportGeneratorWidget extends ConsumerStatefulWidget {
 class _IntegrityReportGeneratorWidgetState
     extends ConsumerState<IntegrityReportGeneratorWidget> {
   bool _isGenerating = false;
+  String? _selectedDirectory;
+  int? _totalFiles;
+  int? _totalSize;
   String? _reportContent;
-  List<Map<String, String>>? _fileHashes;
+  List<Map<String, dynamic>>? _fileHashes;
 
-  Future<void> _generateReport() async {
+  Future<void> _generateRealReport() async {
     setState(() {
       _isGenerating = true;
       _reportContent = null;
       _fileHashes = null;
     });
 
-    // Simulate directory scanning and hash generation
-    await Future.delayed(const Duration(seconds: 2));
+    try {
+      // Pick a directory using file_picker
+      final directoryPath = await FilePicker.platform.getDirectoryPath();
 
-    final simulatedFiles = [
-      {'path': '/home/user/documents/report.pdf', 'size': '1.2 MB'},
-      {'path': '/home/user/documents/data.xlsx', 'size': '856 KB'},
-      {'path': '/home/user/images/photo.jpg', 'size': '3.4 MB'},
-      {'path': '/home/user/code/project.zip', 'size': '12.8 MB'},
-    ];
+      if (directoryPath == null) {
+        setState(() => _isGenerating = false);
+        return; // User cancelled
+      }
 
-    final hashes = <Map<String, String>>[];
-    for (var file in simulatedFiles) {
-      hashes.add({
-        'path': file['path']!,
-        'size': file['size']!,
-        'sha256': sha256.convert(utf8.encode(file['path']!)).toString(),
+      final directory = Directory(directoryPath);
+
+      // Get all files in directory (non-recursive for now)
+      final files = <File>[];
+      int totalSize = 0;
+
+      await for (final entity in directory.list()) {
+        if (entity is File) {
+          files.add(entity);
+          totalSize += await entity.length();
+        }
+      }
+
+      // Calculate hashes for all files
+      final hashes = <Map<String, dynamic>>[];
+
+      for (final file in files) {
+        try {
+          final fileBytes = await file.readAsBytes();
+          final sha256Hash = sha256.convert(fileBytes).toString();
+          final fileSize = await file.length();
+
+          hashes.add({
+            'path': file.path,
+            'name': path.basename(file.path),
+            'size': fileSize,
+            'sha256': sha256Hash,
+          });
+        } catch (e) {
+          // Skip files that can't be read
+          print('Error reading ${file.path}: $e');
+        }
+      }
+
+      // Generate JSON report
+      final report = {
+        'integrity_report': {
+          'generated_at': DateTime.now().toIso8601String(),
+          'directory': directoryPath,
+          'total_files': hashes.length,
+          'total_size': totalSize,
+          'algorithm': 'SHA-256',
+          'files': hashes
+              .map((h) => {
+                    'name': h['name'],
+                    'path': h['path'],
+                    'size': h['size'],
+                    'size_formatted': _formatFileSize(h['size']),
+                    'sha256': h['sha256'],
+                  })
+              .toList(),
+        },
+      };
+
+      setState(() {
+        _selectedDirectory = directoryPath;
+        _totalFiles = hashes.length;
+        _totalSize = totalSize;
+        _fileHashes = hashes;
+        _reportContent = const JsonEncoder.withIndent('  ').convert(report);
+        _isGenerating = false;
       });
+    } catch (e) {
+      setState(() => _isGenerating = false);
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Error generating report: ${e.toString()}'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
     }
-
-    final report = {
-      'integrity_report': {
-        'generated_at': DateTime.now().toIso8601String(),
-        'directory': '/home/user/documents',
-        'total_files': hashes.length,
-        'files': hashes,
-      },
-    };
-
-    setState(() {
-      _fileHashes = hashes;
-      _reportContent = const JsonEncoder.withIndent('  ').convert(report);
-      _isGenerating = false;
-    });
   }
 
-  void _copyToClipboard() {
-    if (_reportContent != null) {
-      Clipboard.setData(ClipboardData(text: _reportContent!));
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Report copied to clipboard')),
-      );
-    }
+  String _formatFileSize(int bytes) {
+    if (bytes < 1024) return '$bytes B';
+    if (bytes < 1024 * 1024) return '${(bytes / 1024).toStringAsFixed(2)} KB';
+    if (bytes < 1024 * 1024 * 1024)
+      return '${(bytes / (1024 * 1024)).toStringAsFixed(2)} MB';
+    return '${(bytes / (1024 * 1024 * 1024)).toStringAsFixed(2)} GB';
   }
 
   @override
@@ -121,7 +175,7 @@ class _IntegrityReportGeneratorWidgetState
                     const SizedBox(height: 24),
                     AppButton(
                       label: _isGenerating ? 'Scanning...' : 'Select Directory',
-                      onPressed: _isGenerating ? null : _generateReport,
+                      onPressed: _isGenerating ? null : _generateRealReport,
                       isLoading: _isGenerating,
                       icon: Icons.folder_open,
                     ),
@@ -129,7 +183,7 @@ class _IntegrityReportGeneratorWidgetState
                 ),
               ),
             ),
-            if (_fileHashes != null) ...[
+            if (_fileHashes != null && _fileHashes!.isNotEmpty) ...[
               const SizedBox(height: 24),
 
               // Summary Card
@@ -140,31 +194,71 @@ class _IntegrityReportGeneratorWidgetState
                   borderRadius: BorderRadius.circular(12),
                   border: Border.all(color: AppColors.success),
                 ),
-                child: Row(
+                child: Column(
                   children: [
                     Icon(Icons.check_circle_outline,
-                        size: 40, color: AppColors.success),
-                    const SizedBox(width: 16),
+                        size: 48, color: AppColors.success),
+                    const SizedBox(height: 16),
+                    Text(
+                      'Report Generated Successfully',
+                      style: TextStyle(
+                        fontFamily: 'JetBrainsMono',
+                        fontSize: 16,
+                        color: AppColors.success,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        _buildSummaryStat(
+                            'Files', '$_totalFiles', AppColors.info),
+                        _buildSummaryStat('Total Size',
+                            _formatFileSize(_totalSize!), AppColors.accent),
+                        _buildSummaryStat(
+                            'Algorithm', 'SHA-256', AppColors.success),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+
+              const SizedBox(height: 24),
+
+              // Directory Info
+              Container(
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: AppColors.infoDim,
+                  borderRadius: BorderRadius.circular(8),
+                  border: Border.all(color: AppColors.info),
+                ),
+                child: Row(
+                  children: [
+                    Icon(Icons.folder, color: AppColors.info),
+                    const SizedBox(width: 12),
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Report Generated',
+                            'Directory',
                             style: TextStyle(
                               fontFamily: 'JetBrainsMono',
-                              fontSize: 14,
-                              color: AppColors.success,
-                              fontWeight: FontWeight.w600,
+                              fontSize: 11,
+                              color: AppColors.textMuted,
                             ),
                           ),
                           Text(
-                            '${_fileHashes!.length} files processed',
+                            _selectedDirectory!,
                             style: TextStyle(
                               fontFamily: 'JetBrainsMono',
                               fontSize: 12,
-                              color: AppColors.success,
+                              color: AppColors.info,
+                              fontWeight: FontWeight.w600,
                             ),
+                            overflow: TextOverflow.ellipsis,
                           ),
                         ],
                       ),
@@ -177,7 +271,7 @@ class _IntegrityReportGeneratorWidgetState
 
               // File List
               Text(
-                'Files & Hashes',
+                'Files (${_fileHashes!.length})',
                 style: TextStyle(
                   fontFamily: 'JetBrainsMono',
                   fontSize: 16,
@@ -187,24 +281,24 @@ class _IntegrityReportGeneratorWidgetState
               ),
               const SizedBox(height: 12),
 
-              ..._fileHashes!.map((file) {
+              ..._fileHashes!.take(10).map((file) {
                 return Card(
                   color: AppColors.bgSurface,
-                  margin: const EdgeInsets.only(bottom: 12),
+                  margin: const EdgeInsets.only(bottom: 8),
                   child: Padding(
-                    padding: const EdgeInsets.all(16),
+                    padding: const EdgeInsets.all(12),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Row(
                           children: [
                             Icon(Icons.insert_drive_file,
-                                size: 18, color: AppColors.accent),
+                                size: 16, color: AppColors.textSecondary),
                             const SizedBox(width: 8),
                             Expanded(
                               child: Text(
-                                file['path']!,
-                                style: const TextStyle(
+                                file['name']!,
+                                style: TextStyle(
                                   fontFamily: 'JetBrainsMono',
                                   fontSize: 12,
                                   fontWeight: FontWeight.w600,
@@ -212,32 +306,31 @@ class _IntegrityReportGeneratorWidgetState
                                 overflow: TextOverflow.ellipsis,
                               ),
                             ),
-                            Container(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 8, vertical: 4),
-                              decoration: BoxDecoration(
-                                color: AppColors.infoDim,
-                                borderRadius: BorderRadius.circular(4),
-                              ),
-                              child: Text(
-                                file['size']!,
-                                style: TextStyle(
-                                  fontFamily: 'JetBrainsMono',
-                                  fontSize: 10,
-                                  color: AppColors.info,
-                                ),
+                            Text(
+                              _formatFileSize(file['size']),
+                              style: TextStyle(
+                                fontFamily: 'JetBrainsMono',
+                                fontSize: 11,
+                                color: AppColors.textMuted,
                               ),
                             ),
                           ],
                         ),
-                        const SizedBox(height: 12),
-                        SelectableText(
-                          file['sha256']!,
-                          style: const TextStyle(
-                            fontFamily: 'JetBrainsMono',
-                            fontSize: 10,
-                            height: 1.4,
-                            letterSpacing: 0.5,
+                        const SizedBox(height: 8),
+                        Container(
+                          padding: const EdgeInsets.all(8),
+                          decoration: BoxDecoration(
+                            color: AppColors.catCrypto.withOpacity(0.1),
+                            borderRadius: BorderRadius.circular(4),
+                          ),
+                          child: Text(
+                            file['sha256']!,
+                            style: TextStyle(
+                              fontFamily: 'JetBrainsMono',
+                              fontSize: 9,
+                              color: AppColors.catCrypto,
+                            ),
+                            overflow: TextOverflow.ellipsis,
                           ),
                         ),
                       ],
@@ -246,27 +339,51 @@ class _IntegrityReportGeneratorWidgetState
                 );
               }).toList(),
 
+              if (_fileHashes!.length > 10) ...[
+                const SizedBox(height: 8),
+                Text(
+                  '... and ${_fileHashes!.length - 10} more files (see full report)',
+                  style: TextStyle(
+                    fontFamily: 'JetBrainsMono',
+                    fontSize: 11,
+                    color: AppColors.textMuted,
+                  ),
+                ),
+              ],
+
               const SizedBox(height: 24),
 
-              // Export Options
+              // Export Buttons
               Row(
                 children: [
                   Expanded(
                     child: AppButton(
-                      label: 'Copy JSON Report',
+                      label: 'Copy JSON',
                       onPressed: _copyToClipboard,
-                      variant: AppButtonVariant.secondary,
+                      variant: AppButtonVariant.primary,
                       icon: Icons.copy,
                     ),
+                  ),
+                  const SizedBox(width: 12),
+                  IconButton(
+                    icon: const Icon(Icons.save_alt),
+                    onPressed: () {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                            content: Text('Report export feature coming soon')),
+                      );
+                    },
+                    color: AppColors.accent,
+                    tooltip: 'Export',
                   ),
                 ],
               ),
 
-              const SizedBox(height: 16),
+              const SizedBox(height: 24),
 
-              // Full JSON Preview
+              // Full JSON Report
               Text(
-                'JSON Preview',
+                'Full JSON Report',
                 style: TextStyle(
                   fontFamily: 'JetBrainsMono',
                   fontSize: 16,
@@ -276,16 +393,22 @@ class _IntegrityReportGeneratorWidgetState
               ),
               const SizedBox(height: 12),
 
-              Card(
-                color: AppColors.bgSurface,
-                child: Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: SelectableText(
-                    _reportContent!,
-                    style: const TextStyle(
-                      fontFamily: 'JetBrainsMono',
-                      fontSize: 10,
-                      height: 1.5,
+              Container(
+                constraints: const BoxConstraints(maxHeight: 400),
+                decoration: BoxDecoration(
+                  color: AppColors.bgSurface,
+                  borderRadius: BorderRadius.circular(8),
+                  border: Border.all(color: AppColors.border),
+                ),
+                child: SingleChildScrollView(
+                  child: Padding(
+                    padding: const EdgeInsets.all(12),
+                    child: SelectableText(
+                      _reportContent!,
+                      style: const TextStyle(
+                        fontFamily: 'JetBrainsMono',
+                        fontSize: 10,
+                      ),
                     ),
                   ),
                 ),
@@ -295,5 +418,39 @@ class _IntegrityReportGeneratorWidgetState
         ),
       ),
     );
+  }
+
+  Widget _buildSummaryStat(String label, String value, Color color) {
+    return Column(
+      children: [
+        Text(
+          value,
+          style: TextStyle(
+            fontFamily: 'JetBrainsMono',
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            color: color,
+          ),
+        ),
+        const SizedBox(height: 4),
+        Text(
+          label,
+          style: TextStyle(
+            fontFamily: 'JetBrainsMono',
+            fontSize: 10,
+            color: color.withOpacity(0.7),
+          ),
+        ),
+      ],
+    );
+  }
+
+  void _copyToClipboard() {
+    if (_reportContent != null) {
+      Clipboard.setData(ClipboardData(text: _reportContent!));
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Report copied to clipboard')),
+      );
+    }
   }
 }

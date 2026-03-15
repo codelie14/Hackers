@@ -1,6 +1,8 @@
+import 'dart:io';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:file_picker/file_picker.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../shared/widgets/app_scaffold.dart';
 import '../../../shared/widgets/section_header.dart';
@@ -18,12 +20,14 @@ class MagicBytesAnalyzerWidget extends ConsumerStatefulWidget {
 class _MagicBytesAnalyzerWidgetState
     extends ConsumerState<MagicBytesAnalyzerWidget> {
   String? _fileName;
+  String? _filePath;
+  int? _fileSize;
   String? _fileType;
   String? _mimeType;
   List<int>? _magicBytes;
   bool _isAnalyzing = false;
 
-  // Common magic byte signatures
+  // Common magic byte signatures - EXPANDED DATABASE
   static final Map<List<int>, Map<String, String>> _magicSignatures = {
     [0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A]: {
       'type': 'PNG Image',
@@ -45,6 +49,14 @@ class _MagicBytesAnalyzerWidgetState
       'type': 'ZIP Archive',
       'mime': 'application/zip',
     },
+    [0x50, 0x4B, 0x05, 0x06]: {
+      'type': 'ZIP Archive (empty)',
+      'mime': 'application/zip',
+    },
+    [0x50, 0x4B, 0x07, 0x08]: {
+      'type': 'ZIP Archive (spanned)',
+      'mime': 'application/zip',
+    },
     [0x4D, 0x5A]: {
       'type': 'Windows Executable (PE)',
       'mime': 'application/x-msdownload',
@@ -53,9 +65,37 @@ class _MagicBytesAnalyzerWidgetState
       'type': 'ELF Executable',
       'mime': 'application/x-executable',
     },
+    [0x52, 0x61, 0x72, 0x21, 0x1A, 0x07, 0x00]: {
+      'type': 'RAR Archive',
+      'mime': 'application/vnd.rar',
+    },
+    [0x50, 0x4B, 0x03, 0x04, 0x14, 0x00, 0x06, 0x00]: {
+      'type': 'DOCX/XLSX/PPTX',
+      'mime': 'application/vnd.openxmlformats-officedocument',
+    },
+    [0x1F, 0x8B, 0x08]: {
+      'type': 'GZIP Compressed',
+      'mime': 'application/gzip',
+    },
+    [0x49, 0x49, 0x2A, 0x00]: {
+      'type': 'TIFF Image (Little Endian)',
+      'mime': 'image/tiff',
+    },
+    [0x4D, 0x4D, 0x00, 0x2A]: {
+      'type': 'TIFF Image (Big Endian)',
+      'mime': 'image/tiff',
+    },
+    [0x42, 0x4D]: {
+      'type': 'BMP Image',
+      'mime': 'image/bmp',
+    },
+    [0x52, 0x49, 0x46, 0x46]: {
+      'type': 'RIFF Container (AVI/WebM)',
+      'mime': 'video/x-msvideo',
+    },
   };
 
-  Future<void> _analyzeFile() async {
+  Future<void> _analyzeRealFile() async {
     setState(() {
       _isAnalyzing = true;
       _fileName = null;
@@ -64,25 +104,64 @@ class _MagicBytesAnalyzerWidgetState
       _magicBytes = null;
     });
 
-    // Simulate file analysis (in production, use file_picker)
-    await Future.delayed(const Duration(seconds: 1));
+    try {
+      // Pick a file using file_picker
+      final result = await FilePicker.platform.pickFiles(
+        allowMultiple: false,
+        type: FileType.any,
+      );
 
-    // Simulate PNG file for demonstration
-    setState(() {
-      _fileName = 'example_image.png';
-      _magicBytes = [0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A];
+      if (result == null || result.files.isEmpty) {
+        setState(() => _isAnalyzing = false);
+        return; // User cancelled
+      }
+
+      final file = File(result.files.single.path!);
+      final fileSize = await file.length();
+      final fileName = result.files.single.name;
+
+      // Read first 16 bytes for magic number detection
+      final randomAccessFile = await file.open();
+      final buffer = Uint8List(16);
+      await randomAccessFile.readInto(buffer, 0, 16);
+      await randomAccessFile.close();
+
+      final headerBytes = buffer.take(16).toList();
 
       // Find matching signature
+      String? detectedType;
+      String? detectedMime;
+      List<int>? matchedBytes;
+
       for (var entry in _magicSignatures.entries) {
-        if (_matchesSignature(_magicBytes!, entry.key)) {
-          _fileType = entry.value['type'];
-          _mimeType = entry.value['mime'];
+        if (_matchesSignature(headerBytes, entry.key)) {
+          detectedType = entry.value['type'];
+          detectedMime = entry.value['mime'];
+          matchedBytes = entry.key;
           break;
         }
       }
 
-      _isAnalyzing = false;
-    });
+      setState(() {
+        _fileName = fileName;
+        _filePath = result.files.single.path;
+        _fileSize = fileSize;
+        _magicBytes = matchedBytes ?? headerBytes.take(8).toList();
+        _fileType = detectedType ?? 'Unknown File Type';
+        _mimeType = detectedMime ?? 'application/octet-stream';
+        _isAnalyzing = false;
+      });
+    } catch (e) {
+      setState(() => _isAnalyzing = false);
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Error analyzing file: ${e.toString()}'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    }
   }
 
   bool _matchesSignature(List<int> bytes, List<int> signature) {
@@ -91,6 +170,14 @@ class _MagicBytesAnalyzerWidgetState
       if (bytes[i] != signature[i]) return false;
     }
     return true;
+  }
+
+  String _formatFileSize(int bytes) {
+    if (bytes < 1024) return '$bytes B';
+    if (bytes < 1024 * 1024) return '${(bytes / 1024).toStringAsFixed(2)} KB';
+    if (bytes < 1024 * 1024 * 1024)
+      return '${(bytes / (1024 * 1024)).toStringAsFixed(2)} MB';
+    return '${(bytes / (1024 * 1024 * 1024)).toStringAsFixed(2)} GB';
   }
 
   @override
@@ -139,7 +226,7 @@ class _MagicBytesAnalyzerWidgetState
                     const SizedBox(height: 24),
                     AppButton(
                       label: _isAnalyzing ? 'Analyzing...' : 'Select File',
-                      onPressed: _isAnalyzing ? null : _analyzeFile,
+                      onPressed: _isAnalyzing ? null : _analyzeRealFile,
                       isLoading: _isAnalyzing,
                       icon: Icons.file_upload,
                     ),
@@ -148,6 +235,48 @@ class _MagicBytesAnalyzerWidgetState
               ),
             ),
             if (_magicBytes != null && _fileType != null) ...[
+              const SizedBox(height: 24),
+
+              // File Info Card
+              Container(
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: AppColors.infoDim,
+                  borderRadius: BorderRadius.circular(8),
+                  border: Border.all(color: AppColors.info),
+                ),
+                child: Row(
+                  children: [
+                    Icon(Icons.insert_drive_file, color: AppColors.info),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            _fileName!,
+                            style: TextStyle(
+                              fontFamily: 'JetBrainsMono',
+                              fontSize: 13,
+                              color: AppColors.info,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          Text(
+                            'Size: ${_formatFileSize(_fileSize!)}',
+                            style: TextStyle(
+                              fontFamily: 'JetBrainsMono',
+                              fontSize: 11,
+                              color: AppColors.textMuted,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
               const SizedBox(height: 24),
 
               // Detection Result
@@ -289,19 +418,21 @@ class _MagicBytesAnalyzerWidgetState
                                   fontWeight: FontWeight.w600,
                                 ),
                               ),
-                              ...entry.key.map((byte) {
-                                return Padding(
-                                  padding: const EdgeInsets.only(right: 4),
-                                  child: Text(
-                                    '0x${byte.toRadixString(16).toUpperCase().padLeft(2, '0')}',
-                                    style: TextStyle(
-                                      fontFamily: 'JetBrainsMono',
-                                      fontSize: 10,
-                                      color: AppColors.accent,
-                                    ),
-                                  ),
-                                );
-                              }),
+                              Flexible(
+                                child: Wrap(
+                                  spacing: 4,
+                                  children: entry.key.map((byte) {
+                                    return Text(
+                                      '0x${byte.toRadixString(16).toUpperCase().padLeft(2, '0')}',
+                                      style: TextStyle(
+                                        fontFamily: 'JetBrainsMono',
+                                        fontSize: 10,
+                                        color: AppColors.accent,
+                                      ),
+                                    );
+                                  }).toList(),
+                                ),
+                              ),
                             ],
                           ),
                         );

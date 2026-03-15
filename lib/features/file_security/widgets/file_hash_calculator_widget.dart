@@ -1,8 +1,10 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:crypto/crypto.dart';
+import 'package:file_picker/file_picker.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../shared/widgets/app_scaffold.dart';
 import '../../../shared/widgets/section_header.dart';
@@ -20,43 +22,70 @@ class FileHashCalculatorWidget extends ConsumerStatefulWidget {
 class _FileHashCalculatorWidgetState
     extends ConsumerState<FileHashCalculatorWidget> {
   String? _fileName;
-  String? _fileSize;
+  String? _filePath;
+  int? _fileSizeBytes;
   Map<String, String>? _hashes;
   bool _isCalculating = false;
 
-  Future<void> _calculateHashes() async {
+  Future<void> _calculateRealHashes() async {
     setState(() {
       _isCalculating = true;
       _hashes = null;
     });
 
-    // Simulate file hash calculation (in production, use file_picker and actual file reading)
-    await Future.delayed(const Duration(seconds: 2));
+    try {
+      // Pick a file using file_picker
+      final result = await FilePicker.platform.pickFiles(
+        allowMultiple: false,
+        type: FileType.any,
+      );
 
-    // Simulated file data for demonstration
-    final simulatedContent = utf8
-        .encode('Simulated file content for hash calculation demonstration');
+      if (result == null || result.files.isEmpty) {
+        setState(() => _isCalculating = false);
+        return; // User cancelled
+      }
 
-    setState(() {
-      _fileName = 'example_file.txt';
-      _fileSize = '1.2 KB';
-      _hashes = {
-        'MD5': md5.convert(simulatedContent).toString(),
-        'SHA-1': sha1.convert(simulatedContent).toString(),
-        'SHA-256': sha256.convert(simulatedContent).toString(),
-        'SHA-512': sha512.convert(simulatedContent).toString(),
-      };
-      _isCalculating = false;
-    });
+      final file = File(result.files.single.path!);
+
+      // Get file info
+      final fileSize = await file.length();
+      final fileName = result.files.single.name;
+
+      // Read file content
+      final fileBytes = await file.readAsBytes();
+
+      // Calculate real hashes
+      setState(() {
+        _fileName = fileName;
+        _filePath = result.files.single.path;
+        _fileSizeBytes = fileSize;
+        _hashes = {
+          'MD5': md5.convert(fileBytes).toString(),
+          'SHA-1': sha1.convert(fileBytes).toString(),
+          'SHA-256': sha256.convert(fileBytes).toString(),
+          'SHA-512': sha512.convert(fileBytes).toString(),
+        };
+        _isCalculating = false;
+      });
+    } catch (e) {
+      setState(() => _isCalculating = false);
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Error reading file: ${e.toString()}'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    }
   }
 
-  void _copyHash(String algorithm, String value) {
-    Clipboard.setData(ClipboardData(text: value));
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-          content: Text('$algorithm hash copied to clipboard'),
-          duration: const Duration(seconds: 1)),
-    );
+  String _formatFileSize(int bytes) {
+    if (bytes < 1024) return '$bytes B';
+    if (bytes < 1024 * 1024) return '${(bytes / 1024).toStringAsFixed(2)} KB';
+    if (bytes < 1024 * 1024 * 1024)
+      return '${(bytes / (1024 * 1024)).toStringAsFixed(2)} MB';
+    return '${(bytes / (1024 * 1024 * 1024)).toStringAsFixed(2)} GB';
   }
 
   @override
@@ -105,7 +134,7 @@ class _FileHashCalculatorWidgetState
                     const SizedBox(height: 24),
                     AppButton(
                       label: _isCalculating ? 'Calculating...' : 'Select File',
-                      onPressed: _isCalculating ? null : _calculateHashes,
+                      onPressed: _isCalculating ? null : _calculateRealHashes,
                       isLoading: _isCalculating,
                       icon: Icons.file_upload,
                     ),
@@ -126,7 +155,7 @@ class _FileHashCalculatorWidgetState
                 ),
                 child: Row(
                   children: [
-                    Icon(Icons.info_outline, color: AppColors.info),
+                    Icon(Icons.insert_drive_file, color: AppColors.info),
                     const SizedBox(width: 12),
                     Expanded(
                       child: Column(
@@ -142,7 +171,7 @@ class _FileHashCalculatorWidgetState
                             ),
                           ),
                           Text(
-                            'Size: $_fileSize',
+                            'Size: ${_formatFileSize(_fileSizeBytes!)}',
                             style: TextStyle(
                               fontFamily: 'JetBrainsMono',
                               fontSize: 11,
@@ -183,6 +212,15 @@ class _FileHashCalculatorWidgetState
           ],
         ),
       ),
+    );
+  }
+
+  void _copyHash(String algorithm, String value) {
+    Clipboard.setData(ClipboardData(text: value));
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+          content: Text('$algorithm hash copied to clipboard'),
+          duration: const Duration(seconds: 1)),
     );
   }
 
