@@ -25,6 +25,17 @@ import '../../features/crypto/widgets/ripemd160_widget.dart';
 import '../../features/crypto/widgets/keccak256_widget.dart';
 import '../../features/crypto/widgets/caesar_cipher_widget.dart';
 import '../../features/crypto/widgets/vigenere_cipher_widget.dart';
+import '../../features/crypto/widgets/adler32_widget.dart';
+import '../../features/crypto/widgets/one_time_pad_widget.dart';
+import '../../features/crypto/widgets/hkdf_widget.dart';
+import '../../features/crypto/widgets/rsa_encrypt_widget.dart';
+import '../../features/crypto/widgets/triple_des_widget.dart';
+import '../../features/crypto/widgets/blowfish_widget.dart';
+import '../../features/crypto/widgets/ecdsa_keys_widget.dart';
+import '../../features/crypto/widgets/ed25519_keys_widget.dart';
+import '../../features/crypto/widgets/x509_analyzer_widget.dart';
+import '../../features/crypto/widgets/message_signer_widget.dart';
+import '../../features/crypto/widgets/csr_generator_widget.dart';
 
 // ── Password tools
 import '../../features/password/widgets/password_generator_widget.dart';
@@ -174,6 +185,27 @@ final GoRouter appRouter = GoRouter(
     GoRoute(
         path: '/crypto/vigenere',
         builder: (_, __) => const VigenereCipherWidget()),
+    GoRoute(
+        path: '/crypto/adler32',
+        builder: (_, __) => const Adler32ChecksumWidget()),
+    GoRoute(path: '/crypto/otp', builder: (_, __) => const OneTimePadWidget()),
+    GoRoute(path: '/crypto/hkdf', builder: (_, __) => const HkdfToolWidget()),
+    GoRoute(
+        path: '/crypto/rsa-encrypt',
+        builder: (_, __) => const RsaEncryptWidget()),
+    GoRoute(path: '/crypto/3des', builder: (_, __) => const TripleDesWidget()),
+    GoRoute(
+        path: '/crypto/blowfish', builder: (_, __) => const BlowfishWidget()),
+    GoRoute(path: '/crypto/ecdsa', builder: (_, __) => const EcdsaKeysWidget()),
+    GoRoute(
+        path: '/crypto/ed25519', builder: (_, __) => const Ed25519KeysWidget()),
+    GoRoute(
+        path: '/crypto/x509', builder: (_, __) => const X509AnalyzerWidget()),
+    GoRoute(
+        path: '/crypto/message-signer',
+        builder: (_, __) => const MessageSignerWidget()),
+    GoRoute(
+        path: '/crypto/csr', builder: (_, __) => const CsrGeneratorWidget()),
 
     // ── Password routes (new tools)
     GoRoute(
