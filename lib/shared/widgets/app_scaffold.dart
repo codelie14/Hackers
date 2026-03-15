@@ -6,6 +6,7 @@ import '../../data/tools_registry.dart';
 import 'category_drawer.dart';
 import 'search_overlay.dart';
 import 'svg_icon.dart';
+import '../../core/widgets/bottom_nav_bar.dart';
 
 const kMobileBreakpoint = 600.0;
 const kTabletBreakpoint = 900.0;
@@ -34,6 +35,7 @@ class AppScaffold extends StatelessWidget {
     final width = MediaQuery.of(context).size.width;
     final useDesktopLayout = width >= kDesktopBreakpoint;
     final useTabletLayout = width >= kTabletBreakpoint && !useDesktopLayout;
+    final currentRoute = GoRouterState.of(context).uri.toString();
 
     if (useDesktopLayout || useTabletLayout) {
       return _DesktopLayout(
@@ -44,6 +46,7 @@ class AppScaffold extends StatelessWidget {
         floatingActionButton: floatingActionButton,
         showBackButton: showBackButton,
         compact: useTabletLayout,
+        currentRoute: currentRoute,
       );
     }
 
@@ -54,6 +57,7 @@ class AppScaffold extends StatelessWidget {
       actions: actions,
       floatingActionButton: floatingActionButton,
       showBackButton: showBackButton,
+      currentRoute: currentRoute,
     );
   }
 }
@@ -65,6 +69,7 @@ class _MobileLayout extends StatelessWidget {
   final List<Widget>? actions;
   final Widget? floatingActionButton;
   final bool showBackButton;
+  final String? currentRoute;
 
   const _MobileLayout({
     required this.body,
@@ -73,6 +78,7 @@ class _MobileLayout extends StatelessWidget {
     this.actions,
     this.floatingActionButton,
     this.showBackButton = false,
+    this.currentRoute,
   });
 
   @override
@@ -112,6 +118,7 @@ class _MobileLayout extends StatelessWidget {
       drawer: CategoryDrawer(activeCategory: activeCategory),
       body: body,
       floatingActionButton: floatingActionButton,
+      bottomNavigationBar: BottomNavBar(currentRoute: currentRoute),
     );
   }
 }
@@ -124,6 +131,7 @@ class _DesktopLayout extends StatelessWidget {
   final Widget? floatingActionButton;
   final bool showBackButton;
   final bool compact;
+  final String? currentRoute;
 
   const _DesktopLayout({
     required this.body,
@@ -133,6 +141,7 @@ class _DesktopLayout extends StatelessWidget {
     this.floatingActionButton,
     this.showBackButton = false,
     this.compact = false,
+    this.currentRoute,
   });
 
   @override
@@ -140,9 +149,9 @@ class _DesktopLayout extends StatelessWidget {
     return Scaffold(
       body: Row(
         children: [
-          // Sidebar
+          // Sidebar (drawer for desktop)
           CategoryDrawer(activeCategory: activeCategory),
-          const VerticalDivider(width: 1),
+          const VerticalDivider(width: 1, color: AppColors.border),
           // Main content
           Expanded(
             child: Scaffold(
@@ -173,6 +182,7 @@ class _DesktopLayout extends StatelessWidget {
               ),
               body: body,
               floatingActionButton: floatingActionButton,
+              bottomNavigationBar: BottomNavBar(currentRoute: currentRoute),
             ),
           ),
         ],
