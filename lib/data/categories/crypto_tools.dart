@@ -103,7 +103,8 @@ class CryptoTools {
       category: ToolCategory.crypto,
       icon: Icons.fingerprint,
       tags: ['ripemd', 'hash', 'bitcoin'],
-      isAvailable: false,
+      isAvailable: true,
+      routePath: '/crypto/ripemd160',
     ),
     ToolModel(
       id: 'keccak256_hash',
@@ -113,7 +114,8 @@ class CryptoTools {
       category: ToolCategory.crypto,
       icon: Icons.fingerprint,
       tags: ['keccak', 'sha3', 'ethereum', 'hash'],
-      isAvailable: false,
+      isAvailable: true,
+      routePath: '/crypto/keccak256',
     ),
     ToolModel(
       id: 'crc_checksum',
@@ -133,7 +135,8 @@ class CryptoTools {
       category: ToolCategory.crypto,
       icon: Icons.rule,
       tags: ['adler', 'checksum'],
-      isAvailable: false,
+      isAvailable: true,
+      routePath: '/crypto/adler32',
     ),
 
     // Encryption â€” MVP implemented
@@ -208,7 +211,8 @@ class CryptoTools {
       category: ToolCategory.crypto,
       icon: Icons.key,
       tags: ['hkdf', 'kdf', 'derivation'],
-      isAvailable: false,
+      isAvailable: true,
+      routePath: '/crypto/hkdf',
     ),
     ToolModel(
       id: 'triple_des',
@@ -218,7 +222,8 @@ class CryptoTools {
       category: ToolCategory.crypto,
       icon: Icons.lock_outline,
       tags: ['3des', 'des', 'encrypt'],
-      isAvailable: false,
+      isAvailable: true,
+      routePath: '/crypto/triple-des',
     ),
     ToolModel(
       id: 'blowfish_tool',
@@ -227,26 +232,29 @@ class CryptoTools {
       category: ToolCategory.crypto,
       icon: Icons.lock_outline,
       tags: ['blowfish', 'encrypt'],
-      isAvailable: false,
+      isAvailable: true,
+      routePath: '/crypto/blowfish',
     ),
     ToolModel(
       id: 'vigenere_cipher',
-      name: 'VigenÃ¨re Cipher',
+      name: 'Vigenère Cipher',
       description: 'Classical polyalphabetic substitution cipher.',
       category: ToolCategory.crypto,
       icon: Icons.abc,
       tags: ['vigenere', 'cipher', 'classical'],
-      isAvailable: false,
+      isAvailable: true,
+      routePath: '/crypto/vigenere',
     ),
     ToolModel(
       id: 'caesar_cipher',
       name: 'Caesar Cipher',
       description:
-          'Caesar shift cipher â€” encode and decode with any shift value.',
+          'Caesar shift cipher — encode and decode with any shift value.',
       category: ToolCategory.crypto,
       icon: Icons.abc,
       tags: ['caesar', 'cipher', 'shift'],
-      isAvailable: false,
+      isAvailable: true,
+      routePath: '/crypto/caesar',
     ),
     ToolModel(
       id: 'otp_generator',
@@ -255,7 +263,8 @@ class CryptoTools {
       category: ToolCategory.crypto,
       icon: Icons.password,
       tags: ['otp', 'one-time-pad', 'encrypt'],
-      isAvailable: false,
+      isAvailable: true,
+      routePath: '/crypto/otp',
     ),
 
     // Signatures & Certificates
@@ -266,7 +275,8 @@ class CryptoTools {
       category: ToolCategory.crypto,
       icon: Icons.vpn_key_outlined,
       tags: ['ecdsa', 'keys', 'signature'],
-      isAvailable: false,
+      isAvailable: true,
+      routePath: '/crypto/ecdsa',
     ),
     ToolModel(
       id: 'ed25519_keys',
@@ -275,7 +285,8 @@ class CryptoTools {
       category: ToolCategory.crypto,
       icon: Icons.vpn_key_outlined,
       tags: ['ed25519', 'keys', 'signature'],
-      isAvailable: false,
+      isAvailable: true,
+      routePath: '/crypto/ed25519',
     ),
     ToolModel(
       id: 'x509_analyzer',
@@ -284,7 +295,8 @@ class CryptoTools {
       category: ToolCategory.crypto,
       icon: Icons.workspace_premium,
       tags: ['x509', 'certificate', 'pem', 'tls'],
-      isAvailable: false,
+      isAvailable: true,
+      routePath: '/crypto/x509',
     ),
     ToolModel(
       id: 'msg_signature',
@@ -293,7 +305,8 @@ class CryptoTools {
       category: ToolCategory.crypto,
       icon: Icons.draw_outlined,
       tags: ['sign', 'verify', 'signature'],
-      isAvailable: false,
+      isAvailable: true,
+      routePath: '/crypto/signature',
     ),
     ToolModel(
       id: 'csr_generator',
@@ -303,14 +316,8 @@ class CryptoTools {
       category: ToolCategory.crypto,
       icon: Icons.description_outlined,
       tags: ['csr', 'certificate', 'ssl'],
-      isAvailable: false,
+      isAvailable: true,
+      routePath: '/crypto/csr',
     ),
   ];
 }
-
-
-
-
-
-
-

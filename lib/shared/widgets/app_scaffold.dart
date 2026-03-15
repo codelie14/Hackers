@@ -5,6 +5,7 @@ import '../../data/models/tool_model.dart';
 import '../../data/tools_registry.dart';
 import 'category_drawer.dart';
 import 'search_overlay.dart';
+import 'svg_icon.dart';
 
 const kMobileBreakpoint = 600.0;
 const kTabletBreakpoint = 900.0;
@@ -91,7 +92,10 @@ class _MobileLayout extends StatelessWidget {
               )
             : Builder(builder: (ctx) {
                 return IconButton(
-                  icon: const Icon(Icons.menu),
+                  icon: const SvgIcon(
+                    assetPath: 'assets/icons/menu.svg',
+                    size: 24,
+                  ),
                   onPressed: () => Scaffold.of(ctx).openDrawer(),
                 );
               }),
