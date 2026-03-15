@@ -77,10 +77,16 @@ import '../../features/network/widgets/network_tools_widget.dart';
 // ── System tools
 import '../../features/system/widgets/system_info_widget.dart';
 
+// Splash screen
+import '../../features/splash/splash_screen.dart';
+
 final GoRouter appRouter = GoRouter(
-  initialLocation: '/',
+  initialLocation: '/splash',
   debugLogDiagnostics: false,
   routes: [
+    // Splash
+    GoRoute(path: '/splash', builder: (ctx, _) => const SplashScreen()),
+
     // ── Home
     GoRoute(path: '/', builder: (ctx, _) => const HomeScreen()),
 

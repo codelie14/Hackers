@@ -143,9 +143,7 @@ class _StaggerAnimationState extends State<StaggerAnimation>
 
         return TweenAnimationBuilder<double>(
           duration: widget.duration,
-          begin: 0.0,
-          end: 1.0,
-          delay: Duration(milliseconds: index * 50),
+          tween: Tween<double>(begin: 0.0, end: 1.0),
           curve: Curves.easeOutCubic,
           builder: (context, value, child) {
             return Transform.translate(
