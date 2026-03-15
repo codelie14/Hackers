@@ -50,6 +50,7 @@ import '../../features/password/widgets/pin_generator_widget.dart';
 import '../../features/password/widgets/pronounceable_password_widget.dart';
 import '../../features/password/widgets/mnemonic_generator_widget.dart';
 import '../../features/password/widgets/password_history_widget.dart';
+import '../../features/password/widgets/batch_password_generator_widget.dart';
 
 // ── Encode/Decode tools
 import '../../features/encode_decode/widgets/base64_widget.dart';
@@ -58,6 +59,10 @@ import '../../features/encode_decode/widgets/html_entities_widget.dart';
 import '../../features/encode_decode/widgets/unicode_escape_widget.dart';
 import '../../features/encode_decode/widgets/base58_widget.dart';
 import '../../features/encode_decode/widgets/xor_cipher_widget.dart';
+import '../../features/encode_decode/widgets/punycode_widget.dart';
+import '../../features/encode_decode/widgets/base85_widget.dart';
+import '../../features/encode_decode/widgets/nato_phonetic_widget.dart';
+import '../../features/encode_decode/widgets/atbash_cipher_widget.dart';
 
 // ── Developer tools
 import '../../features/developer/widgets/developer_widgets.dart';
@@ -67,6 +72,14 @@ import '../../features/developer/widgets/sql_formatter_widget.dart';
 import '../../features/developer/widgets/http_status_widget.dart';
 import '../../features/developer/widgets/markdown_preview_widget.dart';
 import '../../features/developer/widgets/regex_tester_widget.dart';
+import '../../features/developer/widgets/diff_tool_widget.dart';
+import '../../features/developer/widgets/cron_explainer_widget.dart';
+import '../../features/developer/widgets/timestamp_converter_widget.dart';
+import '../../features/developer/widgets/color_converter_widget.dart';
+import '../../features/developer/widgets/lorem_ipsum_widget.dart';
+import '../../features/developer/widgets/fake_data_generator_widget.dart';
+import '../../features/developer/widgets/gitignore_generator_widget.dart';
+import '../../features/developer/widgets/json_csv_converter_widget.dart';
 
 // ── QR tools
 import '../../features/qr_barcode/widgets/qr_generator_widget.dart';
@@ -77,7 +90,14 @@ import '../../features/qr_barcode/widgets/custom_qr_designer_widget.dart';
 import '../../features/wifi/widgets/wifi_scanner_widget.dart';
 
 // ── Network tools
-import '../../features/network/widgets/network_tools_widget.dart';
+import '../../features/network/widgets/ping_widget.dart';
+import '../../features/network/widgets/dns_lookup_widget.dart';
+import '../../features/network/widgets/cidr_calculator_widget.dart';
+import '../../features/network/widgets/ip_converter_widget.dart';
+import '../../features/network/widgets/firewall_rules_widget.dart';
+import '../../features/network/widgets/wake_on_lan_widget.dart';
+import '../../features/network/widgets/traceroute_widget.dart';
+import '../../features/network/widgets/reverse_dns_lookup_widget.dart';
 
 // ── System tools
 import '../../features/system/widgets/system_info_widget.dart';
@@ -150,6 +170,9 @@ final GoRouter appRouter = GoRouter(
     GoRoute(
         path: '/password/pronounceable',
         builder: (_, __) => const PronounceablePasswordWidget()),
+    GoRoute(
+        path: '/password/batch',
+        builder: (_, __) => const BatchPasswordGeneratorWidget()),
 
     // ── Encode/Decode routes
     GoRoute(path: '/encode/base64', builder: (_, __) => const Base64Widget()),
@@ -161,6 +184,22 @@ final GoRouter appRouter = GoRouter(
     GoRoute(
         path: '/encode/binary-octal-ascii',
         builder: (_, __) => const BinaryOctalAsciiWidget()),
+    GoRoute(
+        path: '/encode/html-entities',
+        builder: (_, __) => const HtmlEntitiesWidget()),
+    GoRoute(
+        path: '/encode/unicode',
+        builder: (_, __) => const UnicodeEscapeWidget()),
+    GoRoute(path: '/encode/base58', builder: (_, __) => const Base58Widget()),
+    GoRoute(path: '/encode/xor', builder: (_, __) => const XorCipherWidget()),
+    GoRoute(
+        path: '/encode/punycode', builder: (_, __) => const PunycodeWidget()),
+    GoRoute(path: '/encode/base85', builder: (_, __) => const Base85Widget()),
+    GoRoute(
+        path: '/encode/nato-phonetic',
+        builder: (_, __) => const NatoPhoneticWidget()),
+    GoRoute(
+        path: '/encode/atbash', builder: (_, __) => const AtbashCipherWidget()),
 
     // ── Developer routes
     GoRoute(
@@ -174,6 +213,41 @@ final GoRouter appRouter = GoRouter(
         builder: (_, __) => const YamlJsonConverterWidget()),
     GoRoute(
         path: '/developer/jwt', builder: (_, __) => const JwtDecoderWidget()),
+    GoRoute(
+        path: '/developer/regex-tester',
+        builder: (_, __) => const RegexTesterWidget()),
+    GoRoute(
+        path: '/developer/sql-formatter',
+        builder: (_, __) => const SqlFormatterWidget()),
+    GoRoute(
+        path: '/developer/http-status',
+        builder: (_, __) => const HttpStatusWidget()),
+    GoRoute(
+        path: '/developer/markdown',
+        builder: (_, __) => const MarkdownPreviewWidget()),
+    GoRoute(
+        path: '/developer/diff', builder: (_, __) => const DiffToolWidget()),
+    GoRoute(
+        path: '/developer/cron',
+        builder: (_, __) => const CronExplainerWidget()),
+    GoRoute(
+        path: '/developer/timestamp',
+        builder: (_, __) => const TimestampConverterWidget()),
+    GoRoute(
+        path: '/developer/color',
+        builder: (_, __) => const ColorConverterWidget()),
+    GoRoute(
+        path: '/developer/lorem-ipsum',
+        builder: (_, __) => const LoremIpsumGeneratorWidget()),
+    GoRoute(
+        path: '/developer/fake-data',
+        builder: (_, __) => const FakeDataGeneratorWidget()),
+    GoRoute(
+        path: '/developer/gitignore',
+        builder: (_, __) => const GitignoreGeneratorWidget()),
+    GoRoute(
+        path: '/developer/json-csv',
+        builder: (_, __) => const JsonCsvConverterWidget()),
 
     // ── QR routes
     GoRoute(
@@ -262,10 +336,26 @@ final GoRouter appRouter = GoRouter(
         path: '/wifi/scanner', builder: (_, __) => const WifiScannerWidget()),
 
     // ── Network routes
+    GoRoute(path: '/network/ping', builder: (_, __) => const PingToolWidget()),
+    GoRoute(path: '/network/dns', builder: (_, __) => const DnsLookupWidget()),
     GoRoute(
-        path: '/network/ping', builder: (_, __) => const NetworkToolsWidget()),
+        path: '/network/cidr',
+        builder: (_, __) => const CidrCalculatorWidget()),
     GoRoute(
-        path: '/network/dns', builder: (_, __) => const NetworkToolsWidget()),
+        path: '/network/ip-converter',
+        builder: (_, __) => const IpConverterWidget()),
+    GoRoute(
+        path: '/network/firewall',
+        builder: (_, __) => const FirewallRulesWidget()),
+    GoRoute(
+        path: '/network/wake-on-lan',
+        builder: (_, __) => const WakeOnLanWidget()),
+    GoRoute(
+        path: '/network/traceroute',
+        builder: (_, __) => const TracerouteWidget()),
+    GoRoute(
+        path: '/network/reverse-dns',
+        builder: (_, __) => const ReverseDnsLookupWidget()),
 
     // ── System routes
     GoRoute(path: '/system/info', builder: (_, __) => const SystemInfoWidget()),
