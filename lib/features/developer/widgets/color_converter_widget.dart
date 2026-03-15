@@ -285,7 +285,7 @@ class _ColorConverterWidgetState extends ConsumerState<ColorConverterWidget> {
   }
 
   num pow(num base, num exponent) {
-    return base.toDouble().pow(exponent.toDouble());
+    return math.pow(base, exponent);
   }
 
   Color _hslToColor(int h, int s, int l) {

@@ -38,7 +38,7 @@ class _ReverseDnsLookupWidgetState
 
     // Validate IP format
     try {
-      InternetAddress.parse(ip);
+      InternetAddress(ip); // Validate by constructing
     } catch (e) {
       setState(() => _result = 'Invalid IP address format');
       return;
