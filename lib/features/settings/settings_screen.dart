@@ -30,9 +30,9 @@ class SettingsScreen extends StatelessWidget {
               onTap: () {},
             ),
           ]),
-          
+
           const SizedBox(height: 24),
-          
+
           // Privacy & Security
           _buildSectionTitle('PRIVACY & SECURITY'),
           _buildSettingsCard([
@@ -55,9 +55,9 @@ class SettingsScreen extends StatelessWidget {
               onTap: () => _showClearHistoryDialog(context),
             ),
           ]),
-          
+
           const SizedBox(height: 24),
-          
+
           // Data & Storage
           _buildSectionTitle('DATA & STORAGE'),
           _buildSettingsCard([
@@ -80,9 +80,9 @@ class SettingsScreen extends StatelessWidget {
               onTap: () {},
             ),
           ]),
-          
+
           const SizedBox(height: 24),
-          
+
           // About
           _buildSectionTitle('ABOUT'),
           _buildSettingsCard([
@@ -105,9 +105,9 @@ class SettingsScreen extends StatelessWidget {
               onTap: () {},
             ),
           ]),
-          
+
           const SizedBox(height: 32),
-          
+
           // Reset button
           SizedBox(
             width: double.infinity,
@@ -116,8 +116,8 @@ class SettingsScreen extends StatelessWidget {
               icon: const Icon(Icons.refresh_outlined),
               label: const Text('RESET ALL SETTINGS'),
               style: OutlinedButton.styleFrom(
-                foregroundColor: AppColors.error,
-                side: BorderSide(color: AppColors.error),
+                foregroundColor: Colors.red,
+                side: const BorderSide(color: Colors.red),
                 padding: const EdgeInsets.symmetric(vertical: 16),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8),
@@ -249,7 +249,7 @@ class SettingsScreen extends StatelessWidget {
               Navigator.pop(ctx);
             },
             style: ElevatedButton.styleFrom(
-              backgroundColor: AppColors.error,
+              backgroundColor: Colors.red,
               foregroundColor: Colors.white,
             ),
             child: const Text('CLEAR'),
@@ -287,7 +287,7 @@ class SettingsScreen extends StatelessWidget {
               Navigator.pop(ctx);
             },
             style: ElevatedButton.styleFrom(
-              backgroundColor: AppColors.error,
+              backgroundColor: Colors.red,
               foregroundColor: Colors.white,
             ),
             child: const Text('RESET'),

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_gradients.dart';
-import '../../core/widgets/search_overlay.dart';
 import '../../shared/widgets/app_scaffold.dart';
 
 /// Search screen with full-screen search overlay
@@ -20,10 +19,7 @@ class _SearchScreenState extends State<SearchScreen> {
   @override
   void initState() {
     super.initState();
-    // Auto-open search on mount
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _showSearchOverlay();
-    });
+    // Don't auto-open search anymore, let user tap the button
   }
 
   @override
@@ -33,15 +29,12 @@ class _SearchScreenState extends State<SearchScreen> {
   }
 
   void _showSearchOverlay() {
-    setState(() => _isSearching = true);
-    showDialog(
-      context: context,
-      barrierColor: Colors.black.withValues(alpha: 0.9),
-      builder: (context) => SearchOverlay(
-        onDismiss: () {
-          setState(() => _isSearching = false);
-          context.pop();
-        },
+    // TODO: Implement search functionality
+    // For now, just show a snackbar
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Search coming soon!'),
+        backgroundColor: Color(0xFF00FF88),
       ),
     );
   }
@@ -76,7 +69,7 @@ class _SearchScreenState extends State<SearchScreen> {
               ),
             ),
             const SizedBox(height: 32),
-            
+
             // Title
             const Text(
               'SEARCH TOOLS',
@@ -88,7 +81,7 @@ class _SearchScreenState extends State<SearchScreen> {
               ),
             ),
             const SizedBox(height: 16),
-            
+
             // Subtitle
             Text(
               'Find tools by name, category, or function',
@@ -100,7 +93,7 @@ class _SearchScreenState extends State<SearchScreen> {
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 48),
-            
+
             // Search button
             ElevatedButton.icon(
               onPressed: _showSearchOverlay,

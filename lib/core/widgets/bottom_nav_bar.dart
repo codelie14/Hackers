@@ -44,49 +44,62 @@ class _BottomNavBarState extends State<BottomNavBar> {
       ),
       child: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              // Home
-              _buildNavItem(
-                icon: Icons.home_rounded,
-                label: 'HOME',
-                isActive:
-                    widget.currentRoute == '/' || widget.currentRoute == null,
-                onTap: () => context.go('/'),
-              ),
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                // Home
+                _buildNavItem(
+                  icon: Icons.home_rounded,
+                  label: 'HOME',
+                  isActive:
+                      widget.currentRoute == '/' || widget.currentRoute == null,
+                  onTap: () => context.go('/'),
+                ),
 
-              // Search
-              _buildNavItem(
-                icon: Icons.search_rounded,
-                label: 'SEARCH',
-                isActive: false, // TODO: Add search route
-                onTap: () {
-                  // TODO: Navigate to search
-                },
-              ),
+                // Search
+                _buildNavItem(
+                  icon: Icons.search_rounded,
+                  label: 'SEARCH',
+                  isActive: widget.currentRoute == '/search',
+                  onTap: () => context.go('/search'),
+                ),
 
-              // Settings
-              _buildNavItem(
-                icon: Icons.settings_rounded,
-                label: 'SETTINGS',
-                isActive: widget.currentRoute == '/settings',
-                onTap: () {
-                  // TODO: Navigate to settings
-                },
-              ),
+                // History
+                _buildNavItem(
+                  icon: Icons.history_rounded,
+                  label: 'HISTORY',
+                  isActive: widget.currentRoute == '/history',
+                  onTap: () => context.go('/history'),
+                ),
 
-              // Help
-              _buildNavItem(
-                icon: Icons.help_outline_rounded,
-                label: 'HELP',
-                isActive: widget.currentRoute == '/help',
-                onTap: () {
-                  // TODO: Navigate to help
-                },
-              ),
-            ],
+                // Favorites
+                _buildNavItem(
+                  icon: Icons.favorite_rounded,
+                  label: 'FAVORITES',
+                  isActive: widget.currentRoute == '/favorites',
+                  onTap: () => context.go('/favorites'),
+                ),
+
+                // Settings
+                _buildNavItem(
+                  icon: Icons.settings_rounded,
+                  label: 'SETTINGS',
+                  isActive: widget.currentRoute == '/settings',
+                  onTap: () => context.go('/settings'),
+                ),
+
+                // Help
+                _buildNavItem(
+                  icon: Icons.help_outline_rounded,
+                  label: 'HELP',
+                  isActive: widget.currentRoute == '/help',
+                  onTap: () => context.go('/help'),
+                ),
+              ],
+            ),
           ),
         ),
       ),

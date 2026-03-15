@@ -5,6 +5,11 @@ import '../../data/models/tool_model.dart';
 // ── Screens
 import '../../features/home/home_screen.dart';
 import '../../features/category/category_screen.dart';
+import '../../features/search/search_screen.dart';
+import '../../features/settings/settings_screen.dart';
+import '../../features/help/help_screen.dart';
+import '../../features/history/history_screen.dart';
+import '../../features/favorites/favorites_screen.dart';
 
 // ── Crypto tools
 import '../../features/crypto/widgets/hash_generator_widget.dart';
@@ -102,6 +107,13 @@ final GoRouter appRouter = GoRouter(
         return CategoryScreen(category: cat);
       },
     ),
+
+    // ── Navigation Routes
+    GoRoute(path: '/search', builder: (ctx, _) => const SearchScreen()),
+    GoRoute(path: '/settings', builder: (ctx, _) => const SettingsScreen()),
+    GoRoute(path: '/help', builder: (ctx, _) => const HelpScreen()),
+    GoRoute(path: '/history', builder: (ctx, _) => const HistoryScreen()),
+    GoRoute(path: '/favorites', builder: (ctx, _) => const FavoritesScreen()),
 
     // ── Crypto routes
     GoRoute(
