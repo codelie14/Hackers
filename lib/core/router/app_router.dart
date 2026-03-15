@@ -125,6 +125,11 @@ import '../../features/osint/widgets/data_extractor_widget.dart';
 import '../../features/osint/widgets/username_analyzer_widget.dart';
 import '../../features/osint/widgets/url_tracker_cleaner_widget.dart';
 
+// ── Steganography tools (NEW)
+import '../../features/steganography/widgets/lsb_encoder_widget.dart';
+import '../../features/steganography/widgets/lsb_decoder_widget.dart';
+import '../../features/steganography/widgets/bit_plane_visualizer_widget.dart';
+
 // ── System tools
 import '../../features/system/widgets/system_info_widget.dart';
 import '../../features/system/widgets/network_information_widget.dart';
@@ -453,6 +458,17 @@ final GoRouter appRouter = GoRouter(
     GoRoute(
         path: '/osint/url-cleaner',
         builder: (_, __) => const UrlTrackerCleanerWidget()),
+
+    // ── Steganography routes (NEW)
+    GoRoute(
+        path: '/steganography/lsb-encode',
+        builder: (_, __) => const LSBEncoderWidget()),
+    GoRoute(
+        path: '/steganography/lsb-decode',
+        builder: (_, __) => const LSBDecoderWidget()),
+    GoRoute(
+        path: '/steganography/bit-planes',
+        builder: (_, __) => const BitPlaneVisualizerWidget()),
 
     // ── System routes
     GoRoute(path: '/system/info', builder: (_, __) => const SystemInfoWidget()),

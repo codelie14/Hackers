@@ -17,7 +17,8 @@ class SteganographyTools {
       category: ToolCategory.steganography,
       icon: Icons.hide_image_outlined,
       tags: ['lsb', 'steganography', 'encode', 'hide', 'image'],
-      isAvailable: false,
+      isAvailable: true,
+      routePath: '/steganography/lsb-encode',
     ),
     ToolModel(
       id: 'lsb_decode',
@@ -27,7 +28,8 @@ class SteganographyTools {
       category: ToolCategory.steganography,
       icon: Icons.image_search,
       tags: ['lsb', 'steganography', 'decode', 'extract'],
-      isAvailable: false,
+      isAvailable: true,
+      routePath: '/steganography/lsb-decode',
     ),
     ToolModel(
       id: 'lsb_password',
@@ -47,7 +49,8 @@ class SteganographyTools {
       category: ToolCategory.steganography,
       icon: Icons.layers_outlined,
       tags: ['bit', 'planes', 'visualize', 'steganalysis'],
-      isAvailable: false,
+      isAvailable: true,
+      routePath: '/steganography/bit-planes',
     ),
     ToolModel(
       id: 'chi_square_test',
