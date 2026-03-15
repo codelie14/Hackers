@@ -336,12 +336,6 @@ class _PortScannerWidgetState extends ConsumerState<PortScannerWidget> {
       'risk': 'high',
       'note': 'Time-series DB — check auth'
     },
-    3000: {
-      'name': 'Grafana',
-      'proto': 'TCP',
-      'risk': 'medium',
-      'note': 'Default creds admin/admin'
-    },
     // ── Message queues / Cache
     5672: {
       'name': 'RabbitMQ',
@@ -473,7 +467,6 @@ class _PortScannerWidgetState extends ConsumerState<PortScannerWidget> {
       'risk': 'critical',
       'note': 'Android Debug Bridge — full device access'
     },
-    8888: {'name': 'HTTP-Dev', 'proto': 'TCP', 'risk': 'medium', 'note': null},
     9999: {'name': 'Urchin', 'proto': 'TCP', 'risk': 'low', 'note': null},
     47808: {
       'name': 'BACnet',

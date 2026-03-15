@@ -150,8 +150,13 @@ class _HttpHeadersAnalyzerWidgetState
         }
 
         // Security analysis
-        buffer.writeln('\n\nSECURITY ANALYSIS');
-        buffer.writeln('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n');
+        final securityHeaders = [
+          'strict-transport-security',
+          'content-security-policy',
+          'x-frame-options',
+          'x-content-type-options',
+          'x-xss-protection',
+        ];
 
         int present = 0;
         int missing = 0;

@@ -98,12 +98,9 @@ class _SSLTLSAnalyzerWidgetState extends ConsumerState<SSLTLSAnalyzerWidget> {
 
         // Check if expired
         final now = DateTime.now();
-        final startValid = cert.startValidity != null
-            ? DateTime.tryParse(cert.startValidity!)
-            : null;
-        final endValid = cert.endValidity != null
-            ? DateTime.tryParse(cert.endValidity!)
-            : null;
+        final startValid = cert.startValidity;
+        final endValid = cert.endValidity;
+        int? daysLeft;
 
         buffer.writeln('STATUS CHECK\n\n');
         if (startValid != null && now.isBefore(startValid)) {
@@ -111,7 +108,7 @@ class _SSLTLSAnalyzerWidgetState extends ConsumerState<SSLTLSAnalyzerWidget> {
         } else if (endValid != null && now.isAfter(endValid)) {
           buffer.writeln('✗ Certificate EXPIRED!\n\n');
         } else if (endValid != null) {
-          final daysLeft = endValid.difference(now).inDays;
+          daysLeft = endValid.difference(now).inDays;
           buffer.writeln('✓ Certificate is valid\n');
           buffer.writeln('⏱ Days until expiration: $daysLeft\n\n');
 
@@ -129,7 +126,7 @@ class _SSLTLSAnalyzerWidgetState extends ConsumerState<SSLTLSAnalyzerWidget> {
         buffer.writeln('🔐 CONNECTION SECURITY\n\n');
         buffer.writeln('Protocol Version: TLS 1.2/1.3 (auto-negotiated)\n');
         buffer.writeln(
-            'Cipher Suite: ${response.certificate?.cipher ?? 'N/A'}\n\n');
+            'Cipher Suite: ${response.certificate?.subject ?? 'N/A'}\n\n');
 
         // Security analysis
         buffer.writeln('🛡️ SECURITY ANALYSIS\n\n');
@@ -147,7 +144,7 @@ class _SSLTLSAnalyzerWidgetState extends ConsumerState<SSLTLSAnalyzerWidget> {
         if (endValid != null && now.isAfter(endValid)) {
           score -= 40;
           issues.add('Certificate expired');
-        } else if (endValid != null && daysLeft < 30) {
+        } else if (daysLeft != null && daysLeft < 30) {
           score -= 20;
           issues.add('Certificate expires soon');
         }
@@ -175,7 +172,7 @@ class _SSLTLSAnalyzerWidgetState extends ConsumerState<SSLTLSAnalyzerWidget> {
         buffer.writeln('💡 RECOMMENDATIONS\n\n');
         buffer.writeln('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n');
 
-        if (endValid != null && daysLeft < 90) {
+        if (daysLeft != null && daysLeft < 90) {
           buffer.writeln('• Renew certificate before expiration\n');
         }
         if (score < 100) {
