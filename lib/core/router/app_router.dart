@@ -106,6 +106,25 @@ import '../../features/network/widgets/port_scanner_widget.dart';
 import '../../features/network/widgets/http_headers_analyzer_widget.dart';
 import '../../features/network/widgets/ssl_tls_analyzer_widget.dart';
 
+// ── File Security tools (NEW)
+import '../../features/file_security/widgets/file_hash_calculator_widget.dart';
+import '../../features/file_security/widgets/file_hash_comparator_widget.dart';
+import '../../features/file_security/widgets/magic_bytes_analyzer_widget.dart';
+import '../../features/file_security/widgets/file_entropy_analyzer_widget.dart';
+import '../../features/file_security/widgets/integrity_report_generator_widget.dart';
+
+// ── Forensics tools (NEW)
+import '../../features/forensics/widgets/exif_data_extractor_widget.dart';
+import '../../features/forensics/widgets/exif_metadata_remover_widget.dart';
+import '../../features/forensics/widgets/hex_dump_viewer_widget.dart';
+import '../../features/forensics/widgets/strings_extractor_widget.dart';
+
+// ── OSINT tools (NEW)
+import '../../features/osint/widgets/google_dorks_generator_widget.dart';
+import '../../features/osint/widgets/data_extractor_widget.dart';
+import '../../features/osint/widgets/username_analyzer_widget.dart';
+import '../../features/osint/widgets/url_tracker_cleaner_widget.dart';
+
 // ── System tools
 import '../../features/system/widgets/system_info_widget.dart';
 import '../../features/system/widgets/network_information_widget.dart';
@@ -389,6 +408,51 @@ final GoRouter appRouter = GoRouter(
     GoRoute(
         path: '/network/ssl-tls',
         builder: (_, __) => const SSLTLSAnalyzerWidget()),
+
+    // ── File Security routes (NEW)
+    GoRoute(
+        path: '/file-security/hash-calculator',
+        builder: (_, __) => const FileHashCalculatorWidget()),
+    GoRoute(
+        path: '/file-security/hash-comparator',
+        builder: (_, __) => const FileHashComparatorWidget()),
+    GoRoute(
+        path: '/file-security/magic-bytes',
+        builder: (_, __) => const MagicBytesAnalyzerWidget()),
+    GoRoute(
+        path: '/file-security/entropy-analyzer',
+        builder: (_, __) => const FileEntropyAnalyzerWidget()),
+    GoRoute(
+        path: '/file-security/integrity-report',
+        builder: (_, __) => const IntegrityReportGeneratorWidget()),
+
+    // ── Forensics routes (NEW)
+    GoRoute(
+        path: '/forensics/exif-extractor',
+        builder: (_, __) => const ExifDataExtractorWidget()),
+    GoRoute(
+        path: '/forensics/exif-remover',
+        builder: (_, __) => const ExifMetadataRemoverWidget()),
+    GoRoute(
+        path: '/forensics/hex-dump',
+        builder: (_, __) => const HexDumpViewerWidget()),
+    GoRoute(
+        path: '/forensics/strings-extractor',
+        builder: (_, __) => const StringsExtractorWidget()),
+
+    // ── OSINT routes (NEW)
+    GoRoute(
+        path: '/osint/google-dorks',
+        builder: (_, __) => const GoogleDorksGeneratorWidget()),
+    GoRoute(
+        path: '/osint/data-extractor',
+        builder: (_, __) => const DataExtractorWidget()),
+    GoRoute(
+        path: '/osint/username-analyzer',
+        builder: (_, __) => const UsernameAnalyzerWidget()),
+    GoRoute(
+        path: '/osint/url-cleaner',
+        builder: (_, __) => const UrlTrackerCleanerWidget()),
 
     // ── System routes
     GoRoute(path: '/system/info', builder: (_, __) => const SystemInfoWidget()),

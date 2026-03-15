@@ -18,7 +18,8 @@ class OsintTools {
       category: ToolCategory.osint,
       icon: Icons.travel_explore,
       tags: ['google', 'dork', 'osint', 'search', 'recon'],
-      isAvailable: false,
+      isAvailable: true,
+      routePath: '/osint/google-dorks',
     ),
     ToolModel(
       id: 'email_extractor',
@@ -28,7 +29,8 @@ class OsintTools {
       category: ToolCategory.osint,
       icon: Icons.content_paste_search,
       tags: ['extract', 'email', 'ip', 'domain', 'regex'],
-      isAvailable: false,
+      isAvailable: true,
+      routePath: '/osint/data-extractor',
     ),
     ToolModel(
       id: 'phone_analyzer',
@@ -58,7 +60,8 @@ class OsintTools {
       category: ToolCategory.osint,
       icon: Icons.person_search,
       tags: ['username', 'osint', 'social', 'recon'],
-      isAvailable: false,
+      isAvailable: true,
+      routePath: '/osint/username-analyzer',
     ),
     ToolModel(
       id: 'subdomain_enum',
@@ -77,7 +80,8 @@ class OsintTools {
       category: ToolCategory.osint,
       icon: Icons.link_off,
       tags: ['url', 'tracking', 'clean', 'utm', 'privacy'],
-      isAvailable: false,
+      isAvailable: true,
+      routePath: '/osint/url-cleaner',
     ),
   ];
 }

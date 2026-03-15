@@ -18,7 +18,8 @@ class ForensicsTools {
       category: ToolCategory.forensics,
       icon: Icons.photo_camera_outlined,
       tags: ['exif', 'metadata', 'gps', 'image'],
-      isAvailable: false,
+      isAvailable: true,
+      routePath: '/forensics/exif-extractor',
     ),
     ToolModel(
       id: 'exif_remover',
@@ -27,7 +28,8 @@ class ForensicsTools {
       category: ToolCategory.forensics,
       icon: Icons.no_photography_outlined,
       tags: ['exif', 'metadata', 'remove', 'privacy'],
-      isAvailable: false,
+      isAvailable: true,
+      routePath: '/forensics/exif-remover',
     ),
     ToolModel(
       id: 'hex_dump',
@@ -36,7 +38,8 @@ class ForensicsTools {
       category: ToolCategory.forensics,
       icon: Icons.memory,
       tags: ['hex', 'dump', 'binary', 'viewer'],
-      isAvailable: false,
+      isAvailable: true,
+      routePath: '/forensics/hex-dump',
     ),
     ToolModel(
       id: 'strings_extractor',
@@ -46,7 +49,8 @@ class ForensicsTools {
       category: ToolCategory.forensics,
       icon: Icons.text_snippet_outlined,
       tags: ['strings', 'binary', 'extract', 'forensics'],
-      isAvailable: false,
+      isAvailable: true,
+      routePath: '/forensics/strings-extractor',
     ),
     ToolModel(
       id: 'file_entropy',

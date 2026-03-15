@@ -17,7 +17,8 @@ class FileSecurityTools {
       category: ToolCategory.fileSecurity,
       icon: Icons.folder_outlined,
       tags: ['file', 'hash', 'md5', 'sha256', 'integrity'],
-      isAvailable: false,
+      isAvailable: true,
+      routePath: '/file-security/hash-calculator',
     ),
     ToolModel(
       id: 'file_hash_compare',
@@ -27,7 +28,8 @@ class FileSecurityTools {
       category: ToolCategory.fileSecurity,
       icon: Icons.compare,
       tags: ['file', 'hash', 'compare', 'verify'],
-      isAvailable: false,
+      isAvailable: true,
+      routePath: '/file-security/hash-comparator',
     ),
     ToolModel(
       id: 'magic_bytes',
@@ -37,7 +39,8 @@ class FileSecurityTools {
       category: ToolCategory.fileSecurity,
       icon: Icons.code,
       tags: ['magic', 'bytes', 'mime', 'file', 'header'],
-      isAvailable: false,
+      isAvailable: true,
+      routePath: '/file-security/magic-bytes',
     ),
     ToolModel(
       id: 'integrity_report',
@@ -46,7 +49,8 @@ class FileSecurityTools {
       category: ToolCategory.fileSecurity,
       icon: Icons.summarize,
       tags: ['report', 'integrity', 'hash'],
-      isAvailable: false,
+      isAvailable: true,
+      routePath: '/file-security/integrity-report',
     ),
     ToolModel(
       id: 'entropy_analyzer_file',
@@ -56,7 +60,8 @@ class FileSecurityTools {
       category: ToolCategory.fileSecurity,
       icon: Icons.bar_chart,
       tags: ['entropy', 'file', 'analysis', 'crypto'],
-      isAvailable: false,
+      isAvailable: true,
+      routePath: '/file-security/entropy-analyzer',
     ),
     ToolModel(
       id: 'pe_header_analyzer',
