@@ -28,7 +28,8 @@ class WifiTools {
       category: ToolCategory.wifi,
       icon: Icons.qr_code,
       tags: ['wifi', 'qr', 'share', 'network'],
-      isAvailable: false,
+      isAvailable: true,
+      routePath: '/wifi/qr-generator',
     ),
     ToolModel(
       id: 'wifi_config_gen',
@@ -37,7 +38,8 @@ class WifiTools {
       category: ToolCategory.wifi,
       icon: Icons.router_outlined,
       tags: ['wpa3', 'wifi', 'config', 'security'],
-      isAvailable: false,
+      isAvailable: true,
+      routePath: '/wifi/wpa3-config',
     ),
     ToolModel(
       id: 'wifi_channel_calc',
@@ -47,7 +49,8 @@ class WifiTools {
       category: ToolCategory.wifi,
       icon: Icons.tune,
       tags: ['wifi', 'channel', '2.4ghz', '5ghz'],
-      isAvailable: false,
+      isAvailable: true,
+      routePath: '/wifi/channel-optimizer',
     ),
     ToolModel(
       id: 'wifi_range_calc',
@@ -57,7 +60,8 @@ class WifiTools {
       category: ToolCategory.wifi,
       icon: Icons.signal_cellular_alt,
       tags: ['wifi', 'range', 'friis', 'signal'],
-      isAvailable: false,
+      isAvailable: true,
+      routePath: '/wifi/range-calculator',
     ),
   ];
 }

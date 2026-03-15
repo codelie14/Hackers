@@ -88,6 +88,10 @@ import '../../features/qr_barcode/widgets/custom_qr_designer_widget.dart';
 
 // ── WiFi tools
 import '../../features/wifi/widgets/wifi_scanner_widget.dart';
+import '../../features/wifi/widgets/wifi_qr_generator_widget.dart';
+import '../../features/wifi/widgets/wifi_channel_optimizer_widget.dart';
+import '../../features/wifi/widgets/wifi_range_calculator_widget.dart';
+import '../../features/wifi/widgets/wpa3_config_generator_widget.dart';
 
 // ── Network tools
 import '../../features/network/widgets/ping_widget.dart';
@@ -98,9 +102,17 @@ import '../../features/network/widgets/firewall_rules_widget.dart';
 import '../../features/network/widgets/wake_on_lan_widget.dart';
 import '../../features/network/widgets/traceroute_widget.dart';
 import '../../features/network/widgets/reverse_dns_lookup_widget.dart';
+import '../../features/network/widgets/port_scanner_widget.dart';
+import '../../features/network/widgets/http_headers_analyzer_widget.dart';
+import '../../features/network/widgets/ssl_tls_analyzer_widget.dart';
 
 // ── System tools
 import '../../features/system/widgets/system_info_widget.dart';
+import '../../features/system/widgets/network_information_widget.dart';
+import '../../features/system/widgets/environment_variables_widget.dart';
+import '../../features/system/widgets/cpu_ram_monitor_widget.dart';
+import '../../features/system/widgets/security_audit_widget.dart';
+import '../../features/system/widgets/system_report_generator_widget.dart';
 
 // Splash screen
 import '../../features/splash/splash_screen.dart';
@@ -334,6 +346,18 @@ final GoRouter appRouter = GoRouter(
     // ── WiFi routes
     GoRoute(
         path: '/wifi/scanner', builder: (_, __) => const WifiScannerWidget()),
+    GoRoute(
+        path: '/wifi/qr-generator',
+        builder: (_, __) => const WiFiQRGeneratorWidget()),
+    GoRoute(
+        path: '/wifi/channel-optimizer',
+        builder: (_, __) => const WiFiChannelOptimizerWidget()),
+    GoRoute(
+        path: '/wifi/range-calculator',
+        builder: (_, __) => const WiFiRangeCalculatorWidget()),
+    GoRoute(
+        path: '/wifi/wpa3-config',
+        builder: (_, __) => const WPA3ConfigGeneratorWidget()),
 
     // ── Network routes
     GoRoute(path: '/network/ping', builder: (_, __) => const PingToolWidget()),
@@ -356,9 +380,33 @@ final GoRouter appRouter = GoRouter(
     GoRoute(
         path: '/network/reverse-dns',
         builder: (_, __) => const ReverseDnsLookupWidget()),
+    GoRoute(
+        path: '/network/port-scanner',
+        builder: (_, __) => const PortScannerWidget()),
+    GoRoute(
+        path: '/network/http-headers',
+        builder: (_, __) => const HttpHeadersAnalyzerWidget()),
+    GoRoute(
+        path: '/network/ssl-tls',
+        builder: (_, __) => const SSLTLSAnalyzerWidget()),
 
     // ── System routes
     GoRoute(path: '/system/info', builder: (_, __) => const SystemInfoWidget()),
+    GoRoute(
+        path: '/system/network-info',
+        builder: (_, __) => const NetworkInformationWidget()),
+    GoRoute(
+        path: '/system/env-variables',
+        builder: (_, __) => const EnvironmentVariablesWidget()),
+    GoRoute(
+        path: '/system/cpu-monitor',
+        builder: (_, __) => const CPURAMMonitorWidget()),
+    GoRoute(
+        path: '/system/security-audit',
+        builder: (_, __) => const SecurityAuditWidget()),
+    GoRoute(
+        path: '/system/report',
+        builder: (_, __) => const SystemReportGeneratorWidget()),
   ],
   errorBuilder: (ctx, state) => Scaffold(
     backgroundColor: const Color(0xFF0A0F1E),

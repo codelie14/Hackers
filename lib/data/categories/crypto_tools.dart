@@ -191,7 +191,8 @@ class CryptoTools {
       category: ToolCategory.crypto,
       icon: Icons.lock_person,
       tags: ['rsa', 'encrypt', 'decrypt'],
-      isAvailable: false,
+      isAvailable: true,
+      routePath: '/crypto/rsa-encrypt',
     ),
     ToolModel(
       id: 'random_key_gen',

@@ -28,7 +28,8 @@ class SystemTools {
       category: ToolCategory.systemTools,
       icon: Icons.network_check,
       tags: ['network', 'ip', 'mac', 'interface'],
-      isAvailable: false,
+      isAvailable: true,
+      routePath: '/system/network-info',
     ),
     ToolModel(
       id: 'env_variables',
@@ -37,7 +38,8 @@ class SystemTools {
       category: ToolCategory.systemTools,
       icon: Icons.settings_suggest_outlined,
       tags: ['env', 'environment', 'variables', 'system'],
-      isAvailable: false,
+      isAvailable: true,
+      routePath: '/system/env-variables',
     ),
     ToolModel(
       id: 'cpu_monitor',
@@ -47,7 +49,8 @@ class SystemTools {
       category: ToolCategory.systemTools,
       icon: Icons.monitor_heart_outlined,
       tags: ['cpu', 'ram', 'monitor', 'performance'],
-      isAvailable: false,
+      isAvailable: true,
+      routePath: '/system/cpu-monitor',
     ),
     ToolModel(
       id: 'security_audit',
@@ -57,7 +60,8 @@ class SystemTools {
       category: ToolCategory.systemTools,
       icon: Icons.security_update_good,
       tags: ['audit', 'security', 'suid', 'ssh', 'ports'],
-      isAvailable: false,
+      isAvailable: true,
+      routePath: '/system/security-audit',
     ),
     ToolModel(
       id: 'system_report',
@@ -67,7 +71,8 @@ class SystemTools {
       category: ToolCategory.systemTools,
       icon: Icons.summarize_outlined,
       tags: ['report', 'system', 'export', 'json'],
-      isAvailable: false,
+      isAvailable: true,
+      routePath: '/system/report',
     ),
   ];
 }
