@@ -51,8 +51,9 @@ class NetworkTools {
       category: ToolCategory.network,
       icon: Icons.radar,
       tags: ['port', 'scan', 'nmap', 'network'],
-      isAvailable: false,
+      isAvailable: true,
       requiresNetwork: true,
+      routePath: '/network/port-scanner',
     ),
     ToolModel(
       id: 'ip_converter',
@@ -84,7 +85,8 @@ class NetworkTools {
       category: ToolCategory.network,
       icon: Icons.http,
       tags: ['http', 'headers', 'security', 'csp', 'hsts'],
-      isAvailable: false,
+      isAvailable: true,
+      routePath: '/network/http-headers',
     ),
     ToolModel(
       id: 'ssl_analyzer',
@@ -94,8 +96,9 @@ class NetworkTools {
       category: ToolCategory.network,
       icon: Icons.https_outlined,
       tags: ['ssl', 'tls', 'certificate', 'cipher'],
-      isAvailable: false,
+      isAvailable: true,
       requiresNetwork: true,
+      routePath: '/network/ssl-tls',
     ),
     ToolModel(
       id: 'wake_on_lan',
@@ -114,8 +117,9 @@ class NetworkTools {
       category: ToolCategory.network,
       icon: Icons.find_replace,
       tags: ['rdns', 'ptr', 'reverse', 'dns'],
-      isAvailable: false,
+      isAvailable: true,
       requiresNetwork: true,
+      routePath: '/network/reverse-dns',
     ),
     ToolModel(
       id: 'traceroute',
@@ -125,8 +129,9 @@ class NetworkTools {
       category: ToolCategory.network,
       icon: Icons.route,
       tags: ['traceroute', 'hop', 'network', 'trace'],
-      isAvailable: false,
+      isAvailable: true,
       requiresNetwork: true,
+      routePath: '/network/traceroute',
     ),
   ];
 }
