@@ -19,496 +19,1786 @@ class _FakeDataGeneratorWidgetState
     extends ConsumerState<FakeDataGeneratorWidget> {
   int _count = 5;
   String _result = '';
+  String _selectedFormat = 'TEXT';
+  String _selectedLocale = 'GLOBAL';
+  bool _includeSSN = false;
+  bool _includeCreditCard = false;
+  bool _includeIPAddress = false;
+  bool _includeMACAddress = false;
+  bool _includeUserAgent = false;
+  bool _includeJobTitle = true;
+  bool _includeUsername = true;
+  bool _includePassword = true;
 
+  final _countController = TextEditingController(text: '5');
   final Random _random = Random();
 
+  static const List<String> _formats = ['TEXT', 'JSON', 'CSV', 'SQL'];
+  static const List<String> _locales = [
+    'GLOBAL',
+    'EN',
+    'FR',
+    'ES',
+    'DE',
+    'IT',
+    'PT',
+    'AR',
+    'ZH',
+    'JA',
+    'AF',
+    'IN',
+    'RU',
+    'TR',
+  ];
+
   // ═══════════════════════════════════════════════════════════════
-// SAMPLE DATA POOLS — Hackers Fake Identity Generator
-// Covers: EN, FR, ES, DE, PT, IT, AR, CN, JP, AF, NG, CI
-// ═══════════════════════════════════════════════════════════════
+  // DATA POOLS
+  // ═══════════════════════════════════════════════════════════════
 
-// ── FIRST NAMES ──────────────────────────────────────────────
-  final List<String> _firstNames = [
-    // English / American
-    'James', 'Mary', 'John', 'Patricia', 'Robert', 'Jennifer',
-    'Michael', 'Linda', 'William', 'Elizabeth', 'David', 'Barbara',
-    'Richard', 'Susan', 'Joseph', 'Jessica', 'Thomas', 'Sarah',
-    'Charles', 'Karen', 'Christopher', 'Nancy', 'Daniel', 'Lisa',
-    'Matthew', 'Betty', 'Anthony', 'Margaret', 'Donald', 'Sandra',
-    'Mark', 'Ashley', 'Paul', 'Dorothy', 'Steven', 'Kimberly',
-    'Andrew', 'Emily', 'Kenneth', 'Donna', 'Joshua', 'Michelle',
-    'Kevin', 'Carol', 'Brian', 'Amanda', 'George', 'Melissa',
-    'Edward', 'Deborah', 'Ronald', 'Stephanie', 'Timothy', 'Rebecca',
+  static const Map<String, List<String>> _firstNamesByLocale = {
+    'EN': [
+      'James',
+      'Mary',
+      'John',
+      'Patricia',
+      'Robert',
+      'Jennifer',
+      'Michael',
+      'Linda',
+      'William',
+      'Elizabeth',
+      'David',
+      'Barbara',
+      'Richard',
+      'Susan',
+      'Joseph',
+      'Jessica',
+      'Thomas',
+      'Sarah',
+      'Charles',
+      'Karen',
+      'Christopher',
+      'Nancy',
+      'Daniel',
+      'Lisa',
+      'Matthew',
+      'Betty',
+      'Anthony',
+      'Margaret',
+      'Donald',
+      'Sandra',
+      'Mark',
+      'Ashley',
+      'Paul',
+      'Dorothy',
+      'Steven',
+      'Kimberly',
+      'Andrew',
+      'Emily',
+      'Kenneth',
+      'Donna',
+      'Joshua',
+      'Michelle',
+      'Kevin',
+      'Carol',
+      'Brian',
+      'Amanda',
+      'George',
+      'Melissa',
+      'Edward',
+      'Deborah',
+      'Ronald',
+      'Stephanie',
+      'Timothy',
+      'Rebecca',
+      'Jason',
+      'Sharon',
+      'Ryan',
+      'Cynthia',
+      'Jacob',
+      'Angela',
+      'Gary',
+      'Helen',
+      'Eric',
+      'Diane',
+      'Jonathan',
+      'Brenda',
+      'Stephen',
+      'Amy',
+      'Larry',
+      'Anna',
+      'Justin',
+      'Rebecca',
+      'Scott',
+      'Virginia',
+      'Brandon',
+      'Kathleen',
+      'Frank',
+      'Pamela',
+      'Raymond',
+      'Martha',
+      'Gregory',
+      'Debra',
+      'Samuel',
+      'Amanda',
+      'Benjamin',
+      'Stephanie',
+      'Patrick',
+      'Carolyn',
+      'Jack',
+      'Christine',
+    ],
+    'FR': [
+      'Jean',
+      'Marie',
+      'Pierre',
+      'Sophie',
+      'Louis',
+      'Camille',
+      'François',
+      'Isabelle',
+      'Henri',
+      'Nathalie',
+      'Philippe',
+      'Céline',
+      'Nicolas',
+      'Aurélie',
+      'Julien',
+      'Mathilde',
+      'Antoine',
+      'Claire',
+      'Sébastien',
+      'Amélie',
+      'Alexandre',
+      'Laure',
+      'Maxime',
+      'Margot',
+      'Théo',
+      'Chloé',
+      'Lucas',
+      'Emma',
+      'Hugo',
+      'Léa',
+      'Étienne',
+      'Pauline',
+      'Benoît',
+      'Virginie',
+      'Luc',
+      'Élise',
+      'Gaston',
+      'Geneviève',
+      'Armand',
+      'Brigitte',
+      'Christophe',
+      'Sylvie',
+      'Damien',
+      'Dominique',
+      'Édouard',
+      'Florence',
+      'Gilles',
+      'Hélène',
+      'Jacques',
+      'Joëlle',
+      'Laurent',
+      'Monique',
+      'Marcel',
+      'Odette',
+      'Patrice',
+      'Renée',
+      'Roger',
+      'Solange',
+      'Thierry',
+      'Yvette',
+      'Baptiste',
+      'Lucie',
+      'Raphaël',
+      'Inès',
+      'Gabriel',
+      'Manon',
+      'Axel',
+      'Jade',
+      'Nathan',
+      'Zoé',
+      'Tom',
+      'Alice',
+    ],
+    'ES': [
+      'Carlos',
+      'Ana',
+      'Miguel',
+      'Sofía',
+      'Juan',
+      'Isabella',
+      'Luis',
+      'Valentina',
+      'Alejandro',
+      'Camila',
+      'Diego',
+      'Daniela',
+      'Andrés',
+      'Mariana',
+      'Fernando',
+      'Fernanda',
+      'Ricardo',
+      'Gabriela',
+      'Sebastián',
+      'Paula',
+      'Rodrigo',
+      'Natalia',
+      'Pablo',
+      'Valeria',
+      'Jorge',
+      'Lucía',
+      'Javier',
+      'Elena',
+      'Manuel',
+      'Beatriz',
+      'Emilio',
+      'Rosa',
+      'Rafael',
+      'Carmen',
+      'Eduardo',
+      'Pilar',
+      'Álvaro',
+      'Cristina',
+      'Ernesto',
+      'Dolores',
+      'Francisco',
+      'Esperanza',
+      'Gerardo',
+      'Gloria',
+      'Héctor',
+      'Irene',
+      'Ignacio',
+      'Josefina',
+      'Lorenzo',
+      'Mercedes',
+      'Marcos',
+      'Paloma',
+      'Oscar',
+      'Raquel',
+      'Ramón',
+      'Teresa',
+      'Salvador',
+      'Verónica',
+      'Víctor',
+      'Ximena',
+      'Mateo',
+      'Martina',
+      'Santiago',
+      'Renata',
+      'Tomás',
+      'Catalina',
+    ],
+    'DE': [
+      'Hans',
+      'Monika',
+      'Klaus',
+      'Ursula',
+      'Dieter',
+      'Brigitte',
+      'Günter',
+      'Helga',
+      'Wolfgang',
+      'Ingrid',
+      'Friedrich',
+      'Renate',
+      'Stefan',
+      'Sabine',
+      'Thomas',
+      'Petra',
+      'Andreas',
+      'Susanne',
+      'Markus',
+      'Claudia',
+      'Lukas',
+      'Anna',
+      'Tobias',
+      'Lena',
+      'Felix',
+      'Hannah',
+      'Leon',
+      'Mia',
+      'Jonas',
+      'Laura',
+      'Bernd',
+      'Angelika',
+      'Christoph',
+      'Dagmar',
+      'Erich',
+      'Elfriede',
+      'Franz',
+      'Gertrud',
+      'Georg',
+      'Hildegard',
+      'Heinrich',
+      'Ilse',
+      'Johann',
+      'Käthe',
+      'Karl',
+      'Lieselotte',
+      'Kurt',
+      'Margret',
+      'Max',
+      'Marianne',
+      'Norbert',
+      'Ottilie',
+      'Otto',
+      'Paula',
+      'Peter',
+      'Roswitha',
+      'Rudolf',
+      'Sigrid',
+      'Walter',
+      'Waltraud',
+      'Elias',
+      'Sophia',
+      'Noah',
+      'Emma',
+      'Ben',
+      'Marie',
+    ],
+    'IT': [
+      'Marco',
+      'Giulia',
+      'Luca',
+      'Martina',
+      'Alessandro',
+      'Sara',
+      'Francesco',
+      'Laura',
+      'Andrea',
+      'Sofia',
+      'Matteo',
+      'Chiara',
+      'Davide',
+      'Alice',
+      'Lorenzo',
+      'Elena',
+      'Simone',
+      'Federica',
+      'Roberto',
+      'Valentina',
+      'Stefano',
+      'Elisa',
+      'Riccardo',
+      'Silvia',
+      'Antonio',
+      'Anna',
+      'Giorgio',
+      'Paola',
+      'Mario',
+      'Carla',
+      'Paolo',
+      'Lucia',
+      'Giuseppe',
+      'Claudia',
+      'Angelo',
+      'Monica',
+      'Carlo',
+      'Francesca',
+      'Enrico',
+      'Giovanna',
+      'Fabrizio',
+      'Serena',
+      'Gianluca',
+      'Roberta',
+      'Claudio',
+      'Patrizia',
+      'Massimo',
+      'Daniela',
+      'Nicola',
+      'Alessia',
+      'Tommaso',
+      'Beatrice',
+      'Leonardo',
+      'Aurora',
+    ],
+    'PT': [
+      'João',
+      'Ana',
+      'Pedro',
+      'Mariana',
+      'Paulo',
+      'Juliana',
+      'Felipe',
+      'Beatriz',
+      'Gabriel',
+      'Fernanda',
+      'Rafael',
+      'Larissa',
+      'Rodrigo',
+      'Amanda',
+      'Bruno',
+      'Camila',
+      'Gustavo',
+      'Natália',
+      'Leonardo',
+      'Patrícia',
+      'Mateus',
+      'Gabriela',
+      'Thiago',
+      'Carolina',
+      'André',
+      'Catarina',
+      'António',
+      'Inês',
+      'Carlos',
+      'Marta',
+      'Eduardo',
+      'Sofia',
+      'Henrique',
+      'Raquel',
+      'Luís',
+      'Cristina',
+      'Diogo',
+      'Francisca',
+      'Filipe',
+      'Helena',
+      'Miguel',
+      'Joana',
+      'Nuno',
+      'Leonor',
+      'Ricardo',
+      'Teresa',
+      'Rui',
+      'Verónica',
+    ],
+    'AR': [
+      'Mohammed',
+      'Fatima',
+      'Ahmed',
+      'Aisha',
+      'Ali',
+      'Maryam',
+      'Omar',
+      'Nour',
+      'Ibrahim',
+      'Layla',
+      'Hassan',
+      'Yasmin',
+      'Youssef',
+      'Hana',
+      'Khalid',
+      'Rania',
+      'Tariq',
+      'Salma',
+      'Bilal',
+      'Dina',
+      'Kareem',
+      'Iman',
+      'Ziad',
+      'Nadia',
+      'Samir',
+      'Lina',
+      'Malik',
+      'Amira',
+      'Faisal',
+      'Noura',
+      'Adnan',
+      'Basma',
+      'Badr',
+      'Ghada',
+      'Emad',
+      'Hind',
+      'Faris',
+      'Inas',
+      'Ghassan',
+      'Jamila',
+      'Hamza',
+      'Khulood',
+      'Issam',
+      'Leila',
+      'Jamal',
+      'Mona',
+      'Kamal',
+      'Nawal',
+      'Lotfi',
+      'Oum',
+      'Mounir',
+      'Radhia',
+      'Nabil',
+      'Saoussen',
+      'Rachid',
+      'Souad',
+      'Walid',
+      'Widad',
+      'Tarek',
+      'Zineb',
+    ],
+    'ZH': [
+      'Wei',
+      'Xia',
+      'Ming',
+      'Ying',
+      'Jian',
+      'Mei',
+      'Hao',
+      'Li',
+      'Feng',
+      'Yan',
+      'Tao',
+      'Xue',
+      'Jun',
+      'Hua',
+      'Chao',
+      'Ping',
+      'Lei',
+      'Yun',
+      'Rui',
+      'Qian',
+      'Zheng',
+      'Lan',
+      'Bo',
+      'Fang',
+      'Chen',
+      'Jing',
+      'Gang',
+      'Hong',
+      'Hui',
+      'Juan',
+      'Kun',
+      'Ling',
+      'Long',
+      'Min',
+      'Nan',
+      'Peng',
+      'Qi',
+      'Qiang',
+      'Qing',
+      'Sheng',
+      'Shu',
+      'Ting',
+      'Wen',
+      'Xin',
+      'Yang',
+      'Yong',
+      'Yu',
+      'Zhen',
+    ],
+    'JA': [
+      'Hiroshi',
+      'Yuki',
+      'Kenji',
+      'Sakura',
+      'Takashi',
+      'Aiko',
+      'Ryota',
+      'Haruka',
+      'Shota',
+      'Nana',
+      'Daiki',
+      'Yui',
+      'Kazuki',
+      'Miyu',
+      'Sho',
+      'Riko',
+      'Naoki',
+      'Hana',
+      'Yuto',
+      'Rin',
+      'Kento',
+      'Moe',
+      'Ren',
+      'Saki',
+      'Akira',
+      'Ayaka',
+      'Daisuke',
+      'Emi',
+      'Fumiya',
+      'Fumiko',
+      'Hayato',
+      'Hikari',
+      'Ichiro',
+      'Izumi',
+      'Jiro',
+      'Junko',
+      'Kaito',
+      'Kanako',
+      'Makoto',
+      'Manami',
+      'Naoto',
+      'Noriko',
+      'Osamu',
+      'Reiko',
+      'Satoshi',
+      'Tomoko',
+      'Toshio',
+      'Yoshiko',
+    ],
+    'AF': [
+      // West Africa
+      'Kwame', 'Abena', 'Kofi', 'Ama', 'Kweku', 'Akosua',
+      'Emeka', 'Ngozi', 'Chukwu', 'Adaeze', 'Tunde', 'Funmilayo',
+      'Segun', 'Bisi', 'Femi', 'Yetunde', 'Oluwaseun', 'Chioma',
+      'Moussa', 'Kadiatou', 'Ibrahima', 'Fatoumata', 'Mamadou', 'Aminata',
+      'Kouassi', 'Adjoua', 'Koffi', 'Ahou', 'Yao', 'Aya',
+      'Seydou', 'Mariam', 'Cheikh', 'Rokhaya', 'Ousmane', 'Binta',
+      'Modibo', 'Djeneba', 'Bakary', 'Rokiatou', 'Issouf', 'Assitan',
+      'Adama', 'Kadija', 'Bouba', 'Hawa', 'Daouda', 'Ramata',
+      // East & Southern Africa
+      'Jabari', 'Amara', 'Chidi', 'Zuri', 'Tau', 'Imani',
+      'Tendai', 'Rudo', 'Tatenda', 'Chipo', 'Takudzwa', 'Tsitsi',
+      'Abebe', 'Tigist', 'Dawit', 'Selam', 'Yonas', 'Hiwot',
+      'Sipho', 'Lindiwe', 'Thabo', 'Nomsa', 'Bongani', 'Zanele',
+      'Kamau', 'Wanjiru', 'Mwangi', 'Njeri', 'Kipchoge', 'Akinyi',
+      'Onyeka', 'Adaora', 'Ifeanyi', 'Obiageli', 'Chukwuemeka', 'Nkechi',
+    ],
+    'IN': [
+      // South Asian
+      'Arjun', 'Priya', 'Rahul', 'Ananya', 'Vikram', 'Divya',
+      'Aditya', 'Kavya', 'Rohan', 'Shreya', 'Kiran', 'Pooja',
+      'Suresh', 'Rekha', 'Ravi', 'Meera', 'Amit', 'Sunita',
+      'Imran', 'Sana', 'Zain', 'Ayesha', 'Hamid', 'Rabia',
+      'Farhan', 'Nadia', 'Asif', 'Hira', 'Tariq', 'Zara',
+      'Aarav', 'Aanya', 'Vivaan', 'Diya', 'Sai', 'Myra',
+      'Arnav', 'Kiara', 'Ishaan', 'Sara', 'Kabir', 'Nisha',
+      'Raj', 'Deepa', 'Nikhil', 'Swati', 'Sachin', 'Sneha',
+      // Southeast Asian
+      'Minh', 'Linh', 'Duc', 'Huong', 'Khang', 'Trang',
+      'Somchai', 'Malee', 'Krit', 'Nong', 'Panya', 'Araya',
+      'Budi', 'Sari', 'Rizky', 'Dewi', 'Andi', 'Fitri',
+      'Jose', 'Maria', 'Angelo', 'Angelica', 'Renz', 'Pia',
+    ],
+    'RU': [
+      'Dmitri',
+      'Natasha',
+      'Alexei',
+      'Olga',
+      'Ivan',
+      'Tatiana',
+      'Sergei',
+      'Elena',
+      'Vladimir',
+      'Irina',
+      'Andrei',
+      'Anastasia',
+      'Nikolai',
+      'Svetlana',
+      'Mikhail',
+      'Yulia',
+      'Pavel',
+      'Oksana',
+      'Artem',
+      'Daria',
+      'Evgeny',
+      'Yelena',
+      'Ilya',
+      'Polina',
+      'Boris',
+      'Galina',
+      'Georgy',
+      'Inna',
+      'Igor',
+      'Katerina',
+      'Kirill',
+      'Ksenia',
+      'Leonid',
+      'Lyudmila',
+      'Maxim',
+      'Marina',
+      'Oleg',
+      'Nadezda',
+      'Roman',
+      'Tamara',
+      'Ruslan',
+      'Valentina',
+      'Stanislav',
+      'Vera',
+      'Timur',
+      'Viktoria',
+      'Vasily',
+      'Yuliya',
+      'Alexander',
+      'Natalya',
+      'Alexey',
+      'Ekaterina',
+      'Aleksei',
+      'Sofiya',
+    ],
+    'TR': [
+      'Mehmet',
+      'Ayşe',
+      'Mustafa',
+      'Fatma',
+      'Ahmet',
+      'Zeynep',
+      'Ali',
+      'Elif',
+      'Hüseyin',
+      'Emine',
+      'Murat',
+      'Hatice',
+      'Ömer',
+      'Büşra',
+      'Yusuf',
+      'Merve',
+      'İbrahim',
+      'Selin',
+      'Abdullah',
+      'Esra',
+      'İsmail',
+      'Gülsüm',
+      'Osman',
+      'Hacer',
+      'Ramazan',
+      'Havva',
+      'Süleyman',
+      'Kübra',
+      'Serkan',
+      'Özge',
+      'Emre',
+      'Tuğba',
+      'Burak',
+      'Aslı',
+      'Can',
+      'Deniz',
+      'Cem',
+      'Ceren',
+      'Berk',
+      'Pınar',
+      'Umut',
+      'Buse',
+    ],
+  };
 
-    // French
-    'Jean', 'Marie', 'Pierre', 'Sophie', 'Louis', 'Camille',
-    'François', 'Isabelle', 'Henri', 'Nathalie', 'Philippe', 'Céline',
-    'Nicolas', 'Aurélie', 'Julien', 'Mathilde', 'Antoine', 'Claire',
-    'Sébastien', 'Amélie', 'Alexandre', 'Laure', 'Maxime', 'Margot',
-    'Théo', 'Chloé', 'Lucas', 'Emma', 'Hugo', 'Léa',
-    'Étienne', 'Pauline', 'Benoît', 'Virginie', 'Luc', 'Élise',
+  static const Map<String, List<String>> _lastNamesByLocale = {
+    'EN': [
+      'Smith',
+      'Johnson',
+      'Williams',
+      'Brown',
+      'Jones',
+      'Garcia',
+      'Miller',
+      'Davis',
+      'Rodriguez',
+      'Martinez',
+      'Hernandez',
+      'Lopez',
+      'Gonzalez',
+      'Wilson',
+      'Anderson',
+      'Thomas',
+      'Taylor',
+      'Moore',
+      'Jackson',
+      'Martin',
+      'Lee',
+      'Perez',
+      'Thompson',
+      'White',
+      'Harris',
+      'Sanchez',
+      'Clark',
+      'Ramirez',
+      'Lewis',
+      'Robinson',
+      'Walker',
+      'Young',
+      'Allen',
+      'King',
+      'Wright',
+      'Scott',
+      'Torres',
+      'Nguyen',
+      'Hill',
+      'Flores',
+      'Green',
+      'Adams',
+      'Nelson',
+      'Baker',
+      'Hall',
+      'Rivera',
+      'Campbell',
+      'Mitchell',
+      'Carter',
+      'Roberts',
+      'Phillips',
+      'Evans',
+      'Turner',
+      'Parker',
+      'Collins',
+      'Edwards',
+      'Stewart',
+      'Flores',
+      'Morris',
+      'Nguyen',
+      'Murphy',
+      'Cook',
+      'Rogers',
+      'Morgan',
+      'Peterson',
+      'Cooper',
+      'Reed',
+      'Bailey',
+      'Bell',
+      'Gomez',
+      'Kelly',
+      'Howard',
+    ],
+    'FR': [
+      'Martin',
+      'Bernard',
+      'Thomas',
+      'Petit',
+      'Robert',
+      'Richard',
+      'Durand',
+      'Dubois',
+      'Moreau',
+      'Laurent',
+      'Simon',
+      'Michel',
+      'Lefebvre',
+      'Leroy',
+      'Roux',
+      'David',
+      'Bertrand',
+      'Morel',
+      'Fournier',
+      'Girard',
+      'Bonnet',
+      'Dupont',
+      'Lambert',
+      'Fontaine',
+      'Rousseau',
+      'Vincent',
+      'Muller',
+      'Lefevre',
+      'Faure',
+      'Andre',
+      'Mercier',
+      'Blanc',
+      'Guerin',
+      'Boyer',
+      'Garnier',
+      'Chevalier',
+      'François',
+      'Legrand',
+      'Gauthier',
+      'Garcia',
+      'Perrin',
+      'Robin',
+      'Clement',
+      'Morin',
+      'Nicolas',
+      'Henry',
+      'Roussel',
+      'Mathieu',
+      'Gautier',
+      'Masson',
+      'Marchand',
+      'Duval',
+      'Denis',
+      'Dumont',
+    ],
+    'ES': [
+      'García',
+      'Martínez',
+      'López',
+      'González',
+      'Rodríguez',
+      'Fernández',
+      'Sánchez',
+      'Pérez',
+      'Gómez',
+      'Martín',
+      'Jiménez',
+      'Ruiz',
+      'Hernández',
+      'Díaz',
+      'Moreno',
+      'Álvarez',
+      'Romero',
+      'Alonso',
+      'Gutiérrez',
+      'Navarro',
+      'Torres',
+      'Domínguez',
+      'Vásquez',
+      'Ramos',
+      'Gil',
+      'Ramírez',
+      'Cruz',
+      'Flores',
+      'Molina',
+      'Ortega',
+      'Delgado',
+      'Castro',
+      'Ortiz',
+      'Rubio',
+      'Marín',
+      'Sanz',
+      'Iglesias',
+      'Núñez',
+      'Medina',
+      'Garrido',
+      'Cortés',
+      'Castillo',
+      'Santos',
+      'Lozano',
+      'Guerrero',
+      'Cano',
+      'Prieto',
+      'Méndez',
+    ],
+    'DE': [
+      'Müller',
+      'Schmidt',
+      'Schneider',
+      'Fischer',
+      'Weber',
+      'Meyer',
+      'Wagner',
+      'Becker',
+      'Schulz',
+      'Hoffmann',
+      'Schäfer',
+      'Koch',
+      'Bauer',
+      'Richter',
+      'Klein',
+      'Wolf',
+      'Schröder',
+      'Neumann',
+      'Schwarz',
+      'Zimmermann',
+      'Braun',
+      'Krüger',
+      'Hofmann',
+      'Hartmann',
+      'Lange',
+      'Schmitt',
+      'Werner',
+      'Krause',
+      'Meier',
+      'Lehmann',
+      'Schmid',
+      'Schulze',
+      'Maier',
+      'Köhler',
+      'Herrmann',
+      'König',
+      'Walter',
+      'Mayer',
+      'Huber',
+      'Kaiser',
+      'Fuchs',
+      'Peters',
+      'Lang',
+      'Scholz',
+      'Möller',
+      'Weiß',
+      'Jung',
+      'Hahn',
+    ],
+    'IT': [
+      'Rossi',
+      'Russo',
+      'Ferrari',
+      'Esposito',
+      'Bianchi',
+      'Romano',
+      'Colombo',
+      'Ricci',
+      'Marino',
+      'Greco',
+      'Bruno',
+      'Gallo',
+      'Conti',
+      'De Luca',
+      'Mancini',
+      'Costa',
+      'Giordano',
+      'Rizzo',
+      'Lombardi',
+      'Moretti',
+      'Barbieri',
+      'Fontana',
+      'Santoro',
+      'Marini',
+      'Fabbri',
+      'Gentile',
+      'Leone',
+      'Serra',
+      'Conte',
+      'Villa',
+      'Ferri',
+      'Martini',
+      'De Angelis',
+      'Longo',
+      'Coppola',
+      'Orlando',
+      'Marchetti',
+      'Cattaneo',
+      'Galli',
+      'Poli',
+      'Testa',
+      'Amato',
+    ],
+    'PT': [
+      'Silva',
+      'Santos',
+      'Oliveira',
+      'Souza',
+      'Rodrigues',
+      'Ferreira',
+      'Alves',
+      'Pereira',
+      'Lima',
+      'Gomes',
+      'Ribeiro',
+      'Carvalho',
+      'Almeida',
+      'Lopes',
+      'Sousa',
+      'Fernandes',
+      'Vasconcellos',
+      'Pinto',
+      'Teixeira',
+      'Magalhães',
+      'Barbosa',
+      'Moreira',
+      'Cunha',
+      'Cavalcanti',
+      'Azevedo',
+      'Cardoso',
+      'Costa',
+      'Monteiro',
+      'Nunes',
+      'Correia',
+      'Marques',
+      'Vieira',
+      'Mendes',
+      'Figueiredo',
+      'Freitas',
+      'Castro',
+    ],
+    'AR': [
+      'Al-Amin',
+      'Hassan',
+      'Hussein',
+      'Ibrahim',
+      'Khalil',
+      'Mansour',
+      'Nasser',
+      'Omar',
+      'Qureshi',
+      'Rahman',
+      'Siddiqui',
+      'Youssef',
+      'Zaman',
+      'Aziz',
+      'Badr',
+      'Darwish',
+      'Fadel',
+      'Ghali',
+      'Al-Rashid',
+      'Al-Farsi',
+      'Hamdan',
+      'Idris',
+      'Jabir',
+      'Karimi',
+      'Al-Harbi',
+      'Al-Otaibi',
+      'Al-Dosari',
+      'Al-Qahtani',
+      'Al-Ghamdi',
+      'Al-Zahrani',
+      'Al-Shehri',
+      'Al-Maliki',
+      'Al-Anazi',
+      'Al-Mutairi',
+      'Al-Subaie',
+      'Al-Harthi',
+      'Ben Ali',
+      'Ben Salem',
+      'Ben Youssef',
+      'Belhadj',
+      'Benali',
+      'Bouazizi',
+      'Chaouachi',
+      'El Fassi',
+      'El Idrissi',
+      'Filali',
+      'Lahlou',
+      'Tazi',
+    ],
+    'ZH': [
+      'Wang',
+      'Li',
+      'Zhang',
+      'Liu',
+      'Chen',
+      'Yang',
+      'Huang',
+      'Zhao',
+      'Wu',
+      'Zhou',
+      'Sun',
+      'Ma',
+      'Zhu',
+      'Hu',
+      'Guo',
+      'He',
+      'Lin',
+      'Gao',
+      'Luo',
+      'Zheng',
+      'Liang',
+      'Xie',
+      'Tang',
+      'Xu',
+      'Han',
+      'Feng',
+      'Deng',
+      'Cao',
+      'Peng',
+      'Song',
+      'Xiao',
+      'Cheng',
+      'Pan',
+      'Cai',
+      'Jiang',
+      'Dong',
+      'Shen',
+      'Ye',
+      'Ding',
+      'Wei',
+      'Xue',
+      'Yue',
+      'Lu',
+      'Fu',
+      'Fang',
+      'Ren',
+      'Su',
+      'Dai',
+    ],
+    'JA': [
+      'Sato',
+      'Suzuki',
+      'Takahashi',
+      'Tanaka',
+      'Watanabe',
+      'Ito',
+      'Yamamoto',
+      'Nakamura',
+      'Kobayashi',
+      'Kato',
+      'Yoshida',
+      'Yamada',
+      'Sasaki',
+      'Yamaguchi',
+      'Matsumoto',
+      'Inoue',
+      'Kimura',
+      'Hayashi',
+      'Shimizu',
+      'Yamazaki',
+      'Mori',
+      'Abe',
+      'Ikeda',
+      'Hashimoto',
+      'Yamashita',
+      'Ishikawa',
+      'Nakajima',
+      'Maeda',
+      'Fujita',
+      'Ogawa',
+      'Okamoto',
+      'Matsuda',
+      'Nakagawa',
+      'Nishimura',
+      'Fujii',
+      'Goto',
+      'Okada',
+      'Hasegawa',
+      'Murakami',
+      'Kondo',
+      'Ishida',
+      'Saito',
+    ],
+    'AF': [
+      // West Africa
+      'Diallo', 'Konaté', 'Traoré', 'Coulibaly', 'Keïta', 'Diarra',
+      'Touré', 'Camara', 'Bah', 'Sylla', 'Sow', 'Barry',
+      'Okafor', 'Adeyemi', 'Okonkwo', 'Nwosu', 'Eze', 'Obi',
+      'Mensah', 'Asante', 'Boateng', 'Owusu', 'Acheampong', 'Amoah',
+      'Kouassi', 'Konan', 'Koffi', 'Yao', 'Brou', 'Diabaté',
+      'Kouyaté', 'Dramé', 'Baldé', 'Cissé', 'Ndiaye', 'Fall',
+      'Mbaye', 'Diop', 'Sène', 'Gueye', 'Sarr', 'Thiaw',
+      'Sanogo', 'Sidibé', 'Dembélé', 'Samaké', 'Doumbia', 'Koné',
+      'Ouédraogo', 'Sawadogo', 'Zongo', 'Compaoré', 'Tapsoba', 'Yameogo',
+      // East & Southern Africa
+      'Odhiambo', 'Otieno', 'Waweru', 'Kariuki', 'Muthoni', 'Kamau',
+      'Bekele', 'Tadesse', 'Haile', 'Girma', 'Tesfaye', 'Alemu',
+      'Dlamini', 'Nkosi', 'Mokoena', 'Molefe', 'Khumalo', 'Ndlovu',
+      'Mutasa', 'Chigumba', 'Moyo', 'Ncube', 'Sibanda', 'Dube',
+    ],
+    'IN': [
+      'Patel', 'Sharma', 'Singh', 'Kumar', 'Gupta', 'Joshi',
+      'Verma', 'Mishra', 'Yadav', 'Tiwari', 'Chaudhary', 'Rao',
+      'Iyer', 'Nair', 'Pillai', 'Menon', 'Reddy', 'Naidu',
+      'Khan', 'Malik', 'Sheikh', 'Chaudhry', 'Mirza', 'Qureshi',
+      'Hussain', 'Akhtar', 'Ansari', 'Siddiqui', 'Rizvi', 'Butt',
+      'Agarwal', 'Saxena', 'Srivastava', 'Pandey', 'Dubey', 'Tripathi',
+      'Chauhan', 'Bajpai', 'Shukla', 'Pathak', 'Bose', 'Ghosh',
+      'Mukherjee', 'Chatterjee', 'Banerjee', 'Chakraborty', 'Das', 'Dutta',
+      // Southeast Asian
+      'Nguyen', 'Tran', 'Le', 'Pham', 'Hoang', 'Phan',
+      'Wongkalasin', 'Phothirat', 'Srisuk', 'Jaidee', 'Boonma', 'Suwannarat',
+      'Santoso', 'Wijaya', 'Setiawan', 'Putri', 'Susanto', 'Hidayat',
+      'Santos', 'Reyes', 'Cruz', 'Bautista', 'Ocampo', 'Dela Cruz',
+    ],
+    'RU': [
+      'Ivanov',
+      'Smirnov',
+      'Kuznetsov',
+      'Popov',
+      'Vasiliev',
+      'Petrov',
+      'Sokolov',
+      'Mikhailov',
+      'Novikov',
+      'Fedorov',
+      'Morozov',
+      'Volkov',
+      'Alekseev',
+      'Lebedev',
+      'Semyonov',
+      'Egorov',
+      'Pavlov',
+      'Kozlov',
+      'Stepanov',
+      'Nikolaev',
+      'Orlov',
+      'Makarov',
+      'Nikitin',
+      'Zakharov',
+      'Melnikov',
+      'Komarov',
+      'Solovyov',
+      'Frolov',
+      'Davydov',
+      'Belyaev',
+      'Gerasimov',
+      'Bogdanov',
+      'Vorobyov',
+      'Nikiforov',
+      'Tikhonov',
+      'Ershov',
+      'Polyakov',
+      'Suvorov',
+      'Grigoryev',
+      'Karpov',
+      'Shilov',
+      'Zhukov',
+      'Borisov',
+      'Voronov',
+      'Glazkov',
+      'Kazakov',
+      'Kolesnikov',
+      'Lazarev',
+    ],
+    'TR': [
+      'Yılmaz',
+      'Kaya',
+      'Demir',
+      'Çelik',
+      'Şahin',
+      'Yıldız',
+      'Yıldırım',
+      'Öztürk',
+      'Aydın',
+      'Özdemir',
+      'Arslan',
+      'Doğan',
+      'Kılıç',
+      'Aslan',
+      'Çetin',
+      'Koç',
+      'Kurt',
+      'Özcan',
+      'Karaca',
+      'Turan',
+      'Duman',
+      'Polat',
+      'Korkmaz',
+      'Erdoğan',
+      'Güneş',
+      'Aktaş',
+      'Bulut',
+      'Demirtaş',
+      'Güler',
+      'Keskin',
+      'Özdemir',
+      'Şimşek',
+      'Acar',
+      'Bozkurt',
+      'Doğru',
+      'Güven',
+    ],
+  };
 
-    // Spanish / Latin American
-    'Carlos', 'Ana', 'Miguel', 'Sofía', 'Juan', 'Isabella',
-    'Luis', 'Valentina', 'Alejandro', 'Camila', 'Diego', 'Daniela',
-    'Andrés', 'Mariana', 'Fernando', 'Fernanda', 'Ricardo', 'Gabriela',
-    'Sebastián', 'Paula', 'Rodrigo', 'Natalia', 'Pablo', 'Valeria',
-    'Jorge', 'Lucía', 'Javier', 'Elena', 'Manuel', 'Beatriz',
-    'Emilio', 'Rosa', 'Rafael', 'Carmen', 'Eduardo', 'Pilar',
-
-    // German / Austrian / Swiss
-    'Hans', 'Monika', 'Klaus', 'Ursula', 'Dieter', 'Brigitte',
-    'Günter', 'Helga', 'Wolfgang', 'Ingrid', 'Friedrich', 'Renate',
-    'Stefan', 'Sabine', 'Thomas', 'Petra', 'Andreas', 'Susanne',
-    'Markus', 'Claudia', 'Lukas', 'Anna', 'Tobias', 'Lena',
-    'Felix', 'Hannah', 'Leon', 'Mia', 'Jonas', 'Laura',
-
-    // Portuguese / Brazilian
-    'João', 'Ana', 'Pedro', 'Mariana', 'Paulo', 'Juliana',
-    'Felipe', 'Beatriz', 'Gabriel', 'Fernanda', 'Rafael', 'Larissa',
-    'Rodrigo', 'Amanda', 'Bruno', 'Camila', 'Gustavo', 'Natália',
-    'Leonardo', 'Patrícia', 'Mateus', 'Gabriela', 'Thiago', 'Carolina',
-
-    // Italian
-    'Marco', 'Giulia', 'Luca', 'Martina', 'Alessandro', 'Sara',
-    'Francesco', 'Laura', 'Andrea', 'Sofia', 'Matteo', 'Chiara',
-    'Davide', 'Alice', 'Lorenzo', 'Elena', 'Simone', 'Federica',
-    'Roberto', 'Valentina', 'Stefano', 'Elisa', 'Riccardo', 'Silvia',
-
-    // Arabic / Middle Eastern
-    'Mohammed', 'Fatima', 'Ahmed', 'Aisha', 'Ali', 'Maryam',
-    'Omar', 'Nour', 'Ibrahim', 'Layla', 'Hassan', 'Yasmin',
-    'Youssef', 'Hana', 'Khalid', 'Rania', 'Tariq', 'Salma',
-    'Bilal', 'Dina', 'Kareem', 'Iman', 'Ziad', 'Nadia',
-    'Samir', 'Lina', 'Malik', 'Amira', 'Faisal', 'Noura',
-
-    // Chinese / East Asian
-    'Wei', 'Xia', 'Ming', 'Ying', 'Jian', 'Mei',
-    'Hao', 'Li', 'Feng', 'Yan', 'Tao', 'Xue',
-    'Jun', 'Hua', 'Chao', 'Ping', 'Lei', 'Yun',
-    'Rui', 'Qian', 'Zheng', 'Lan', 'Bo', 'Fang',
-
-    // Japanese
-    'Hiroshi', 'Yuki', 'Kenji', 'Sakura', 'Takashi', 'Aiko',
-    'Ryota', 'Haruka', 'Shota', 'Nana', 'Daiki', 'Yui',
-    'Kazuki', 'Miyu', 'Sho', 'Riko', 'Naoki', 'Hana',
-    'Yuto', 'Rin', 'Kento', 'Moe', 'Ren', 'Saki',
-
-    // African — West Africa (Nigeria, Côte d'Ivoire, Sénégal, Ghana)
-    'Kwame', 'Abena', 'Kofi', 'Ama', 'Kweku', 'Akosua',
-    'Emeka', 'Ngozi', 'Chukwu', 'Adaeze', 'Tunde', 'Funmilayo',
-    'Segun', 'Bisi', 'Femi', 'Yetunde', 'Oluwaseun', 'Chioma',
-    'Moussa', 'Kadiatou', 'Ibrahima', 'Fatoumata', 'Mamadou', 'Aminata',
-    'Kouassi', 'Adjoua', 'Koffi', 'Ahou', 'Yao', 'Aya',
-    'Seydou', 'Mariam', 'Cheikh', 'Rokhaya', 'Ousmane', 'Binta',
-
-    // African — East & Southern Africa (Kenya, Ethiopia, South Africa, Zimbabwe)
-    'Jabari', 'Amara', 'Chidi', 'Zuri', 'Tau', 'Imani',
-    'Tendai', 'Rudo', 'Tatenda', 'Chipo', 'Takudzwa', 'Tsitsi',
-    'Abebe', 'Tigist', 'Dawit', 'Selam', 'Yonas', 'Hiwot',
-    'Sipho', 'Lindiwe', 'Thabo', 'Nomsa', 'Bongani', 'Zanele',
-    'Kamau', 'Wanjiru', 'Mwangi', 'Njeri', 'Kipchoge', 'Akinyi',
-
-    // South Asian (India, Pakistan, Bangladesh)
-    'Arjun', 'Priya', 'Rahul', 'Ananya', 'Vikram', 'Divya',
-    'Aditya', 'Kavya', 'Rohan', 'Shreya', 'Kiran', 'Pooja',
-    'Suresh', 'Rekha', 'Ravi', 'Meera', 'Amit', 'Sunita',
-    'Imran', 'Sana', 'Zain', 'Ayesha', 'Hamid', 'Rabia',
-    'Farhan', 'Nadia', 'Asif', 'Hira', 'Tariq', 'Zara',
-
-    // Southeast Asian (Vietnam, Thailand, Indonesia, Philippines)
-    'Minh', 'Linh', 'Duc', 'Huong', 'Khang', 'Trang',
-    'Somchai', 'Malee', 'Krit', 'Nong', 'Panya', 'Araya',
-    'Budi', 'Sari', 'Rizky', 'Dewi', 'Andi', 'Fitri',
-    'Jose', 'Maria', 'Angelo', 'Angelica', 'Renz', 'Pia',
-
-    // Russian / Eastern European
-    'Dmitri', 'Natasha', 'Alexei', 'Olga', 'Ivan', 'Tatiana',
-    'Sergei', 'Elena', 'Vladimir', 'Irina', 'Andrei', 'Anastasia',
-    'Nikolai', 'Svetlana', 'Mikhail', 'Yulia', 'Pavel', 'Oksana',
-    'Artem', 'Daria', 'Evgeny', 'Yelena', 'Ilya', 'Polina',
-
-    // Turkish / Central Asian
-    'Mehmet', 'Ayşe', 'Mustafa', 'Fatma', 'Ahmet', 'Zeynep',
-    'Ali', 'Elif', 'Hüseyin', 'Emine', 'Murat', 'Hatice',
-    'Ömer', 'Büşra', 'Yusuf', 'Merve', 'İbrahim', 'Selin',
-  ];
-
-// ── LAST NAMES ────────────────────────────────────────────────
-  final List<String> _lastNames = [
-    // English / American
-    'Smith', 'Johnson', 'Williams', 'Brown', 'Jones', 'Garcia',
-    'Miller', 'Davis', 'Rodriguez', 'Martinez', 'Hernandez', 'Lopez',
-    'Gonzalez', 'Wilson', 'Anderson', 'Thomas', 'Taylor', 'Moore',
-    'Jackson', 'Martin', 'Lee', 'Perez', 'Thompson', 'White',
-    'Harris', 'Sanchez', 'Clark', 'Ramirez', 'Lewis', 'Robinson',
-    'Walker', 'Young', 'Allen', 'King', 'Wright', 'Scott',
-    'Torres', 'Nguyen', 'Hill', 'Flores', 'Green', 'Adams',
-    'Nelson', 'Baker', 'Hall', 'Rivera', 'Campbell', 'Mitchell',
-    'Carter', 'Roberts', 'Phillips', 'Evans', 'Turner', 'Parker',
-
-    // French
-    'Martin', 'Bernard', 'Thomas', 'Petit', 'Robert', 'Richard',
-    'Durand', 'Dubois', 'Moreau', 'Laurent', 'Simon', 'Michel',
-    'Lefebvre', 'Leroy', 'Roux', 'David', 'Bertrand', 'Morel',
-    'Fournier', 'Girard', 'Bonnet', 'Dupont', 'Lambert', 'Fontaine',
-    'Rousseau', 'Vincent', 'Muller', 'Lefevre', 'Faure', 'Andre',
-
-    // Spanish / Latin American
-    'García', 'Martínez', 'López', 'González', 'Rodríguez', 'Fernández',
-    'Sánchez', 'Pérez', 'Gómez', 'Martín', 'Jiménez', 'Ruiz',
-    'Hernández', 'Díaz', 'Moreno', 'Álvarez', 'Romero', 'Alonso',
-    'Gutiérrez', 'Navarro', 'Torres', 'Domínguez', 'Vásquez', 'Ramos',
-    'Gil', 'Ramírez', 'Cruz', 'Flores', 'Molina', 'Ortega',
-
-    // German
-    'Müller', 'Schmidt', 'Schneider', 'Fischer', 'Weber', 'Meyer',
-    'Wagner', 'Becker', 'Schulz', 'Hoffmann', 'Schäfer', 'Koch',
-    'Bauer', 'Richter', 'Klein', 'Wolf', 'Schröder', 'Neumann',
-    'Schwarz', 'Zimmermann', 'Braun', 'Krüger', 'Hofmann', 'Hartmann',
-    'Lange', 'Schmitt', 'Werner', 'Krause', 'Meier', 'Lehmann',
-
-    // Portuguese / Brazilian
-    'Silva', 'Santos', 'Oliveira', 'Souza', 'Rodrigues', 'Ferreira',
-    'Alves', 'Pereira', 'Lima', 'Gomes', 'Ribeiro', 'Carvalho',
-    'Almeida', 'Lopes', 'Sousa', 'Fernandes', 'Vasconcellos', 'Pinto',
-    'Teixeira', 'Magalhães', 'Barbosa', 'Moreira', 'Cunha', 'Cavalcanti',
-
-    // Italian
-    'Rossi', 'Russo', 'Ferrari', 'Esposito', 'Bianchi', 'Romano',
-    'Colombo', 'Ricci', 'Marino', 'Greco', 'Bruno', 'Gallo',
-    'Conti', 'De Luca', 'Mancini', 'Costa', 'Giordano', 'Rizzo',
-    'Lombardi', 'Moretti', 'Barbieri', 'Fontana', 'Santoro', 'Marini',
-
-    // Arabic
-    'Al-Amin', 'Hassan', 'Hussein', 'Ibrahim', 'Khalil', 'Mansour',
-    'Nasser', 'Omar', 'Qureshi', 'Rahman', 'Siddiqui', 'Youssef',
-    'Zaman', 'Aziz', 'Badr', 'Darwish', 'Fadel', 'Ghali',
-    'Al-Rashid', 'Al-Farsi', 'Hamdan', 'Idris', 'Jabir', 'Karimi',
-
-    // Chinese
-    'Wang', 'Li', 'Zhang', 'Liu', 'Chen', 'Yang',
-    'Huang', 'Zhao', 'Wu', 'Zhou', 'Sun', 'Ma',
-    'Zhu', 'Hu', 'Guo', 'He', 'Lin', 'Gao',
-    'Luo', 'Zheng', 'Liang', 'Xie', 'Tang', 'Xu',
-    'Han', 'Feng', 'Deng', 'Cao', 'Peng', 'Song',
-
-    // Japanese
-    'Sato', 'Suzuki', 'Takahashi', 'Tanaka', 'Watanabe', 'Ito',
-    'Yamamoto', 'Nakamura', 'Kobayashi', 'Kato', 'Yoshida', 'Yamada',
-    'Sasaki', 'Yamaguchi', 'Matsumoto', 'Inoue', 'Kimura', 'Hayashi',
-    'Shimizu', 'Yamazaki', 'Mori', 'Abe', 'Ikeda', 'Hashimoto',
-
-    // African — West Africa
-    'Diallo', 'Konaté', 'Traoré', 'Coulibaly', 'Keïta', 'Diarra',
-    'Touré', 'Camara', 'Bah', 'Sylla', 'Sow', 'Barry',
-    'Okafor', 'Adeyemi', 'Okonkwo', 'Nwosu', 'Eze', 'Obi',
-    'Mensah', 'Asante', 'Boateng', 'Owusu', 'Acheampong', 'Amoah',
-    'Kouassi', 'Konan', 'Koffi', 'Yao', 'Brou', 'Diabaté',
-    'Kouyaté', 'Dramé', 'Baldé', 'Cissé', 'Ndiaye', 'Fall',
-    'Mbaye', 'Diop', 'Sène', 'Gueye', 'Sarr', 'Thiaw',
-
-    // African — East & Southern Africa
-    'Odhiambo', 'Otieno', 'Waweru', 'Kariuki', 'Muthoni', 'Kamau',
-    'Bekele', 'Tadesse', 'Haile', 'Girma', 'Tesfaye', 'Alemu',
-    'Dlamini', 'Nkosi', 'Mokoena', 'Molefe', 'Khumalo', 'Ndlovu',
-    'Mutasa', 'Chigumba', 'Moyo', 'Ncube', 'Sibanda', 'Dube',
-
-    // South Asian
-    'Patel', 'Sharma', 'Singh', 'Kumar', 'Gupta', 'Joshi',
-    'Verma', 'Mishra', 'Yadav', 'Tiwari', 'Chaudhary', 'Rao',
-    'Iyer', 'Nair', 'Pillai', 'Menon', 'Reddy', 'Naidu',
-    'Khan', 'Malik', 'Sheikh', 'Chaudhry', 'Mirza', 'Qureshi',
-    'Hussain', 'Akhtar', 'Ansari', 'Siddiqui', 'Rizvi', 'Butt',
-
-    // Southeast Asian
-    'Nguyen', 'Tran', 'Le', 'Pham', 'Hoang', 'Phan',
-    'Tanaka', 'Wongkalasin', 'Phothirat', 'Srisuk', 'Jaidee', 'Boonma',
-    'Santoso', 'Wijaya', 'Setiawan', 'Putri', 'Susanto', 'Hidayat',
-    'Santos', 'Reyes', 'Cruz', 'Bautista', 'Ocampo', 'Dela Cruz',
-
-    // Russian / Eastern European
-    'Ivanov', 'Smirnov', 'Kuznetsov', 'Popov', 'Vasiliev', 'Petrov',
-    'Sokolov', 'Mikhailov', 'Novikov', 'Fedorov', 'Morozov', 'Volkov',
-    'Alekseev', 'Lebedev', 'Semyonov', 'Egorov', 'Pavlov', 'Kozlov',
-    'Stepanov', 'Nikolaev', 'Orlov', 'Makarov', 'Nikitin', 'Zakharov',
-
-    // Turkish
-    'Yılmaz', 'Kaya', 'Demir', 'Çelik', 'Şahin', 'Yıldız',
-    'Yıldırım', 'Öztürk', 'Aydın', 'Özdemir', 'Arslan', 'Doğan',
-    'Kılıç', 'Aslan', 'Çetin', 'Koç', 'Kurt', 'Özcan',
-  ];
-
-// ── EMAIL DOMAINS ─────────────────────────────────────────────
-  final List<String> _domains = [
+  static const List<String> _domains = [
     // Global webmail
     'gmail.com', 'yahoo.com', 'outlook.com', 'hotmail.com',
     'icloud.com', 'protonmail.com', 'mail.com', 'zoho.com',
     'aol.com', 'yandex.com', 'tutanota.com', 'fastmail.com',
-
     // Privacy-focused
-    'proton.me', 'pm.me', 'tutamail.com', 'guerrillamail.com',
-    'dispostable.com', 'mailbox.org', 'cock.li', 'riseup.net',
-
+    'proton.me', 'pm.me', 'tutamail.com', 'mailbox.org',
+    'riseup.net', 'disroot.org', 'cock.li',
     // Regional — Europe
     'orange.fr', 'free.fr', 'sfr.fr', 'wanadoo.fr',
     't-online.de', 'web.de', 'gmx.de', 'gmx.net',
     'libero.it', 'virgilio.it', 'tin.it',
     'terra.es', 'telefonica.es',
-
     // Regional — Asia
     'qq.com', '163.com', '126.com', 'sina.com', 'sohu.com',
     'naver.com', 'daum.net', 'kakao.com',
     'yahoo.co.jp', 'docomo.ne.jp',
-
     // Regional — Africa & Middle East
-    'yahoo.fr', 'africamail.com', 'gmail.com',
-    'hotmail.fr',
-
+    'yahoo.fr', 'hotmail.fr', 'africamail.com',
     // Corporate / generic
     'company.com', 'corp.net', 'business.org',
     'enterprise.io', 'solutions.co', 'tech.dev',
     'consulting.net', 'agency.com', 'studio.io',
   ];
 
-// ── COMPANIES ─────────────────────────────────────────────────
-  final List<String> _companies = [
-    // Tech generic
-    'TechCorp', 'InnovateCo', 'DataSys', 'CloudNet', 'SoftWorks',
-    'DevStudio', 'CodeLab', 'WebTech', 'AppMakers', 'DigitalHub',
-    'CyberSpace', 'InfoTech', 'SmartSolutions', 'GlobalTech',
-    'FutureSystems', 'NextGen', 'PrimeData', 'CoreLogic',
-
-    // Startup / modern naming
-    'Axion Labs', 'Pulsar AI', 'Neon Stack', 'Void Systems',
-    'Qubit.io', 'Helios Dev', 'Zenith Cloud', 'Apex Secure',
-    'Fractal Data', 'Orbit Analytics', 'Synapse Tech', 'Flux Networks',
-    'Vertex Solutions', 'Cipher Works', 'Prism Software',
-    'Echo Systems', 'Atlas Computing', 'Nova Dynamics',
-
-    // Consulting / services
-    'Accentech', 'BrightConsult', 'Strategic IT', 'Vision Partners',
-    'Prime Consulting', 'Alpha Services', 'Delta Group',
-    'Sigma Consulting', 'Omega Solutions', 'Pinnacle Group',
-    'Horizon Advisory', 'Summit Partners', 'Bridge Technologies',
-
-    // Finance / Banking
-    'Capital Tech', 'FinSecure', 'WealthSys', 'TrustBank Digital',
-    'PayNova', 'CryptoVault', 'LedgerPro', 'Finaxis',
-
-    // Health / Pharma
-    'MedTech Solutions', 'HealthBridge', 'CuraTech', 'BioSys',
-    'PharmaCare IT', 'MedInform', 'CliniqData',
-
-    // Telecom
-    'NetWave', 'ConnectPro', 'SignalTech', 'SpeedLine ISP',
-    'TeleMatrix', 'LinkSys Global',
-
-    // Logistics
-    'LogiCore', 'SwiftShip Tech', 'CargoSmart', 'TrackNet',
-
-    // Education
-    'EduTech Global', 'LearnSphere', 'AcademyPro', 'SkillForge',
-
-    // Media / Creative
-    'PixelForge', 'StudioWave', 'CreativeMind', 'MediaPulse',
-    'ContentLab', 'BrandCore', 'DesignAxis',
-
-    // Security / Cybersec
-    'SecureShield', 'IronWall Security', 'ThreatGuard',
-    'CipherNet', 'SafeHarbor IT', 'ZeroTrust Labs',
-    'Aegis Cyber', 'Fortify Systems', 'Sentinel Group',
-
-    // African companies
-    'AfriTech Solutions', 'Sahel Digital', 'Abidjan Tech Hub',
-    'Lagos Innovations', 'Nairobi Cloud', 'Cape Data Systems',
-    'Dakar Ventures', 'Accra DevStudio', 'Tunis IT Group',
+  static const List<String> _companies = [
+    'TechCorp',
+    'InnovateCo',
+    'DataSys',
+    'CloudNet',
+    'SoftWorks',
+    'DevStudio',
+    'CodeLab',
+    'WebTech',
+    'AppMakers',
+    'DigitalHub',
+    'CyberSpace',
+    'InfoTech',
+    'SmartSolutions',
+    'GlobalTech',
+    'FutureSystems',
+    'NextGen',
+    'PrimeData',
+    'CoreLogic',
+    'Axion Labs',
+    'Pulsar AI',
+    'Neon Stack',
+    'Void Systems',
+    'Qubit.io',
+    'Helios Dev',
+    'Zenith Cloud',
+    'Apex Secure',
+    'Fractal Data',
+    'Orbit Analytics',
+    'Synapse Tech',
+    'Flux Networks',
+    'Vertex Solutions',
+    'Cipher Works',
+    'Prism Software',
+    'Echo Systems',
+    'Atlas Computing',
+    'Nova Dynamics',
+    'Accentech',
+    'BrightConsult',
+    'Strategic IT',
+    'Vision Partners',
+    'Prime Consulting',
+    'Alpha Services',
+    'Delta Group',
+    'Sigma Consulting',
+    'Omega Solutions',
+    'Pinnacle Group',
+    'Capital Tech',
+    'FinSecure',
+    'WealthSys',
+    'TrustBank Digital',
+    'PayNova',
+    'CryptoVault',
+    'LedgerPro',
+    'Finaxis',
+    'MedTech Solutions',
+    'HealthBridge',
+    'CuraTech',
+    'BioSys',
+    'NetWave',
+    'ConnectPro',
+    'SignalTech',
+    'TeleMatrix',
+    'LogiCore',
+    'SwiftShip Tech',
+    'CargoSmart',
+    'TrackNet',
+    'EduTech Global',
+    'LearnSphere',
+    'AcademyPro',
+    'SkillForge',
+    'PixelForge',
+    'StudioWave',
+    'CreativeMind',
+    'MediaPulse',
+    'SecureShield',
+    'IronWall Security',
+    'ThreatGuard',
+    'CipherNet',
+    'SafeHarbor IT',
+    'ZeroTrust Labs',
+    'Aegis Cyber',
+    'Fortify Systems',
+    'Sentinel Group',
+    'AfriTech Solutions',
+    'Sahel Digital',
+    'Abidjan Tech Hub',
+    'Lagos Innovations',
+    'Nairobi Cloud',
+    'Cape Data Systems',
+    'Dakar Ventures',
+    'Accra DevStudio',
+    'Tunis IT Group',
   ];
 
-// ── CITIES (WORLDWIDE) ─────────────────────────────────────────
-  final List<String> _cities = [
-    // USA
-    'New York', 'Los Angeles', 'Chicago', 'Houston', 'Phoenix',
-    'Philadelphia', 'San Antonio', 'San Diego', 'Dallas', 'San Jose',
-    'Austin', 'Jacksonville', 'Fort Worth', 'Columbus', 'Charlotte',
-    'Seattle', 'Denver', 'Boston', 'Portland', 'Miami',
-    'Atlanta', 'Las Vegas', 'Nashville', 'Minneapolis', 'Tampa',
-
-    // Europe
-    'London', 'Paris', 'Berlin', 'Madrid', 'Rome',
-    'Amsterdam', 'Brussels', 'Vienna', 'Zurich', 'Stockholm',
-    'Oslo', 'Copenhagen', 'Lisbon', 'Dublin', 'Warsaw',
-    'Prague', 'Budapest', 'Athens', 'Lyon', 'Marseille',
-    'Hamburg', 'Munich', 'Frankfurt', 'Milan', 'Barcelona',
-
-    // Asia
-    'Tokyo', 'Beijing', 'Shanghai', 'Mumbai', 'Delhi',
-    'Seoul', 'Singapore', 'Bangkok', 'Jakarta', 'Kuala Lumpur',
-    'Hong Kong', 'Taipei', 'Osaka', 'Karachi', 'Dhaka',
-    'Colombo', 'Kathmandu', 'Phnom Penh', 'Hanoi', 'Ho Chi Minh City',
-
-    // Middle East
-    'Dubai', 'Abu Dhabi', 'Riyadh', 'Cairo', 'Istanbul',
-    'Tehran', 'Baghdad', 'Beirut', 'Amman', 'Kuwait City',
-    'Doha', 'Muscat', 'Tel Aviv', 'Ankara',
-
-    // Africa
-    'Lagos', 'Nairobi', 'Johannesburg', 'Cairo', 'Casablanca',
-    'Abidjan', 'Dakar', 'Accra', 'Addis Ababa', 'Dar es Salaam',
-    'Kigali', 'Kampala', 'Tunis', 'Algiers', 'Rabat',
-    'Douala', 'Yaoundé', 'Bamako', 'Ouagadougou', 'Conakry',
-    'Abuja', 'Lomé', 'Cotonou', 'Libreville', 'Brazzaville',
-
-    // Americas (outside USA)
-    'São Paulo', 'Buenos Aires', 'Bogotá', 'Lima', 'Santiago',
-    'Mexico City', 'Caracas', 'Quito', 'Montevideo', 'Asunción',
-    'Rio de Janeiro', 'Medellín', 'Guadalajara', 'Havana', 'Santo Domingo',
-    'Toronto', 'Montreal', 'Vancouver', 'Calgary', 'Ottawa',
-
-    // Oceania
-    'Sydney', 'Melbourne', 'Brisbane', 'Auckland', 'Perth',
-    'Wellington', 'Adelaide', 'Canberra', 'Christchurch',
+  static const List<String> _cities = [
+    'New York',
+    'Los Angeles',
+    'Chicago',
+    'Houston',
+    'Phoenix',
+    'Philadelphia',
+    'San Diego',
+    'Dallas',
+    'San Jose',
+    'Austin',
+    'Seattle',
+    'Denver',
+    'Boston',
+    'Portland',
+    'Miami',
+    'Atlanta',
+    'Las Vegas',
+    'Nashville',
+    'Minneapolis',
+    'Tampa',
+    'London',
+    'Paris',
+    'Berlin',
+    'Madrid',
+    'Rome',
+    'Amsterdam',
+    'Brussels',
+    'Vienna',
+    'Zurich',
+    'Stockholm',
+    'Oslo',
+    'Copenhagen',
+    'Lisbon',
+    'Dublin',
+    'Warsaw',
+    'Prague',
+    'Budapest',
+    'Athens',
+    'Lyon',
+    'Marseille',
+    'Hamburg',
+    'Munich',
+    'Frankfurt',
+    'Milan',
+    'Barcelona',
+    'Tokyo',
+    'Beijing',
+    'Shanghai',
+    'Mumbai',
+    'Delhi',
+    'Seoul',
+    'Singapore',
+    'Bangkok',
+    'Jakarta',
+    'Kuala Lumpur',
+    'Hong Kong',
+    'Taipei',
+    'Osaka',
+    'Karachi',
+    'Dhaka',
+    'Hanoi',
+    'Ho Chi Minh City',
+    'Manila',
+    'Colombo',
+    'Kathmandu',
+    'Dubai',
+    'Abu Dhabi',
+    'Riyadh',
+    'Cairo',
+    'Istanbul',
+    'Tehran',
+    'Baghdad',
+    'Beirut',
+    'Amman',
+    'Kuwait City',
+    'Doha',
+    'Muscat',
+    'Tel Aviv',
+    'Ankara',
+    'Casablanca',
+    'Lagos',
+    'Nairobi',
+    'Johannesburg',
+    'Casablanca',
+    'Abidjan',
+    'Dakar',
+    'Accra',
+    'Addis Ababa',
+    'Dar es Salaam',
+    'Kigali',
+    'Kampala',
+    'Tunis',
+    'Algiers',
+    'Rabat',
+    'Douala',
+    'Yaoundé',
+    'Bamako',
+    'Ouagadougou',
+    'Conakry',
+    'Abuja',
+    'Lomé',
+    'Cotonou',
+    'Libreville',
+    'Brazzaville',
+    'São Paulo',
+    'Buenos Aires',
+    'Bogotá',
+    'Lima',
+    'Santiago',
+    'Mexico City',
+    'Caracas',
+    'Quito',
+    'Montevideo',
+    'Rio de Janeiro',
+    'Medellín',
+    'Guadalajara',
+    'Havana',
+    'Toronto',
+    'Montreal',
+    'Vancouver',
+    'Calgary',
+    'Sydney',
+    'Melbourne',
+    'Brisbane',
+    'Auckland',
+    'Perth',
   ];
 
-// ── STREET NAMES (INTERNATIONAL) ──────────────────────────────
-  final List<String> _streets = [
-    // English generic
-    'Main St', 'Oak Ave', 'Maple Dr', 'First St', 'Second Ave',
-    'Park Blvd', 'Washington St', 'Lake Rd', 'Hill Ct', 'River Dr',
-    'Church Rd', 'High St', 'Railroad Ave', 'School St', 'Union St',
-    'Market St', 'Spring St', 'Center St', 'Forest Ln', 'Valley Rd',
-    'Sunset Blvd', 'Elm St', 'Cedar Ave', 'Pine St', 'Willow Way',
-    'Orchard Rd', 'Birch Ln', 'Meadow Dr', 'Hillside Ave', 'Harbor Blvd',
-
-    // French
-    'Rue de la Paix', 'Avenue des Champs-Élysées', 'Rue Victor Hugo',
-    'Boulevard Haussmann', 'Rue du Commerce', 'Allée des Roses',
-    'Rue Nationale', 'Avenue Jean Jaurès', 'Impasse des Lilas',
-    'Rue de la République', 'Boulevard du Général de Gaulle',
-    'Rue de la Liberté', 'Chemin des Écoliers', 'Passage du Nord',
-
-    // Spanish
-    'Calle Mayor', 'Avenida de la Constitución', 'Calle Real',
-    'Paseo de la Castellana', 'Calle de Alcalá', 'Gran Vía',
-    'Avenida de España', 'Calle del Sol', 'Plaza Mayor',
-    'Carretera Nacional', 'Rambla de Catalunya',
-
-    // German
-    'Hauptstraße', 'Bahnhofstraße', 'Kirchgasse', 'Bergstraße',
-    'Schillerstraße', 'Goethestraße', 'Friedrichstraße',
-    'Wilhelmstraße', 'Gartenweg', 'Lindenallee',
-
-    // Portuguese
-    'Rua da Liberdade', 'Avenida Paulista', 'Rua das Flores',
-    'Rua do Ouro', 'Largo do Rossio', 'Avenida Brasil',
-    'Rua Augusta', 'Praça da República',
-
-    // Italian
-    'Via Roma', 'Corso Italia', 'Via Nazionale', 'Viale Mazzini',
-    'Via Garibaldi', 'Piazza Navona', 'Via del Corso',
-    'Lungotevere dei Mellini', 'Via Veneto',
-
-    // Arabic / Middle Eastern
-    'Sharia Al-Nil', 'Sharia Tahrir', 'Al-Rashid Street',
-    'King Fahd Road', 'Sultan Qaboos Street', 'Corniche Road',
-    'Al Wasl Road', 'Sheikh Zayed Road', 'Hamdan Street',
-
-    // African
-    'Boulevard de la République', 'Avenue Félix Houphouët-Boigny',
-    'Rue du Commerce', 'Avenue de l\'Indépendance',
-    'Boulevard du 20 Janvier', 'Avenue Charles de Gaulle',
-    'Rue des Jardins', 'Boulevard Lumumba', 'Avenue Kenyatta',
-    'Uhuru Highway', 'Nelson Mandela Drive', 'Julius Nyerere Way',
-    'Kwame Nkrumah Ave', 'Patrice Lumumba Rd', 'Thomas Sankara Blvd',
-
-    // Asian
-    'Zhongshan Road', 'Nanjing Road', 'Chang An Avenue',
-    'Ginza Street', 'Shibuya Crossing Rd', 'Myeongdong Street',
-    'Orchard Road', 'Sukhumvit Road', 'Jalan Sudirman',
-    'MG Road', 'Brigade Road', 'Connaught Place',
+  static const List<String> _streets = [
+    'Main St',
+    'Oak Ave',
+    'Maple Dr',
+    'First St',
+    'Second Ave',
+    'Park Blvd',
+    'Washington St',
+    'Lake Rd',
+    'Hill Ct',
+    'River Dr',
+    'Church Rd',
+    'High St',
+    'Railroad Ave',
+    'School St',
+    'Union St',
+    'Market St',
+    'Spring St',
+    'Center St',
+    'Forest Ln',
+    'Valley Rd',
+    'Sunset Blvd',
+    'Elm St',
+    'Cedar Ave',
+    'Pine St',
+    'Willow Way',
+    'Orchard Rd',
+    'Birch Ln',
+    'Meadow Dr',
+    'Hillside Ave',
+    'Harbor Blvd',
+    'Rue de la Paix',
+    'Rue Victor Hugo',
+    'Boulevard Haussmann',
+    'Rue du Commerce',
+    'Rue Nationale',
+    'Avenue Jean Jaurès',
+    'Rue de la République',
+    'Boulevard du Général de Gaulle',
+    'Rue de la Liberté',
+    'Avenue des Champs-Élysées',
+    'Calle Mayor',
+    'Calle Real',
+    'Gran Vía',
+    'Calle del Sol',
+    'Avenida de la Constitución',
+    'Paseo de la Castellana',
+    'Hauptstraße',
+    'Bahnhofstraße',
+    'Kirchgasse',
+    'Goethestraße',
+    'Schillerstraße',
+    'Friedrichstraße',
+    'Wilhelmstraße',
+    'Rua da Liberdade',
+    'Avenida Paulista',
+    'Rua das Flores',
+    'Rua Augusta',
+    'Avenida Brasil',
+    'Via Roma',
+    'Corso Italia',
+    'Via Nazionale',
+    'Via Garibaldi',
+    'Piazza Navona',
+    'Via del Corso',
+    'Via Veneto',
+    'Sharia Al-Nil',
+    'Al-Rashid Street',
+    'King Fahd Road',
+    'Sheikh Zayed Road',
+    'Corniche Road',
+    'Hamdan Street',
+    'Boulevard de la République',
+    'Avenue Félix Houphouët-Boigny',
+    'Avenue de l\'Indépendance',
+    'Avenue Charles de Gaulle',
+    'Boulevard Lumumba',
+    'Avenue Kenyatta',
+    'Uhuru Highway',
+    'Nelson Mandela Drive',
+    'Julius Nyerere Way',
+    'Thomas Sankara Blvd',
+    'Zhongshan Road',
+    'Nanjing Road',
+    'Chang An Avenue',
+    'Ginza Street',
+    'Orchard Road',
+    'Sukhumvit Road',
+    'MG Road',
+    'Brigade Road',
+    'Connaught Place',
   ];
 
-// ── COUNTRY CODES (for phone prefix) ─────────────────────────
-  final List<Map<String, String>> _countryCodes = [
-    {'country': 'United States', 'code': '+1'},
-    {'country': 'United Kingdom', 'code': '+44'},
-    {'country': 'France', 'code': '+33'},
-    {'country': 'Germany', 'code': '+49'},
-    {'country': 'Spain', 'code': '+34'},
-    {'country': 'Italy', 'code': '+39'},
-    {'country': 'Portugal', 'code': '+351'},
-    {'country': 'Brazil', 'code': '+55'},
-    {'country': 'Canada', 'code': '+1'},
-    {'country': 'Australia', 'code': '+61'},
-    {'country': 'Japan', 'code': '+81'},
-    {'country': 'China', 'code': '+86'},
-    {'country': 'India', 'code': '+91'},
-    {'country': 'South Korea', 'code': '+82'},
-    {'country': 'Russia', 'code': '+7'},
-    {'country': 'Turkey', 'code': '+90'},
-    {'country': 'Saudi Arabia', 'code': '+966'},
-    {'country': 'UAE', 'code': '+971'},
-    {'country': 'Egypt', 'code': '+20'},
-    {'country': 'Nigeria', 'code': '+234'},
-    {'country': 'Côte d\'Ivoire', 'code': '+225'},
-    {'country': 'Senegal', 'code': '+221'},
-    {'country': 'Ghana', 'code': '+233'},
-    {'country': 'Kenya', 'code': '+254'},
-    {'country': 'South Africa', 'code': '+27'},
-    {'country': 'Ethiopia', 'code': '+251'},
-    {'country': 'Morocco', 'code': '+212'},
-    {'country': 'Algeria', 'code': '+213'},
-    {'country': 'Tunisia', 'code': '+216'},
-    {'country': 'Cameroon', 'code': '+237'},
-    {'country': 'Pakistan', 'code': '+92'},
-    {'country': 'Bangladesh', 'code': '+880'},
-    {'country': 'Indonesia', 'code': '+62'},
-    {'country': 'Vietnam', 'code': '+84'},
-    {'country': 'Thailand', 'code': '+66'},
-    {'country': 'Philippines', 'code': '+63'},
-    {'country': 'Mexico', 'code': '+52'},
-    {'country': 'Argentina', 'code': '+54'},
-    {'country': 'Colombia', 'code': '+57'},
-    {'country': 'Netherlands', 'code': '+31'},
-    {'country': 'Belgium', 'code': '+32'},
-    {'country': 'Switzerland', 'code': '+41'},
-    {'country': 'Sweden', 'code': '+46'},
-    {'country': 'Poland', 'code': '+48'},
+  static const List<Map<String, String>> _countryCodes = [
+    {'country': 'United States', 'code': '+1', 'digits': '10'},
+    {'country': 'United Kingdom', 'code': '+44', 'digits': '10'},
+    {'country': 'France', 'code': '+33', 'digits': '9'},
+    {'country': 'Germany', 'code': '+49', 'digits': '10'},
+    {'country': 'Spain', 'code': '+34', 'digits': '9'},
+    {'country': 'Italy', 'code': '+39', 'digits': '10'},
+    {'country': 'Portugal', 'code': '+351', 'digits': '9'},
+    {'country': 'Brazil', 'code': '+55', 'digits': '11'},
+    {'country': 'Canada', 'code': '+1', 'digits': '10'},
+    {'country': 'Australia', 'code': '+61', 'digits': '9'},
+    {'country': 'Japan', 'code': '+81', 'digits': '10'},
+    {'country': 'China', 'code': '+86', 'digits': '11'},
+    {'country': 'India', 'code': '+91', 'digits': '10'},
+    {'country': 'South Korea', 'code': '+82', 'digits': '10'},
+    {'country': 'Russia', 'code': '+7', 'digits': '10'},
+    {'country': 'Turkey', 'code': '+90', 'digits': '10'},
+    {'country': 'Saudi Arabia', 'code': '+966', 'digits': '9'},
+    {'country': 'UAE', 'code': '+971', 'digits': '9'},
+    {'country': 'Egypt', 'code': '+20', 'digits': '10'},
+    {'country': 'Nigeria', 'code': '+234', 'digits': '10'},
+    {'country': 'Côte d\'Ivoire', 'code': '+225', 'digits': '10'},
+    {'country': 'Senegal', 'code': '+221', 'digits': '9'},
+    {'country': 'Ghana', 'code': '+233', 'digits': '9'},
+    {'country': 'Kenya', 'code': '+254', 'digits': '9'},
+    {'country': 'South Africa', 'code': '+27', 'digits': '9'},
+    {'country': 'Ethiopia', 'code': '+251', 'digits': '9'},
+    {'country': 'Morocco', 'code': '+212', 'digits': '9'},
+    {'country': 'Algeria', 'code': '+213', 'digits': '9'},
+    {'country': 'Tunisia', 'code': '+216', 'digits': '8'},
+    {'country': 'Cameroon', 'code': '+237', 'digits': '9'},
+    {'country': 'Pakistan', 'code': '+92', 'digits': '10'},
+    {'country': 'Bangladesh', 'code': '+880', 'digits': '10'},
+    {'country': 'Indonesia', 'code': '+62', 'digits': '11'},
+    {'country': 'Vietnam', 'code': '+84', 'digits': '9'},
+    {'country': 'Thailand', 'code': '+66', 'digits': '9'},
+    {'country': 'Philippines', 'code': '+63', 'digits': '10'},
+    {'country': 'Mexico', 'code': '+52', 'digits': '10'},
+    {'country': 'Argentina', 'code': '+54', 'digits': '10'},
+    {'country': 'Colombia', 'code': '+57', 'digits': '10'},
+    {'country': 'Netherlands', 'code': '+31', 'digits': '9'},
+    {'country': 'Belgium', 'code': '+32', 'digits': '9'},
+    {'country': 'Switzerland', 'code': '+41', 'digits': '9'},
+    {'country': 'Sweden', 'code': '+46', 'digits': '9'},
+    {'country': 'Poland', 'code': '+48', 'digits': '9'},
   ];
 
-// ── JOB TITLES ────────────────────────────────────────────────
-  final List<String> _jobTitles = [
-    // Tech
-    'Software Engineer', 'Senior Developer', 'Full Stack Developer',
-    'Backend Engineer', 'Frontend Developer', 'Mobile Developer',
-    'DevOps Engineer', 'Cloud Architect', 'Data Scientist',
-    'Machine Learning Engineer', 'AI Researcher', 'Platform Engineer',
-    'Site Reliability Engineer', 'Database Administrator', 'QA Engineer',
-    'Security Engineer', 'Penetration Tester', 'CTF Analyst',
-    'Malware Analyst', 'SOC Analyst', 'Network Engineer',
-
-    // Management
-    'CTO', 'CEO', 'CIO', 'CISO', 'VP Engineering',
-    'Engineering Manager', 'Product Manager', 'Project Manager',
-    'Scrum Master', 'Technical Lead', 'Team Lead',
-
-    // Design & Product
-    'UX Designer', 'UI Designer', 'Product Designer',
-    'Graphic Designer', 'Creative Director',
-
-    // Finance
-    'Financial Analyst', 'Accountant', 'CFO', 'Auditor',
-    'Investment Manager', 'Risk Analyst',
-
-    // Other
-    'Marketing Manager', 'Sales Director', 'HR Manager',
-    'Legal Counsel', 'Operations Manager', 'Consultant',
-    'Business Analyst', 'Research Scientist', 'Professor',
-    'Journalist', 'Photographer', 'Architect', 'Doctor',
+  static const List<String> _jobTitles = [
+    'Software Engineer',
+    'Senior Developer',
+    'Full Stack Developer',
+    'Backend Engineer',
+    'Frontend Developer',
+    'Mobile Developer',
+    'DevOps Engineer',
+    'Cloud Architect',
+    'Data Scientist',
+    'Machine Learning Engineer',
+    'AI Researcher',
+    'Platform Engineer',
+    'Site Reliability Engineer',
+    'Database Administrator',
+    'QA Engineer',
+    'Security Engineer',
+    'Penetration Tester',
+    'CTF Analyst',
+    'Malware Analyst',
+    'SOC Analyst',
+    'Network Engineer',
+    'CTO',
+    'CEO',
+    'CIO',
+    'CISO',
+    'VP Engineering',
+    'Engineering Manager',
+    'Product Manager',
+    'Project Manager',
+    'Scrum Master',
+    'Technical Lead',
+    'Team Lead',
+    'UX Designer',
+    'UI Designer',
+    'Product Designer',
+    'Graphic Designer',
+    'Creative Director',
+    'Art Director',
+    'Financial Analyst',
+    'Accountant',
+    'CFO',
+    'Auditor',
+    'Investment Manager',
+    'Risk Analyst',
+    'Compliance Officer',
+    'Marketing Manager',
+    'Sales Director',
+    'HR Manager',
+    'Legal Counsel',
+    'Operations Manager',
+    'Consultant',
+    'Business Analyst',
+    'Research Scientist',
+    'Professor',
+    'Journalist',
+    'Photographer',
+    'Architect',
+    'Doctor',
+    'Nurse',
+    'Teacher',
+    'Lawyer',
+    'Pharmacist',
+    'Civil Engineer',
+    'Mechanical Engineer',
+    'Electrical Engineer',
   ];
 
-// ── USERNAMES PATTERNS (for generation) ───────────────────────
-  final List<String> _usernamePrefixes = [
+  static const List<String> _usernamePrefixes = [
     'dark',
     'cyber',
     'ghost',
@@ -536,9 +1826,22 @@ class _FakeDataGeneratorWidgetState
     'prime',
     'core',
     'hyper',
+    'quantum',
+    'binary',
+    'vector',
+    'proxy',
+    'kernel',
+    'node',
+    'stack',
+    'heap',
+    'flux',
+    'grid',
+    'arc',
+    'ion',
+    'neon',
   ];
 
-  final List<String> _usernameSuffixes = [
+  static const List<String> _usernameSuffixes = [
     'hacker',
     'coder',
     'dev',
@@ -551,187 +1854,516 @@ class _FakeDataGeneratorWidgetState
     'lord',
     'king',
     'boss',
-    'king',
     'ace',
     '404',
     '0x1',
-    '_null',
-    '_void',
     'xd',
     'gg',
     'pwn',
+    'exe',
+    'bin',
+    'cmd',
+    'root',
+    'sudo',
+    'bash',
+    'shell',
+    'pipe',
   ];
 
+  static const List<String> _userAgents = [
+    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+    'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+    'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:121.0) Gecko/20100101 Firefox/121.0',
+    'Mozilla/5.0 (Macintosh; Intel Mac OS X 14_2_1) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.2 Safari/605.1.15',
+    'Mozilla/5.0 (iPhone; CPU iPhone OS 17_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.2 Mobile/15E148 Safari/604.1',
+    'Mozilla/5.0 (Linux; Android 14; Pixel 8) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.6099.144 Mobile Safari/537.36',
+    'Mozilla/5.0 (iPad; CPU OS 17_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.2 Mobile/15E148 Safari/604.1',
+    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 Edg/120.0.0.0',
+    'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0',
+    'Mozilla/5.0 (Linux; Android 14; SM-S918B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.6099.144 Mobile Safari/537.36',
+    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 OPR/106.0.0.0',
+  ];
+
+  // ═══════════════════════════════════════════════════════════════
+  // GENERATORS
+  // ═══════════════════════════════════════════════════════════════
+
+  List<String> _getFirstNames() {
+    if (_selectedLocale == 'GLOBAL') {
+      return _firstNamesByLocale.values.expand((l) => l).toList();
+    }
+    return _firstNamesByLocale[_selectedLocale] ?? _firstNamesByLocale['EN']!;
+  }
+
+  List<String> _getLastNames() {
+    if (_selectedLocale == 'GLOBAL') {
+      return _lastNamesByLocale.values.expand((l) => l).toList();
+    }
+    return _lastNamesByLocale[_selectedLocale] ?? _lastNamesByLocale['EN']!;
+  }
+
+  String _pick(List<String> list) => list[_random.nextInt(list.length)];
+
   String _generateEmail(String firstName, String lastName) {
+    // Sanitize for ASCII email compatibility
+    final f = _toAscii(firstName.toLowerCase());
+    final l = _toAscii(lastName.toLowerCase());
     final patterns = [
-      '${firstName.toLowerCase()}.${lastName.toLowerCase()}',
-      '${firstName[0].toLowerCase()}${lastName.toLowerCase()}',
-      '${firstName.toLowerCase()}${_random.nextInt(99)}',
-      '${lastName.toLowerCase()}${_random.nextInt(999)}',
+      '$f.$l',
+      '${f[0]}$l',
+      '$f${_random.nextInt(99)}',
+      '$l${_random.nextInt(999)}',
+      '${f}_${l.substring(0, l.length > 3 ? 3 : l.length)}',
+      '$f.${l.substring(0, l.length > 4 ? 4 : l.length)}${_random.nextInt(99)}',
     ];
-    final pattern = patterns[_random.nextInt(patterns.length)];
-    final domain = _domains[_random.nextInt(_domains.length)];
-    return '$pattern@$domain';
+    return '${_pick(patterns)}@${_pick(_domains)}';
+  }
+
+  String _toAscii(String s) {
+    const map = {
+      'à': 'a',
+      'á': 'a',
+      'â': 'a',
+      'ã': 'a',
+      'ä': 'a',
+      'å': 'a',
+      'è': 'e',
+      'é': 'e',
+      'ê': 'e',
+      'ë': 'e',
+      'ì': 'i',
+      'í': 'i',
+      'î': 'i',
+      'ï': 'i',
+      'ò': 'o',
+      'ó': 'o',
+      'ô': 'o',
+      'õ': 'o',
+      'ö': 'o',
+      'ù': 'u',
+      'ú': 'u',
+      'û': 'u',
+      'ü': 'u',
+      'ý': 'y',
+      'ÿ': 'y',
+      'ñ': 'n',
+      'ç': 'c',
+      'ß': 'ss',
+      'ğ': 'g',
+      'ş': 's',
+      'ı': 'i',
+      'ø': 'o',
+      'æ': 'ae',
+    };
+    return s
+        .split('')
+        .map((c) => map[c] ?? c)
+        .join()
+        .replaceAll(RegExp(r'[^a-z0-9]'), '');
   }
 
   String _generatePhone() {
-    return '(${_randomNumber(100, 999)}) ${_randomNumber(100, 999)}-${_randomNumber(1000, 9999)}';
+    final country = _countryCodes[_random.nextInt(_countryCodes.length)];
+    final code = country['code']!;
+    final digits = int.tryParse(country['digits'] ?? '9') ?? 9;
+    final number = List.generate(
+      digits,
+      (i) => i == 0
+          ? (_random.nextInt(8) + 1).toString()
+          : _random.nextInt(10).toString(),
+    ).join();
+    return '$code $number';
   }
 
   String _generateAddress() {
-    final number = _randomNumber(1, 9999);
-    final street = _streets[_random.nextInt(_streets.length)];
-    final city = _cities[_random.nextInt(_cities.length)];
-    final state = _randomState();
-    final zip = _randomNumber(10000, 99999);
-    return '$number $street, $city, $state $zip';
-  }
-
-  String _randomState() {
-    final states = ['CA', 'TX', 'FL', 'NY', 'PA', 'IL', 'OH', 'GA', 'NC', 'MI'];
-    return states[_random.nextInt(states.length)];
-  }
-
-  int _randomNumber(int min, int max) {
-    return min + _random.nextInt(max - min + 1);
+    final number = _randomInt(1, 999);
+    final city = _pick(_cities);
+    final zip = _randomInt(10000, 99999);
+    return '$number ${_pick(_streets)}, $city $zip';
   }
 
   String _generateUsername(String firstName, String lastName) {
+    final f = _toAscii(firstName.toLowerCase());
+    final l = _toAscii(lastName.toLowerCase());
+    final n = _randomInt(1, 9999);
+    final sep = _pick(['_', '.', '', '-']);
     final patterns = [
-      '${firstName.toLowerCase()}${lastName.toLowerCase()}',
-      '${firstName[0].toLowerCase()}${lastName.toLowerCase()}_$_randomNumber(1, 99)',
-      '${firstName.toLowerCase()}_$_randomNumber(1, 999)',
-      '${lastName.toLowerCase()}${_randomNumber(1, 99)}',
+      '$f$sep$l',
+      '${f[0]}$sep$l$n',
+      '$f$sep$n',
+      '$l$n',
+      '${_pick(_usernamePrefixes)}$sep${_pick(_usernameSuffixes)}$n',
+      '${_pick(_usernamePrefixes)}$sep$f',
+      '$f$sep${_pick(_usernameSuffixes)}',
     ];
-    return patterns[_random.nextInt(patterns.length)];
+    return _pick(patterns);
   }
 
   String _generatePassword() {
-    const chars =
-        'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#\$%^&*';
-    return List.generate(12, (_) => chars[_random.nextInt(chars.length)])
-        .join();
+    const upper = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    const lower = 'abcdefghijklmnopqrstuvwxyz';
+    const digits = '0123456789';
+    const symbols = '!@#\$%^&*_+-=[]{}|;:,.<>?';
+    const all = upper + lower + digits + symbols;
+    final length = _randomInt(12, 24);
+    // Ensure at least one of each type
+    final chars = [
+      upper[_random.nextInt(upper.length)],
+      lower[_random.nextInt(lower.length)],
+      digits[_random.nextInt(digits.length)],
+      symbols[_random.nextInt(symbols.length)],
+      ...List.generate(length - 4, (_) => all[_random.nextInt(all.length)]),
+    ]..shuffle(_random);
+    return chars.join();
   }
+
+  String _generateSSN() {
+    // US-style SSN — fictitious format
+    return '${_randomInt(100, 799)}-${_randomInt(10, 99)}-${_randomInt(1000, 9999)}';
+  }
+
+  String _generateCreditCard() {
+    // Luhn-valid fictitious VISA number
+    final prefix = '4';
+    final digits = List.generate(15, (_) => _random.nextInt(10));
+    final allDigits = [int.parse(prefix), ...digits];
+    // Luhn checksum
+    int sum = 0;
+    for (int i = 0; i < allDigits.length; i++) {
+      int d = allDigits[allDigits.length - 1 - i];
+      if (i % 2 == 0) {
+        d *= 2;
+        if (d > 9) d -= 9;
+      }
+      sum += d;
+    }
+    final check = (10 - (sum % 10)) % 10;
+    final full = [...allDigits, check];
+    final n = full.join();
+    final exp =
+        '${_randomInt(1, 12).toString().padLeft(2, '0')}/${_randomInt(26, 30)}';
+    final cvv = _randomInt(100, 999);
+    return '${n.substring(0, 4)} ${n.substring(4, 8)} ${n.substring(8, 12)} ${n.substring(12)} | EXP: $exp | CVV: $cvv';
+  }
+
+  String _generateIPv4() {
+    final classes = [
+      '10.${_randomInt(0, 255)}.${_randomInt(0, 255)}.${_randomInt(1, 254)}',
+      '172.${_randomInt(16, 31)}.${_randomInt(0, 255)}.${_randomInt(1, 254)}',
+      '192.168.${_randomInt(0, 255)}.${_randomInt(1, 254)}',
+      '${_randomInt(1, 223)}.${_randomInt(0, 255)}.${_randomInt(0, 255)}.${_randomInt(1, 254)}',
+    ];
+    return _pick(classes);
+  }
+
+  String _generateIPv6() {
+    return List.generate(
+      8,
+      (_) => _randomInt(0, 65535).toRadixString(16).padLeft(4, '0'),
+    ).join(':');
+  }
+
+  String _generateMAC() {
+    return List.generate(
+      6,
+      (_) => _randomInt(0, 255).toRadixString(16).padLeft(2, '0').toUpperCase(),
+    ).join(':');
+  }
+
+  String _generateUserAgent() => _pick(_userAgents);
+
+  int _randomInt(int min, int max) => min + _random.nextInt(max - min + 1);
+
+  // ═══════════════════════════════════════════════════════════════
+  // OUTPUT FORMATTERS
+  // ═══════════════════════════════════════════════════════════════
 
   void _generateData() {
     try {
-      final buffer = StringBuffer();
-      buffer.writeln('FAKE DATA GENERATOR');
-      buffer.writeln('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n');
-      buffer.writeln('Generated Records: $_count\n\n');
+      final firstNames = _getFirstNames();
+      final lastNames = _getLastNames();
+      final records = <Map<String, String>>[];
 
       for (var i = 0; i < _count; i++) {
-        final firstName = _firstNames[_random.nextInt(_firstNames.length)];
-        final lastName = _lastNames[_random.nextInt(_lastNames.length)];
-        final email = _generateEmail(firstName, lastName);
-        final phone = _generatePhone();
-        final address = _generateAddress();
-        final username = _generateUsername(firstName, lastName);
-        final password = _generatePassword();
-        final company = _companies[_random.nextInt(_companies.length)];
-        final age = _randomNumber(18, 75);
-        final birthday = DateTime(
-          _randomNumber(1950, 2005),
-          _randomNumber(1, 12),
-          _randomNumber(1, 28),
-        );
-
-        buffer.writeln('RECORD #${i + 1}');
-        buffer.writeln('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n');
-        buffer.writeln('Name: $firstName $lastName\n');
-        buffer.writeln('Age: $age\n');
-        buffer.writeln('Birthday: ${birthday.toString().split(' ')[0]}\n');
-        buffer.writeln('Email: $email\n');
-        buffer.writeln('Username: $username\n');
-        buffer.writeln('Password: $password\n');
-        buffer.writeln('Phone: $phone\n');
-        buffer.writeln('Address: $address\n');
-        buffer.writeln('Company: $company\n');
-        buffer.writeln('\n');
+        final firstName = _pick(firstNames);
+        final lastName = _pick(lastNames);
+        final entry = <String, String>{
+          'id': (i + 1).toString(),
+          'first_name': firstName,
+          'last_name': lastName,
+          'full_name': '$firstName $lastName',
+          'email': _generateEmail(firstName, lastName),
+          'phone': _generatePhone(),
+          'address': _generateAddress(),
+          'company': _pick(_companies),
+          'age': _randomInt(18, 75).toString(),
+          'birthday': DateTime(
+            _randomInt(1950, 2005),
+            _randomInt(1, 12),
+            _randomInt(1, 28),
+          ).toString().split(' ')[0],
+        };
+        if (_includeJobTitle) entry['job_title'] = _pick(_jobTitles);
+        if (_includeUsername)
+          entry['username'] = _generateUsername(firstName, lastName);
+        if (_includePassword) entry['password'] = _generatePassword();
+        if (_includeSSN) entry['ssn'] = _generateSSN();
+        if (_includeCreditCard) entry['credit_card'] = _generateCreditCard();
+        if (_includeIPAddress) {
+          entry['ipv4'] = _generateIPv4();
+          entry['ipv6'] = _generateIPv6();
+        }
+        if (_includeMACAddress) entry['mac_address'] = _generateMAC();
+        if (_includeUserAgent) entry['user_agent'] = _generateUserAgent();
+        records.add(entry);
       }
 
-      setState(() => _result = buffer.toString());
+      setState(() => _result = switch (_selectedFormat) {
+            'JSON' => _toJson(records),
+            'CSV' => _toCsv(records),
+            'SQL' => _toSql(records),
+            _ => _toText(records),
+          });
     } catch (e) {
-      setState(() => _result = 'Error: ${e.toString()}');
+      setState(() => _result = 'Error: $e');
     }
+  }
+
+  String _toText(List<Map<String, String>> records) {
+    final b = StringBuffer();
+    b.writeln('FAKE IDENTITY GENERATOR');
+    b.writeln('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+    b.writeln('Records: ${records.length} | Locale: $_selectedLocale\n');
+    for (final r in records) {
+      b.writeln('RECORD #${r['id']}');
+      b.writeln('─────────────────────────────');
+      r.forEach((k, v) {
+        if (k != 'id') b.writeln('${k.padRight(14)}: $v');
+      });
+      b.writeln();
+    }
+    return b.toString();
+  }
+
+  String _toJson(List<Map<String, String>> records) {
+    final b = StringBuffer();
+    b.writeln('[');
+    for (int i = 0; i < records.length; i++) {
+      b.writeln('  {');
+      final entries = records[i].entries.toList();
+      for (int j = 0; j < entries.length; j++) {
+        final comma = j < entries.length - 1 ? ',' : '';
+        b.writeln('    "${entries[j].key}": "${entries[j].value}"$comma');
+      }
+      b.writeln(i < records.length - 1 ? '  },' : '  }');
+    }
+    b.writeln(']');
+    return b.toString();
+  }
+
+  String _toCsv(List<Map<String, String>> records) {
+    if (records.isEmpty) return '';
+    final b = StringBuffer();
+    b.writeln(records[0].keys.join(','));
+    for (final r in records) {
+      b.writeln(r.values.map((v) => '"${v.replaceAll('"', '""')}"').join(','));
+    }
+    return b.toString();
+  }
+
+  String _toSql(List<Map<String, String>> records) {
+    if (records.isEmpty) return '';
+    final b = StringBuffer();
+    final cols = records[0].keys.join(', ');
+    b.writeln('-- Generated by Hackers Fake Data Generator');
+    b.writeln('INSERT INTO users ($cols) VALUES');
+    for (int i = 0; i < records.length; i++) {
+      final vals = records[i]
+          .values
+          .map((v) => "'${v.replaceAll("'", "\\'")}'")
+          .join(', ');
+      b.write('  ($vals)');
+      b.writeln(i < records.length - 1 ? ',' : ';');
+    }
+    return b.toString();
+  }
+
+  // ═══════════════════════════════════════════════════════════════
+  // BUILD
+  // ═══════════════════════════════════════════════════════════════
+
+  @override
+  void dispose() {
+    _countController.dispose();
+    super.dispose();
+  }
+
+  Widget _chip(String label, bool value, ValueChanged<bool> onChanged) {
+    return GestureDetector(
+      onTap: () => onChanged(!value),
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 180),
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+        decoration: BoxDecoration(
+          color: value ? AppColors.accentGhost : Colors.transparent,
+          borderRadius: BorderRadius.circular(6),
+          border: Border.all(
+            color: value ? AppColors.accent : AppColors.border,
+          ),
+        ),
+        child: Text(
+          label,
+          style: TextStyle(
+            fontFamily: 'JetBrainsMono',
+            fontSize: 10,
+            color: value ? AppColors.accent : AppColors.textSecondary,
+            letterSpacing: 1,
+          ),
+        ),
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
       title: 'FAKE DATA GENERATOR',
-      activeCategory: ToolCategory.developer,
+      activeCategory: ToolCategory.privacy,
       showBackButton: true,
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // ── Count + Format ──────────────────────────────────
             const SectionHeader(title: 'CONFIGURATION'),
-            const SizedBox(height: 8),
+            const SizedBox(height: 12),
             Row(
               children: [
-                Expanded(
+                SizedBox(
+                  width: 100,
                   child: TextField(
-                    onChanged: (value) {
-                      setState(() => _count = int.tryParse(value) ?? 5);
-                    },
-                    controller: TextEditingController(text: '$_count'),
+                    controller: _countController,
                     keyboardType: TextInputType.number,
-                    decoration: InputDecoration(
-                      labelText: 'Number of Records',
-                      labelStyle: const TextStyle(
-                        fontFamily: 'JetBrainsMono',
-                        fontSize: 12,
-                      ),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      hintText: '1-50',
+                    onChanged: (v) => setState(
+                        () => _count = (int.tryParse(v) ?? 5).clamp(1, 100)),
+                    decoration: const InputDecoration(
+                      labelText: 'Records',
+                      hintText: '1–100',
                     ),
                   ),
                 ),
-                const SizedBox(width: 16),
-                Container(
-                  padding: const EdgeInsets.all(12),
-                  decoration: BoxDecoration(
-                    color: const Color(0x2000FF88),
-                    borderRadius: BorderRadius.circular(8),
-                    border: Border.all(color: AppColors.accent),
-                  ),
-                  child: const Text(
-                    'Generates:\n• Names\n• Emails\n• Phones\n• Addresses\n• Usernames\n• Passwords',
-                    style: TextStyle(
-                      fontFamily: 'JetBrainsMono',
-                      fontSize: 10,
-                      height: 1.4,
-                    ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('FORMAT',
+                          style: TextStyle(
+                              fontFamily: 'JetBrainsMono',
+                              fontSize: 10,
+                              color: AppColors.textSecondary,
+                              letterSpacing: 2)),
+                      const SizedBox(height: 6),
+                      Wrap(
+                        spacing: 6,
+                        children: _formats
+                            .map((f) => _chip(
+                                  f,
+                                  _selectedFormat == f,
+                                  (_) => setState(() => _selectedFormat = f),
+                                ))
+                            .toList(),
+                      ),
+                    ],
                   ),
                 ),
               ],
             ),
+
+            // ── Locale ──────────────────────────────────────────
             const SizedBox(height: 16),
-            Center(
+            Text('LOCALE',
+                style: TextStyle(
+                    fontFamily: 'JetBrainsMono',
+                    fontSize: 10,
+                    color: AppColors.textSecondary,
+                    letterSpacing: 2)),
+            const SizedBox(height: 8),
+            Wrap(
+              spacing: 6,
+              runSpacing: 6,
+              children: _locales
+                  .map((l) => _chip(
+                        l,
+                        _selectedLocale == l,
+                        (_) => setState(() => _selectedLocale = l),
+                      ))
+                  .toList(),
+            ),
+
+            // ── Fields ──────────────────────────────────────────
+            const SizedBox(height: 16),
+            Text('FIELDS',
+                style: TextStyle(
+                    fontFamily: 'JetBrainsMono',
+                    fontSize: 10,
+                    color: AppColors.textSecondary,
+                    letterSpacing: 2)),
+            const SizedBox(height: 8),
+            Wrap(
+              spacing: 6,
+              runSpacing: 6,
+              children: [
+                _chip('JOB TITLE', _includeJobTitle,
+                    (v) => setState(() => _includeJobTitle = v)),
+                _chip('USERNAME', _includeUsername,
+                    (v) => setState(() => _includeUsername = v)),
+                _chip('PASSWORD', _includePassword,
+                    (v) => setState(() => _includePassword = v)),
+                _chip(
+                    'SSN', _includeSSN, (v) => setState(() => _includeSSN = v)),
+                _chip('CREDIT CARD', _includeCreditCard,
+                    (v) => setState(() => _includeCreditCard = v)),
+                _chip('IP ADDRESS', _includeIPAddress,
+                    (v) => setState(() => _includeIPAddress = v)),
+                _chip('MAC ADDRESS', _includeMACAddress,
+                    (v) => setState(() => _includeMACAddress = v)),
+                _chip('USER AGENT', _includeUserAgent,
+                    (v) => setState(() => _includeUserAgent = v)),
+              ],
+            ),
+
+            // ── Generate button ─────────────────────────────────
+            const SizedBox(height: 24),
+            SizedBox(
+              width: double.infinity,
               child: ElevatedButton.icon(
                 onPressed: _generateData,
-                icon: const Icon(Icons.person_add),
-                label: Text('GENERATE $_count RECORDS'),
+                icon: const Icon(Icons.person_add, size: 18),
+                label: Text('GENERATE $_count RECORDS  [$_selectedFormat]'),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.accent,
                   foregroundColor: Colors.black,
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 24,
-                    vertical: 12,
+                  padding: const EdgeInsets.symmetric(vertical: 14),
+                  textStyle: const TextStyle(
+                    fontFamily: 'JetBrainsMono',
+                    fontWeight: FontWeight.w700,
+                    letterSpacing: 2,
+                    fontSize: 13,
                   ),
                 ),
               ),
             ),
+
+            // ── Result ──────────────────────────────────────────
             if (_result.isNotEmpty) ...[
-              const SizedBox(height: 16),
+              const SizedBox(height: 20),
               ResultBox(
                 content: _result,
-                label: 'GENERATED DATA',
-                monospace: false,
+                label: 'OUTPUT [$_selectedFormat] — $_count records',
+                monospace: true,
               ),
             ],
           ],
