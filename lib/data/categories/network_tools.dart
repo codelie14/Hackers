@@ -34,6 +34,17 @@ class NetworkTools {
       requiresNetwork: true,
     ),
     ToolModel(
+      id: 'cidr_calculator',
+      name: 'CIDR Calculator',
+      description:
+          'Calculate network address, broadcast, host range, and subnets from CIDR notation.',
+      category: ToolCategory.network,
+      icon: Icons.calculate,
+      tags: ['cidr', 'subnet', 'network', 'ip'],
+      isAvailable: true,
+      routePath: '/network/cidr',
+    ),
+    ToolModel(
       id: 'port_scanner',
       name: 'Port Scanner',
       description: 'Scan common or custom port ranges on a target host.',
@@ -44,16 +55,6 @@ class NetworkTools {
       requiresNetwork: true,
     ),
     ToolModel(
-      id: 'cidr_calculator',
-      name: 'CIDR Calculator',
-      description:
-          'Calculate network address, broadcast, host range, and subnets from CIDR notation.',
-      category: ToolCategory.network,
-      icon: Icons.calculate,
-      tags: ['cidr', 'subnet', 'network', 'ip'],
-      isAvailable: false,
-    ),
-    ToolModel(
       id: 'ip_converter',
       name: 'IP Address Converter',
       description:
@@ -61,7 +62,8 @@ class NetworkTools {
       category: ToolCategory.network,
       icon: Icons.swap_horiz,
       tags: ['ip', 'ipv4', 'ipv6', 'convert', 'hex'],
-      isAvailable: false,
+      isAvailable: true,
+      routePath: '/network/ip-converter',
     ),
     ToolModel(
       id: 'firewall_rules',
@@ -71,7 +73,8 @@ class NetworkTools {
       category: ToolCategory.network,
       icon: Icons.security,
       tags: ['firewall', 'iptables', 'ufw', 'rules'],
-      isAvailable: false,
+      isAvailable: true,
+      routePath: '/network/firewall',
     ),
     ToolModel(
       id: 'http_headers',
@@ -101,7 +104,8 @@ class NetworkTools {
       category: ToolCategory.network,
       icon: Icons.power_settings_new,
       tags: ['wol', 'wake', 'magic-packet', 'lan'],
-      isAvailable: false,
+      isAvailable: true,
+      routePath: '/network/wake-on-lan',
     ),
     ToolModel(
       id: 'reverse_dns',

@@ -61,7 +61,8 @@ class DeveloperTools {
       category: ToolCategory.developer,
       icon: Icons.difference,
       tags: ['diff', 'compare', 'text', 'patch'],
-      isAvailable: false,
+      isAvailable: true,
+      routePath: '/developer/diff',
     ),
     ToolModel(
       id: 'cron_tool',
@@ -71,7 +72,8 @@ class DeveloperTools {
       category: ToolCategory.developer,
       icon: Icons.schedule,
       tags: ['cron', 'schedule', 'task', 'explain'],
-      isAvailable: false,
+      isAvailable: true,
+      routePath: '/developer/cron',
     ),
     ToolModel(
       id: 'timestamp_tool',
@@ -81,7 +83,8 @@ class DeveloperTools {
       category: ToolCategory.developer,
       icon: Icons.access_time,
       tags: ['timestamp', 'unix', 'date', 'time', 'epoch'],
-      isAvailable: false,
+      isAvailable: true,
+      routePath: '/developer/timestamp',
     ),
     ToolModel(
       id: 'uuid_generator',
@@ -102,7 +105,8 @@ class DeveloperTools {
       category: ToolCategory.developer,
       icon: Icons.color_lens_outlined,
       tags: ['color', 'hex', 'rgb', 'hsl', 'palette'],
-      isAvailable: false,
+      isAvailable: true,
+      routePath: '/developer/color-converter',
     ),
     ToolModel(
       id: 'markdown_preview',
@@ -144,7 +148,8 @@ class DeveloperTools {
       category: ToolCategory.developer,
       icon: Icons.text_fields,
       tags: ['lorem', 'ipsum', 'placeholder', 'text'],
-      isAvailable: false,
+      isAvailable: true,
+      routePath: '/developer/lorem-ipsum',
     ),
     ToolModel(
       id: 'fake_data_gen',
@@ -154,7 +159,8 @@ class DeveloperTools {
       category: ToolCategory.developer,
       icon: Icons.person_outlined,
       tags: ['fake', 'data', 'test', 'mock'],
-      isAvailable: false,
+      isAvailable: true,
+      routePath: '/developer/fake-data',
     ),
     ToolModel(
       id: 'gitignore_gen',
@@ -163,7 +169,8 @@ class DeveloperTools {
       category: ToolCategory.developer,
       icon: Icons.block_outlined,
       tags: ['git', 'gitignore', 'generate'],
-      isAvailable: false,
+      isAvailable: true,
+      routePath: '/developer/gitignore',
     ),
     ToolModel(
       id: 'json_csv_tool',
@@ -172,7 +179,8 @@ class DeveloperTools {
       category: ToolCategory.developer,
       icon: Icons.table_chart_outlined,
       tags: ['json', 'csv', 'convert', 'table'],
-      isAvailable: false,
+      isAvailable: true,
+      routePath: '/developer/json-csv',
     ),
   ];
 }
