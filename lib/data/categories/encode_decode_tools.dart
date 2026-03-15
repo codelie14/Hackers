@@ -109,7 +109,8 @@ class EncodeDecodeTools {
       category: ToolCategory.encodeDecode,
       icon: Icons.language,
       tags: ['punycode', 'idn', 'domain'],
-      isAvailable: false,
+      isAvailable: true,
+      routePath: '/encode/punycode',
     ),
     ToolModel(
       id: 'base58_tool',
@@ -129,7 +130,8 @@ class EncodeDecodeTools {
       category: ToolCategory.encodeDecode,
       icon: Icons.swap_horiz,
       tags: ['base85', 'ascii85', 'encode'],
-      isAvailable: false,
+      isAvailable: true,
+      routePath: '/encode/base85',
     ),
     ToolModel(
       id: 'xor_tool',
@@ -148,7 +150,8 @@ class EncodeDecodeTools {
       category: ToolCategory.encodeDecode,
       icon: Icons.military_tech_outlined,
       tags: ['nato', 'phonetic', 'alphabet'],
-      isAvailable: false,
+      isAvailable: true,
+      routePath: '/encode/nato-phonetic',
     ),
     ToolModel(
       id: 'atbash_cipher',
@@ -157,7 +160,8 @@ class EncodeDecodeTools {
       category: ToolCategory.encodeDecode,
       icon: Icons.abc,
       tags: ['atbash', 'cipher', 'substitution'],
-      isAvailable: false,
+      isAvailable: true,
+      routePath: '/encode/atbash',
     ),
     ToolModel(
       id: 'bacon_cipher',
